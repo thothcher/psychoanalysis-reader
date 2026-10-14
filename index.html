@@ -300,6 +300,15 @@ table.cmp td{transition:background .15s,color .15s}
 .review{display:flex;flex-direction:column;gap:8px}
 .review div{background:var(--surface-2);padding:10px 12px;font-size:14px}
 
+/* Footer */
+.foot{background:var(--surface);box-shadow:0 -1px 0 var(--surface-3)}
+.foot .wrap{padding-block:22px calc(22px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+.foot-note{font-size:13px;color:var(--muted);max-width:52ch}
+.contact{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.contact-item{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface-2);font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;user-select:all;transition:background .15s}
+a.contact-item:hover{background:var(--accent-soft)}
+.contact-item .i{color:var(--accent)}
+.copy-btn{min-height:38px;padding:8px 12px;box-shadow:none;background:var(--accent);color:var(--on-dark)}
 @media (max-width:900px){
   .hero,.fc-wrap,.cmp-layout,.order-layout{grid-template-columns:minmax(0,1fr)}
   .cmp-menu{position:static;flex-direction:row;overflow-x:auto;scrollbar-width:none}
@@ -355,6 +364,9 @@ table.cmp td{transition:background .15s,color .15s}
     <symbol id="i-quote" viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.76-2-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 0-1 1v2c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.76-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></symbol>
     <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
     <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16"/><path d="m22 7-10 6L2 7"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="14" height="14"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></symbol>
     <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></symbol>
   </defs>
 </svg>
@@ -386,6 +398,16 @@ table.cmp td{transition:background .15s,color .15s}
   <section class="view" id="view-order" data-view hidden></section>
   <section class="view" id="view-quiz" data-view hidden></section>
 </main>
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot-note">სასწავლო აპლიკაცია სიღრმის ფსიქოლოგიის რიდერის მიხედვით. შეკითხვების ან შენიშვნებისთვის დამიკავშირდით:</p>
+    <div class="contact">
+      <a class="contact-item" href="mailto:vakhtangishviligi@gmail.com"><svg class="i i-sm" aria-hidden="true"><use href="#i-mail"/></svg><span id="contact-email">vakhtangishviligi@gmail.com</span></a>
+      <button class="btn copy-btn" id="copy-email" type="button"><svg class="i i-sm" aria-hidden="true"><use href="#i-copy"/></svg>კოპირება</button>
+      <a class="contact-item" href="https://github.com/thothcher" target="_blank" rel="noopener"><svg class="i i-sm" aria-hidden="true"><use href="#i-code"/></svg>github.com/thothcher</a>
+    </div>
+  </div>
+</footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -1934,6 +1956,11 @@ function quizEnd(){
 /* ================= BOOT ================= */
 const RENDER = {map:renderMap, thinkers:renderThinkers, compare:renderCompare, cards:renderCards, match:renderMatch, memory:renderMemory, order:renderOrder, quiz:renderQuiz};
 const RENDER_ON_SHOW = {match:() => requestAnimationFrame(drawLines)};
+$("#copy-email").addEventListener("click", () => {
+  const email = $("#contact-email").textContent;
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents($("#contact-email")); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); toast("მისამართი მონიშნულია — დააკოპირეთ"); };
+  try { navigator.clipboard.writeText(email).then(() => toast("ელფოსტა დაკოპირდა"), fallback); } catch (e) { fallback(); }
+});
 function start(){
   renderTabs(); renderStrip();
   const h = (location.hash || '').slice(1);

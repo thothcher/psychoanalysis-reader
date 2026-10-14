@@ -1,0 +1,1946 @@
+<!doctype html>
+<html lang="ka">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<title>ფსიქოანალიზის რიდერი</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700&family=Noto+Serif+Georgian:wght@600;700;800&display=swap">
+<style>
+/* Layout: sticky icon tab rail over one 1120px column; solid white panels with soft shadows float on a cool grey ground. No borders, no radii. */
+:root{
+  --bg:#ECEFF3;
+  --surface:#FFFFFF;
+  --surface-2:#F5F6F8;
+  --surface-3:#E3E7EC;
+  --ink:#18202E;
+  --muted:#566173;
+  --faint:#8A93A3;
+  --accent:#24325F;
+  --accent-soft:#DDE3F2;
+  --on-dark:#FFFFFF;
+  --good:#2D7A4C;
+  --good-bg:#E2F1E8;
+  --bad:#B03A3A;
+  --bad-bg:#F7E3E3;
+  --gold:#B8862B;
+  --shadow-1:0 1px 2px rgba(24,32,46,.06),0 3px 10px rgba(24,32,46,.05);
+  --shadow-2:0 2px 4px rgba(24,32,46,.07),0 12px 30px rgba(24,32,46,.10);
+  --f-display:"Noto Serif Georgian",Sylfaen,Georgia,serif;
+  --f-body:"Noto Sans Georgian",Sylfaen,"Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box;border-radius:0}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;min-height:100vh}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+select{font:inherit;color:var(--ink);background:var(--surface);border:0;box-shadow:var(--shadow-1);padding:9px 12px}
+input{font:inherit;color:var(--ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.i-sm{width:15px;height:15px}
+.i-lg{width:22px;height:22px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.25}
+h1{font-size:clamp(28px,4.2vw,42px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(20px,2.4vw,25px);font-weight:700}
+h3{font-size:18px;font-weight:700}
+h4{font-size:15px;font-weight:700}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.label{font-size:12px;font-weight:600;letter-spacing:.05em;color:var(--muted)}
+.tab-nums{font-variant-numeric:tabular-nums}
+
+/* Header */
+.top{padding-block:28px 18px}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 28px}
+.brand{display:flex;gap:16px;align-items:center;min-width:0}
+.brand-mark{width:52px;height:52px;background:var(--accent);color:var(--on-dark);display:grid;place-items:center;flex:none;box-shadow:var(--shadow-1)}
+.brand-mark .i{width:28px;height:28px}
+.brand p{color:var(--muted);max-width:60ch;margin-top:4px}
+.progress-strip{display:flex;gap:10px;flex-wrap:wrap}
+.pstat{background:var(--surface);box-shadow:var(--shadow-1);padding:8px 14px;display:flex;flex-direction:column;min-width:96px}
+.pstat b{font-family:var(--f-display);font-size:20px;line-height:1.2;font-variant-numeric:tabular-nums}
+.pstat span{font-size:12px;color:var(--muted)}
+
+/* Tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding-block:8px;box-shadow:0 6px 14px -12px rgba(24,32,46,.35)}
+.tabs .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:7px;padding:10px 11px;white-space:nowrap;font-weight:600;color:var(--muted);background:transparent;transition:background .15s,color .15s}
+.tab:hover{background:var(--surface);color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--on-dark);box-shadow:var(--shadow-1)}
+
+main{padding-block:22px 64px}
+.view{display:flex;flex-direction:column;gap:22px}
+.view-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 20px}
+.view-head p{color:var(--muted);max-width:68ch;margin-top:6px}
+
+/* Generic */
+.panel{background:var(--surface);box-shadow:var(--shadow-1);padding:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;background:var(--surface);box-shadow:var(--shadow-1);font-weight:600;transition:transform .12s,box-shadow .12s,background .15s;min-height:42px}
+.btn:hover{box-shadow:var(--shadow-2);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.primary{background:var(--accent);color:var(--on-dark)}
+.btn.good{background:var(--good);color:var(--on-dark)}
+.btn.bad{background:var(--bad);color:var(--on-dark)}
+.btn.flat{box-shadow:none;background:var(--surface-2)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;background:var(--surface);box-shadow:var(--shadow-1);font-size:14px;font-weight:600;color:var(--muted);transition:background .15s,color .15s}
+.chip:hover{color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--on-dark)}
+.chip .dot{width:10px;height:10px;flex:none}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.spacer{flex:1}
+.mono{display:grid;place-items:center;color:var(--on-dark);font-family:var(--f-display);font-weight:800;flex:none}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 8px;background:var(--surface-2);color:var(--muted)}
+.bar{height:6px;background:var(--surface-3);overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--on-dark);padding:10px 18px;box-shadow:var(--shadow-2);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;max-width:calc(100% - 32px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Overview */
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px}
+.hero-lead{display:flex;flex-direction:column;gap:14px}
+.hero-lead p{font-size:16px;max-width:62ch}
+.plan{display:flex;flex-direction:column;gap:2px}
+.plan-step{display:flex;gap:14px;align-items:flex-start;padding:12px 14px;background:var(--surface-2);text-align:left;transition:background .15s}
+.plan-step:hover{background:var(--accent-soft)}
+.plan-step .n{width:28px;height:28px;background:var(--accent);color:var(--on-dark);display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
+.plan-step b{display:block}
+.plan-step span{font-size:13px;color:var(--muted)}
+.schools{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.school{background:var(--surface);box-shadow:var(--shadow-1);display:flex;flex-direction:column}
+.school-head{padding:12px 16px;color:var(--on-dark);font-family:var(--f-display);font-weight:700;font-size:15px}
+.school-list{display:flex;flex-direction:column;padding:6px}
+.person{display:flex;gap:12px;align-items:center;padding:8px 10px;text-align:left;transition:background .15s}
+.person:hover{background:var(--surface-2)}
+.person .mono{width:34px;height:34px;font-size:13px}
+.person b{display:block;font-size:14px;line-height:1.3}
+.person span{display:block;font-size:12.5px;color:var(--muted);line-height:1.35}
+.split-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.split{background:var(--surface-2);padding:14px;display:flex;flex-direction:column;gap:4px}
+.split .yr{font-family:var(--f-display);font-weight:800;font-size:20px;font-variant-numeric:tabular-nums}
+.epithets{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.epithet{padding:14px;background:var(--surface-2);display:flex;flex-direction:column;gap:6px}
+.epithet q{font-family:var(--f-display);font-weight:700;font-size:16px;quotes:"„" "“"}
+.tips{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.tip{display:flex;gap:12px;align-items:flex-start}
+.tip .ic{width:38px;height:38px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;flex:none}
+.tip p{font-size:14px;color:var(--muted)}
+
+/* Timeline */
+.tl-scroll{overflow-x:auto}
+.tl{position:relative;min-width:820px;padding-top:28px}
+.tl-axis{position:absolute;inset:0 0 auto 0;height:22px}
+.tl-tick{position:absolute;top:0;font-size:12px;color:var(--faint);transform:translateX(-50%);font-variant-numeric:tabular-nums}
+.tl-grid{position:absolute;top:24px;bottom:0;width:1px;background:var(--surface-3)}
+.tl-event{position:absolute;top:24px;bottom:0;width:2px;background:var(--gold);opacity:.55}
+.tl-event span{position:absolute;bottom:100%;left:4px;font-size:11px;color:var(--gold);white-space:nowrap;font-weight:600}
+.tl-row{position:relative;height:28px;margin-bottom:4px}
+.tl-bar{position:absolute;top:0;height:26px;color:var(--on-dark);font-size:12.5px;font-weight:600;padding:0 8px;display:flex;align-items:center;white-space:nowrap;overflow:hidden;box-shadow:var(--shadow-1);transition:transform .12s}
+.tl-bar:hover{transform:translateY(-1px)}
+
+/* Thinkers */
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);box-shadow:var(--shadow-1);padding:0 12px;min-height:40px;flex:1 1 220px;max-width:340px}
+.search input{border:0;background:transparent;outline:none;width:100%;min-width:0;padding:8px 0}
+.tgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.tcard{background:var(--surface);box-shadow:var(--shadow-1);display:flex;flex-direction:column;min-width:0;scroll-margin-top:80px;transition:box-shadow .2s}
+.tcard.flash{box-shadow:0 0 0 3px var(--gold),var(--shadow-2)}
+.tc-head{display:flex;gap:14px;align-items:center;padding:18px 20px 12px}
+.tc-head .mono{width:52px;height:52px;font-size:18px}
+.tc-head .meta{font-size:13px;color:var(--muted)}
+.tc-body{padding:0 20px 18px;display:flex;flex-direction:column;gap:14px}
+.essence{font-size:15px}
+.hookbox{background:var(--surface-2);padding:12px 14px;display:flex;gap:12px}
+.hookbox .i{color:var(--gold);margin-top:3px}
+.hookbox div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.hookbox p{font-size:14px}
+.hookbox b{font-weight:700}
+details.more{background:var(--surface-2)}
+details.more > summary{list-style:none;cursor:pointer;padding:10px 14px;font-weight:600;display:flex;align-items:center;gap:8px;user-select:none}
+details.more > summary::-webkit-details-marker{display:none}
+details.more > summary .chev{margin-left:auto;transition:transform .2s}
+details.more[open] > summary .chev{transform:rotate(180deg)}
+details.more > .inner{padding:2px 14px 14px}
+dl.concepts{margin:0;display:flex;flex-direction:column;gap:10px}
+dl.concepts dt{font-weight:700;font-size:14px}
+dl.concepts dd{margin:0;font-size:14px;color:var(--muted)}
+ul.bio{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}
+.tc-actions{display:flex;flex-wrap:wrap;gap:8px}
+.minor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.minor{background:var(--surface);box-shadow:var(--shadow-1);padding:14px 16px;display:flex;flex-direction:column;gap:6px;scroll-margin-top:80px}
+.minor .who{display:flex;gap:10px;align-items:center}
+.minor .who .mono{width:30px;height:30px;font-size:12px}
+.minor p{font-size:13.5px;color:var(--muted)}
+.minor ul{margin:0;padding-left:16px;font-size:13.5px;color:var(--muted)}
+.extra{display:flex;flex-direction:column;gap:8px}
+.mini-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.mini-table th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:6px 8px}
+.mini-table td{padding:7px 8px;vertical-align:top}
+.mini-table tr:nth-child(even) td{background:var(--surface-2)}
+.tbl-scroll{overflow-x:auto}
+.horney{display:flex;flex-direction:column;gap:6px}
+.horney div{display:flex;gap:12px;align-items:center;background:var(--surface-2);padding:8px 12px;font-size:14px}
+.horney svg{width:54px;height:22px;flex:none}
+.jung-fig{width:100%;max-width:340px;height:auto;display:block;margin:0 auto}
+
+/* Compare */
+.cmp-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:start}
+.cmp-menu{display:flex;flex-direction:column;gap:4px;position:sticky;top:76px}
+.cmp-item{text-align:left;padding:11px 14px;background:var(--surface);box-shadow:var(--shadow-1);font-weight:600;font-size:14px;display:flex;gap:10px;align-items:center;transition:background .15s}
+.cmp-item:hover{background:var(--surface-2)}
+.cmp-item[aria-pressed="true"]{background:var(--accent);color:var(--on-dark)}
+.cmp-stack{display:flex;flex-direction:column;gap:16px;min-width:0}
+.cmp-summary{display:flex;gap:14px;align-items:flex-start}
+.cmp-summary .i{color:var(--gold);margin-top:4px}
+.cmp-summary p{font-family:var(--f-display);font-size:17px;font-weight:600;line-height:1.5}
+.cmp-scroll{overflow-x:auto;background:var(--surface);box-shadow:var(--shadow-1)}
+table.cmp{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+table.cmp th,table.cmp td{padding:12px 14px;vertical-align:top;text-align:left}
+table.cmp thead th{color:var(--on-dark);font-family:var(--f-display);font-weight:700;font-size:15px}
+table.cmp thead th:first-child{background:var(--ink)}
+table.cmp tbody th{font-weight:700;font-size:13px;color:var(--muted);width:150px;background:var(--surface-2);position:sticky;left:0;z-index:1}
+table.cmp tbody tr:nth-child(even) td{background:#FAFBFC}
+table.cmp td{transition:background .15s,color .15s}
+.selftest table.cmp td:not(.shown){color:transparent;background:var(--surface-3)!important;cursor:pointer;user-select:none;position:relative}
+.selftest table.cmp td:not(.shown)::after{content:"?";position:absolute;inset:0;display:grid;place-items:center;color:var(--faint);font-weight:700;font-size:18px}
+.common{display:flex;flex-direction:column;gap:8px}
+.common li{font-size:14px}
+.common ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+
+/* Flashcards */
+.fc-wrap{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:20px;align-items:start}
+.fc-stage{display:flex;flex-direction:column;gap:14px;min-width:0}
+.fc{perspective:1600px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.fc-inner{display:grid;transition:transform .55s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.fc.flipped .fc-inner{transform:rotateY(180deg)}
+.face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);box-shadow:var(--shadow-2);min-height:330px;padding:28px 30px;display:flex;flex-direction:column;gap:14px}
+.face.back{transform:rotateY(180deg)}
+.face .topline{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.face .q{font-family:var(--f-display);font-weight:700;font-size:clamp(20px,2.6vw,27px);line-height:1.35;margin-block:auto;text-wrap:balance}
+.face .prompt{color:var(--faint);font-size:13px;display:flex;align-items:center;gap:6px}
+.face .who{display:flex;gap:10px;align-items:center;font-weight:700}
+.face .who .mono{width:34px;height:34px;font-size:13px}
+.face .a{font-size:17px;line-height:1.6;margin-block:auto}
+.fc-controls{display:grid;grid-template-columns:auto 1fr 1fr auto;gap:10px}
+.fc-side{display:flex;flex-direction:column;gap:14px}
+.fc-counts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.fc-counts div{background:var(--surface-2);padding:8px;text-align:center}
+.fc-counts b{display:block;font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums}
+.fc-counts span{font-size:12px;color:var(--muted)}
+.kbd{display:inline-block;background:var(--surface-2);padding:0 6px;font-size:12px;font-weight:700;color:var(--muted)}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+
+/* Matching */
+.game-bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.stat{display:flex;align-items:center;gap:6px;font-weight:600;font-variant-numeric:tabular-nums}
+.stat .i{color:var(--muted)}
+.match-board{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(36px,9vw,120px);row-gap:10px;background:var(--surface);box-shadow:var(--shadow-1);padding:22px}
+.match-col{display:flex;flex-direction:column;gap:10px;min-width:0;z-index:1}
+.match-col h4{font-size:13px;color:var(--muted);font-family:var(--f-body);font-weight:600;letter-spacing:.04em}
+.mi{position:relative;text-align:left;padding:12px 14px;background:var(--surface-2);font-size:14px;line-height:1.4;min-height:52px;display:flex;align-items:center;transition:background .15s,color .15s,transform .12s;overflow-wrap:anywhere}
+.mi:hover{background:var(--accent-soft)}
+.mi.sel{background:var(--accent);color:var(--on-dark)}
+.mi.done{color:var(--on-dark);pointer-events:none}
+.mi.wrong{animation:shake .35s;background:var(--bad-bg)}
+.match-lines{position:absolute;inset:0;pointer-events:none;width:100%;height:100%;z-index:0}
+.match-lines line{stroke-width:3}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.result{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.result .big{font-family:var(--f-display);font-weight:800;font-size:30px;font-variant-numeric:tabular-nums}
+
+/* Memory */
+.mem-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tile{position:relative;min-height:122px;perspective:900px;-webkit-tap-highlight-color:transparent}
+.tile-in{position:absolute;inset:0;transition:transform .4s;transform-style:preserve-3d}
+.tile.open .tile-in,.tile.done .tile-in{transform:rotateY(180deg)}
+.tile .side{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center;padding:8px;text-align:center;box-shadow:var(--shadow-1)}
+.tile .cover{background:var(--accent);color:rgba(255,255,255,.55)}
+.tile .cover .i{width:30px;height:30px}
+.tile .face2{background:var(--surface);transform:rotateY(180deg);font-size:13.5px;overflow:hidden;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.tile.done .face2{color:var(--on-dark)}
+.tile .kind{position:absolute;top:6px;left:8px;font-size:10.5px;font-weight:600;opacity:.6}
+
+/* Order */
+.order-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.slots{display:flex;flex-direction:column;gap:6px}
+.slot{display:flex;gap:12px;align-items:center;min-height:48px;padding:8px 12px;background:var(--surface-2);font-size:14px}
+.slot .n{width:28px;height:28px;display:grid;place-items:center;background:var(--surface-3);color:var(--muted);font-weight:700;font-size:13px;flex:none}
+.slot.filled{background:var(--good-bg)}
+.slot.filled .n{background:var(--good);color:var(--on-dark)}
+.slot.next{box-shadow:inset 0 0 0 2px var(--accent)}
+.pool{display:flex;flex-direction:column;gap:6px}
+.pool .mi{min-height:46px}
+.pool .mi.hint{box-shadow:inset 0 0 0 3px var(--gold)}
+
+/* Quiz */
+.quiz-card{background:var(--surface);box-shadow:var(--shadow-2);padding:28px;display:flex;flex-direction:column;gap:18px;max-width:820px}
+.quiz-q{font-family:var(--f-display);font-weight:700;font-size:clamp(19px,2.3vw,24px);line-height:1.4}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.opt{text-align:left;padding:14px 16px;background:var(--surface-2);font-size:14.5px;line-height:1.45;display:flex;gap:10px;align-items:flex-start;transition:background .15s}
+.opt:hover{background:var(--accent-soft)}
+.opt .letter{width:24px;height:24px;display:grid;place-items:center;background:var(--surface-3);font-weight:700;font-size:12px;flex:none}
+.opt.right{background:var(--good);color:var(--on-dark)}
+.opt.right .letter{background:rgba(255,255,255,.25)}
+.opt.wrongpick{background:var(--bad);color:var(--on-dark)}
+.opt.wrongpick .letter{background:rgba(255,255,255,.25)}
+.opts.locked .opt{pointer-events:none}
+.explain{background:var(--surface-2);padding:12px 14px;font-size:14px;display:flex;gap:10px}
+.explain .i{margin-top:3px;flex:none}
+.review{display:flex;flex-direction:column;gap:8px}
+.review div{background:var(--surface-2);padding:10px 12px;font-size:14px}
+
+@media (max-width:900px){
+  .hero,.fc-wrap,.cmp-layout,.order-layout{grid-template-columns:minmax(0,1fr)}
+  .cmp-menu{position:static;flex-direction:row;overflow-x:auto;scrollbar-width:none}
+  .cmp-menu::-webkit-scrollbar{display:none}
+  .cmp-item{white-space:nowrap;flex:none}
+  .tgrid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  body{font-size:14.5px}
+  .panel{padding:16px}
+  .face{padding:22px 18px;min-height:300px}
+  .fc-controls{grid-template-columns:auto 1fr 1fr auto}
+  .opts{grid-template-columns:minmax(0,1fr)}
+  .match-board{padding:14px}
+  .mi{font-size:13px;padding:10px}
+  .mem-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tile{min-height:150px}
+  .tile .face2{font-size:12.5px}
+  .tile .face2.long{font-size:11.5px}
+  .quiz-card{padding:20px 16px}
+  .tc-head,.tc-body{padding-left:16px;padding-right:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M7.5 6H10a4 4 0 0 1 4 4v4a4 4 0 0 0 4 4h-1.5"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M10 6h11"/><path d="M10 12h11"/><path d="M10 18h11"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+    <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-branch" viewBox="0 0 24 24"><path d="M6 3v12"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-quote" viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.76-2-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 0-1 1v2c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.76-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/></symbol>
+    <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark"><svg class="i"><use href="#i-brain"/></svg></div>
+      <div>
+        <h1>ფსიქოანალიზის რიდერი</h1>
+        <p>სიღრმის ფსიქოლოგია ფროიდიდან ფრანკლამდე: მოკლე შეჯამებები, შედარებები და თამაშები დასამახსოვრებლად.</p>
+      </div>
+    </div>
+    <div class="progress-strip" id="pstrip"></div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="განყოფილებები">
+  <div class="wrap" role="tablist" id="tabs"></div>
+</nav>
+
+<main class="wrap">
+  <section class="view" id="view-map" data-view></section>
+  <section class="view" id="view-thinkers" data-view hidden></section>
+  <section class="view" id="view-compare" data-view hidden></section>
+  <section class="view" id="view-cards" data-view hidden></section>
+  <section class="view" id="view-match" data-view hidden></section>
+  <section class="view" id="view-memory" data-view hidden></section>
+  <section class="view" id="view-order" data-view hidden></section>
+  <section class="view" id="view-quiz" data-view hidden></section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ================= DATA ================= */
+const SCHOOLS = {
+  classic:{name:'კლასიკური ფსიქოანალიზი', color:'#9A3A2B'},
+  dissent:{name:'ადრეული განდგომილები', color:'#17706A'},
+  ego:{name:'ეგო ფსიქოლოგია', color:'#2B5EA7'},
+  object:{name:'ობიექტ-ურთიერთობები და სელფი', color:'#A4661C'},
+  neo:{name:'ნეოფროიდიზმი და ინტერპერსონალური სკოლა', color:'#4B7629'},
+  body:{name:'სხეული და ფსიქოსომატიკა', color:'#9C3A63'},
+  exist:{name:'ეგზისტენციალური და სხვა მიმართულებები', color:'#556070'},
+  topic:{name:'თემები', color:'#3A4566'}
+};
+
+const T = [
+{id:'freud', name:'ზიგმუნდ ფროიდი', short:'ფროიდი', mono:'ზფ', years:'1856–1939', b:1856, d:1939, school:'classic', color:'#9A3A2B',
+ one:'ფსიქოანალიზის ფუძემდებელი: Id, Ego, Super-Ego',
+ essence:'ფსიქიკური დაავადება არაცნობიერ (სექსუალურ ან აგრესიულ) ლტოლვასა და დაცვით ძალებს შორის კონფლიქტის არაადექვატური, კომპრომისული გადაწყვეტაა. მკურნალობის მიზანი — წარსულში გადატანილი ტრავმის გაცნობიერება.',
+ question:'„საიდან?“ — მიზეზი წარსულში, ბავშვობაშია (კაუზალური პრინციპი).',
+ hook:'5 ჰიპოთეზა — „დედამ გამოაცხო ერთი საჩუქრის ტორტი“: დინამიკური, გენეტიკური, ეკონომიკური, სტრუქტურული, ტოპოგრაფიული.',
+ sig:'ოიდიპოსის კომპლექსი',
+ concepts:[
+  ['დინამიკური ჰიპოთეზა','ფსიქიკური დაავადება ინტრაფსიქიკური კონფლიქტით არის გამოწვეული: არაცნობიერი ინსტინქტური იმპულსი დაცვითი ძალების წინააღმდეგ.'],
+  ['გენეტიკური ჰიპოთეზა','ფსიქიკური აშლილობები ბავშვის ფსიქოსექსუალური განვითარების დარღვევით აიხსნება.'],
+  ['ეკონომიკური ჰიპოთეზა','ფსიქიკურ ენერგიას აქვს რაოდენობა და გადანაცვლების უნარი; სიამოვნება = დაძაბულობის კლება (Lust–Unlust პრინციპი).'],
+  ['სტრუქტურული ჰიპოთეზა','ფსიქიკური აპარატი სამი ინსტანციისგან შედგება: Id, Ego, Super-Ego (1923).'],
+  ['ტოპოგრაფიული ჰიპოთეზა','ფსიქიკა = ცნობიერი, ქვეცნობიერი და არაცნობიერი; ეს სისტემები ტვინის კონკრეტულ უბნებს არ შეესაბამება.'],
+  ['Id (იგი)','არაცნობიერი სექსუალური და აგრესიული ლტოლვები; რეალობის გაუთვალისწინებლად ითხოვს დაკმაყოფილებას.'],
+  ['Ego (მე)','თვითშენახვისა და რეალობასთან ადექვატური ურთიერთობის ინსტანცია; ეყრდნობა რეალობის პრინციპს და იყენებს დაცვით მექანიზმებს.'],
+  ['Super-Ego (ზე-მე)','საზოგადოებისა და კულტურის მიერ დაწესებული აკრძალვები, ტაბუ და მორალურ-ეთიკური ნორმები.'],
+  ['ფსიქიკური დეტერმინიზმი','შემთხვევითი ფსიქიკური ფენომენი არ არსებობს: ყველა ქცევას აქვს ფსიქიკური მიზეზი.'],
+  ['ფიქსაცია','ფსიქოსექსუალური განვითარების შეჩერება: იწვევს ძლიერი ფრუსტრაცია ან ჭარბი დაკმაყოფილება.'],
+  ['რეგრესია (ფროიდი)','სტრესის დროს ქცევის დაბრუნება იმ ადრეულ ფაზამდე, რომელზეც ფიქსაცია იყო (მაგ. შფოთისას გაძლიერებული ჭამა).'],
+  ['კათექსისი','ფსიქიკური ენერგიის ინვესტირება ობიექტის ამსახველ წარმოდგენაში.'],
+  ['კონტრკათექსისი','აკრძალვებისა და შიშების წინააღმდეგობა მოტორული აქტის ან მისი სურვილის მიმართ.'],
+  ['პირველადი პროცესი','არაცნობიერის მუშაობა: დროს მოკლებული, რეალობას არ ითვალისწინებს, უშუალო განტვირთვისკენ მიისწრაფვის.'],
+  ['მეორადი პროცესი','ცნობიერისა და ქვეცნობიერის დონე: ითვალისწინებს რეალობას და შეუძლია ლტოლვის გადავადება.'],
+  ['ტრანსფერი (გადატანა)','ბავშვობის მნიშვნელოვანი პირების მიმართ დადებითი ან უარყოფითი გრძნობების გადატანა ექიმზე.'],
+  ['ოიდიპოსის კომპლექსი','ფალურ ფაზაში ინტერესი საწინააღმდეგო სქესის მშობლისადმი და აგრესია საკუთარი სქესის მშობლისადმი.'],
+  ['ლიბიდო (ფროიდი)','სექსუალური ენერგია, რომელიც ეროგენული ზონების მიხედვით გადაინაცვლებს.'],
+  ['ლტოლვის 4 მახასიათებელი','წყარო (ორგანო), ინტენსიურობა (ენერგიის რაოდენობა), მიზანი (დაკმაყოფილება), ობიექტი.'],
+  ['ორალური ფაზა','18 თვემდე: პირი, ტუჩები, ენა; ჯერ წოვა, შემდეგ კბენა და ღეჭვა; ობიექტი — დედის ძუძუ.'],
+  ['ანალური ფაზა','18 თვიდან: გამოდევნა და შეკავება; ტუალეტ-ტრენინგი — დედა, როგორც ამკრძალავი ობიექტი.'],
+  ['ფალური ფაზა','~3 წლიდან: გენიტალიები; მას ოიდიპოსის ფაზასაც უწოდებენ.'],
+  ['შემოქმედების 3 პერიოდი','1) სამედიცინო მეთოდი ფსიქონევროზებისთვის; 2) ზოგადფსიქოლოგიური მოძღვრება პიროვნებაზე; 3) ფილოსოფიური სისტემა კულტურისა და რელიგიის ასახსნელად.']
+ ],
+ bio:['1856 — დაიბადა ფრაიბერგში, მორავიაში (ახლანდელი ჩეხეთი)','1860 — ოჯახი ვენაში გადადის','1881 — სამედიცინო განათლება; ბრიუკესთან ნერვული სისტემის ჰისტოლოგია','1885 — პარიზი, შარკო: ისტერია და ჰიპნოზი','1889 — ნანსის სკოლა: ლიებო და ბერნჰაიმი','1896 — თავის მეთოდს ფსიქოანალიზს უწოდებს','1900 — „სიზმრის ინტერპრეტაცია“','1909 — ლექციები აშშ-ში','1916–1917 — „ფსიქოანალიზის შესავალი“','1920 — აგრესიული (სიკვდილის) ინსტინქტი','1923 — პიროვნების სამწევრა მოდელი','1939 — გარდაიცვალა ლონდონში'],
+ facts:[
+  ['რომელ წელს უწოდა ფროიდმა თავის მეთოდს ფსიქოანალიზი?','1896',['1885','1900','1909']],
+  ['ვისთან მუშაობდა ფროიდი პარიზში ისტერიისა და ჰიპნოზის შესასწავლად?','ჟან მარტენ შარკოსთან',['ერნსტ ბრიუკესთან','ე. ბლეილერთან','იპოლიტ ბერნჰაიმთან']],
+  ['რომელ ნაშრომში ჩამოაყალიბა ფროიდმა ეკონომიკური ჰიპოთეზა სისტემური სახით?','„სიზმრის ინტერპრეტაცია“ (1900)',['„ფსიქოანალიზის შესავალი“','„ყოველდღიური ცხოვრების ფსიქოპათოლოგია“','„დაცვითი ნეიროფსიქოზები“']],
+  ['რა დაემატა ინსტინქტების მოძღვრებას ფროიდის მესამე პერიოდში?','აგრესიული ინსტინქტი — სწრაფვა სიკვდილისა და ნგრევისკენ',['სოციალური ინტერესი','სწრაფვა ძალაუფლებისკენ','კოლექტიური არაცნობიერი']],
+  ['როდის შემოგვთავაზა ფროიდმა პიროვნების სამწევრა მოდელი?','1923',['1900','1911','1936']],
+  ['რომელია ფროიდის თეორიის 5 ჰიპოთეზა?','დინამიკური, გენეტიკური, ეკონომიკური, სტრუქტურული, ტოპოგრაფიული',['დინამიკური, ფინალისტური, ეკონომიკური, სტრუქტურული, ტოპოგრაფიული','ბიოლოგიური, გენეტიკური, სოციალური, სტრუქტურული, ტოპოგრაფიული','დინამიკური, გენეტიკური, ენერგეტიკული, კოლექტიური, ტოპოგრაფიული']],
+  ['რა ასაკამდეა ეროგენული ზონა პირი, ტუჩები და ენა?','18 თვემდე',['6 თვემდე','3 წლამდე','12 თვემდე']],
+  ['რა იწვევს ფიქსაციას?','ძლიერი ფრუსტრაცია ან ჭარბი დაკმაყოფილება',['მხოლოდ ფიზიკური ტრავმა','მემკვიდრეობა','ოიდიპოსის კომპლექსის გადალახვა']],
+  ['რას უწოდებენ დედა-ბავშვის ურთიერთობას ანალურ ფაზაში?','ტუალეტ-ტრენინგს',['კათექსისს','ჰოლდინგს','სიმბიოზს']],
+  ['როგორია იდეალური განვითარება ფროიდის მიხედვით?','ბალანსი დაკმაყოფილებასა და ფრუსტრაციას შორის',['სრული დაკმაყოფილება','ფრუსტრაციის სრული არარსებობა','ადრეული დამოუკიდებლობა']]
+ ]},
+
+{id:'adler', name:'ალფრედ ადლერი', short:'ადლერი', mono:'აა', years:'1870–1937', b:1870, d:1937, school:'dissent', color:'#17706A',
+ one:'ინდივიდუალური ფსიქოლოგია: არასრულფასოვნება და კომპენსაცია',
+ essence:'ქცევას წარმართავს არა წარსული მიზეზი, არამედ მომავალი მიზანი. არასრულფასოვნების განცდას ადამიანი კომპენსაციით ძლევს; ჯანმრთელობის საზომი — სოციალური ინტერესია.',
+ question:'„საითკენ?“ და არა „საიდან?“ (ფინალიზმი).',
+ hook:'ადამიანი — პილოტია და არა რობოტი: მნიშვნელოვანია არა ის, რაც მემკვიდრეობით მივიღეთ, არამედ ის, რასაც მისგან შევქმნით.',
+ sig:'არასრულფასოვნების განცდა',
+ concepts:[
+  ['ინდივიდუალური ფსიქოლოგია','ადლერის სკოლა; 1911 წლის შემდეგ — „თავისუფალი ფსიქოანალიზის საზოგადოება“.'],
+  ['ფინალიზმი','ქცევას განაპირობებს მომავალი მიზანი და არა წარსული მიზეზი; ყოველ ფენომენს აქვს საზრისი.'],
+  ['არასრულფასოვნების განცდა','წყაროები: ორგანოთა დეფექტი, აღზრდა, ოჯახური კონსტელაცია, სქესობრივი განსხვავება.'],
+  ['ორგანოთა უკმარისობა','სხეულის ნაწილის დეფექტი ან ნორმალური თვისება, რომელსაც ბავშვი ნაკლად განიცდის (სიმსუქნე, უჩვეულო თმა).'],
+  ['ოჯახური კონსტელაცია','ბავშვის ადგილი ოჯახში: ერთადერთი, უმცროსი, ობოლი, ერთადერთი გოგონა ბიჭებში, არასასურველი ბავშვი.'],
+  ['მასკულინური პროტესტი','ქალის გაქცევა ქალურობისგან და მამაკაცთან გატოლების სწრაფვა.'],
+  ['კომპენსაცია (ადლერი)','ნაკლის ადექვატური დაძლევა: სმენის ნაკლი — მუსიკოსი, ფიზიკური სისუსტე — ათლეტი.'],
+  ['ჰიპერკომპენსაცია','ყალბი უპირატესობისკენ სწრაფვა: ბოროტმოქმედება, პერვერზია, ავადმყოფობაში გაქცევა.'],
+  ['სწრაფვა ძალაუფლებისკენ','ნიცშეს გავლენით: შედარებითი მინუსიდან შედარებითი პლუსისკენ — საკუთარ თავზე გამარჯვება.'],
+  ['ცხოვრების სტილი','უნიკალური გზა, რომელსაც ინდივიდი ცხოვრებისეული მიზნების მისაღწევად ირჩევს.'],
+  ['აპერცეფციის სქემა','ცხოვრების სტილში ჩამოყალიბებული წარმოდგენა საკუთარ თავსა და სამყაროზე.'],
+  ['სოციალური ინტერესი','Gemeinschaftsgefühl — სხვისი ინტერესებით დაინტერესება; ვისაც ის აქვს, ნევროტიკი არ გახდება.'],
+  ['შემოქმედებითი ძალა','მემკვიდრეობისა და გარემოს გვერდით — ინდივიდის მესამე ძალა.'],
+  ['ავადმყოფობაში გაქცევა','ავადმყოფი იხსნის პასუხისმგებლობას და პრივილეგიებს იძენს.'],
+  ['დეპრესია (ადლერი)','ავადმყოფის „არტისტული ქმნილება“: ცრემლი და ჩივილი — იარაღი აღიარებისთვის.'],
+  ['სუიციდი (ადლერი)','შურისძიების აქტი ახლობლების მიმართ.'],
+  ['მანია (ადლერი)','„ყველაფერი ან არაფერი“ დიქოტომიიდან „ყველაფრის“ არჩევა — აბსოლუტური ტრიუმფი.'],
+  ['უნიტარული თეორია','ადლერი ნოზოლოგიას არ იზიარებდა: ყველა აშლილობა — ცხოვრების მცდარი სტილის შედეგია.']
+ ],
+ bio:['1870 — დაიბადა ვენის გარეუბანში','სტუდენტობაში — სოციალისტური იდეები; პაციენტები დაბალი ფენიდან','1902–1911 — თანამშრომლობა ფროიდთან','1910 — ვენის ფსიქოანალიტიკური საზოგადოების პრეზიდენტი','1911 — ფიურტმიულერთან ერთად ტოვებს საზოგადოებას','1926 — ვენის პედაგოგიური ინსტიტუტის პროფესორი','1929 — „მარია ჰილფეს“ ამბულატორიის დირექტორი','1934 — ემიგრაცია აშშ-ში','1937 — გარდაიცვალა აბერდინში (შოტლანდია)'],
+ facts:[
+  ['რომელ წლებში თანამშრომლობდა ადლერი ფროიდთან?','1902–1911',['1907–1913','1895–1905','1910–1924']],
+  ['რა ერქვა ადლერის საზოგადოებას თავდაპირველად?','თავისუფალი ფსიქოანალიზის საზოგადოება',['ანალიზური ფსიქოლოგიის საზოგადოება','ბერლინის ფსიქოანალიტიკური საზოგადოება','აქტიური ანალიზის საზოგადოება']],
+  ['ვისი ზეგავლენით შექმნა ადლერმა სწრაფვის ცნება „უკმარისობიდან უპირატესობისკენ“?','ნიცშეს',['შოპენჰაუერის','სენეკას','ჰერაკლიტეს']],
+  ['ვისი აზრი იზიარებდა ადლერი: აზრები და წარმოდგენები განაპირობებს ქცევას?','სენეკას',['არისტოტელეს','ნიცშეს','ჰუსერლის']],
+  ['სად გარდაიცვალა ადლერი?','აბერდინში, შოტლანდიაში',['ვენაში','ნიუ-იორკში','ლონდონში']],
+  ['აღზრდის რომელი ორი უკიდურესობა ზრდის არასრულფასოვნებას?','მეტისმეტი სიმკაცრე და განებივრება',['სიღარიბე და სიმდიდრე','მამის არყოფნა და დედის სიმკაცრე','სკოლა და ოჯახი']],
+  ['ფსიქოთერაპიის 3 მიზანი ადლერის მიხედვით','ცხოვრების სტილის გაგება, თვითშემეცნება, სოციალური ინტერესის ზრდა',['კათარზისი, ტრანსფერი, ტრანსფორმაცია','ტრავმის გაცნობიერება, განდევნის მოხსნა, სუბლიმაცია','აჩრდილის, ანიმას და თვითობის ანალიზი']],
+  ['როგორ ხსნის ადლერი ჰალუცინაციებს შიზოფრენიისას?','ხრიკი, რომელიც შინაგან იმპულსს გარეგან რეალობად აქცევს',['ტოქსინი, რომელსაც კომპლექსები გამოყოფენ','ლიბიდოს განრიდება გარე სამყაროდან','ენტროპიის მატება ფსიქიკაში']],
+  ['რომელმა ნაშრომმა შექმნა ფსიქოანალიზის ფიზიოლოგიური ბაზისი ადლერთან?','„ორგანოთა უკმარისობის შესახებ“',['„მასკულინური პროტესტი“','„კაცობრიობის პროგრესის შესახებ“','„ცხოვრების სტილი“']],
+  ['რას იწვევს გადაჭარბებული განებივრება ადლერის მიხედვით?','ყოვლისშემძლეობის გრძნობას და მიდრეკილებას დეპრესიისკენ',['მასკულინურ პროტესტს','სამაგალითო, მორჩილ ბავშვს','სოციალური ინტერესის ზრდას']]
+ ]},
+
+{id:'jung', name:'კარლ გუსტავ იუნგი', short:'იუნგი', mono:'კი', years:'1875–1961', b:1875, d:1961, school:'dissent', color:'#5B3F8F',
+ one:'ანალიზური ფსიქოლოგია: კოლექტიური არაცნობიერი, არქეტიპები',
+ essence:'არაცნობიერი პირადიც არის და კოლექტიურიც — არქეტიპების სამფლობელო. ლიბიდო ზოგადი ფსიქიკური ენერგიაა. ცხოვრების მიზანია ინდივიდუაცია: გახდე ის, ვინც სინამდვილეში ხარ.',
+ question:'„ვინ უნდა გავხდე?“ — გზა „მე“-დან თვითობისკენ.',
+ hook:'4 ფუნქცია: შეგრძნება ამბობს, რომ საგანი არის; აზროვნება — რა არის; გრძნობა — რა ღირს; ინტუიცია — საიდან მოდის და საით მიდის.',
+ sig:'კოლექტიური არაცნობიერი',
+ concepts:[
+  ['ანალიზური ფსიქოლოგია','იუნგის სკოლა; თვითონ მას „დასავლეთის იოგას“, განთავისუფლების გზას უწოდებდა.'],
+  ['ლიბიდო (იუნგი)','ზოგადი ფსიქიკური ენერგია და არა მხოლოდ სექსუალური; აქვს მიზეზიც და მიზანიც.'],
+  ['ასოციაციური ექსპერიმენტი','იუნგის მეთოდი (1906) კომპლექსების აღმოსაჩენად; სიცრუის დეტექტორის საფუძველი.'],
+  ['კომპლექსი','ემოციურად დამუხტული წარმოდგენების ერთობლიობა; ნორმალური, შემთხვევითი და პერმანენტული.'],
+  ['კოლექტიური არაცნობიერი','უნივერსალური პირველადი ხატების — არქეტიპების სამფლობელო; ავტონომიური და ცნობიერების კომპენსატორი.'],
+  ['არქეტიპი','ფსიქიკური ენერგიის უნივერსალური ცენტრი; ვლინდება სიზმრებში, მითებში და კრიზისულ სიტუაციებში.'],
+  ['პერსონა (ნიღაბი)','სოციალური ფასადი — ადაპტაციისთვის გამოყენებული კონვენციური ქცევების ჯამი.'],
+  ['აჩრდილი','თვისებები, რომლებსაც ინდივიდი მალავს სხვებისგანაც და საკუთარი თავისგანაც; რაც უფრო ვმალავთ, მით უფრო აქტიურია.'],
+  ['ანიმა','მამაკაცის არაცნობიერში არსებული ქალური ხატი; ერთი ქალის ტიპი მრავალი წახნაგით.'],
+  ['ანიმუსი','ქალის არაცნობიერში არსებული მამაკაცური ხატი; მამაკაცების მრავალი ტიპი.'],
+  ['სულის არქეტიპი','მოხუცი ბრძენკაცი, მღვდელი, მრჩეველი; მასთან გაიგივება იწვევს ინფლაციას (ნიცშე და ზარატუსტრა).'],
+  ['Magna Mater (დიდი დედა)','დედის არქეტიპის ფორმა: ღვთისმშობელი, სოფია, ეკლესია, alma mater, დედა-სამშობლო.'],
+  ['თვითობა (Selbst)','პიროვნების ცენტრი და ცნობიერის + არაცნობიერის ტოტალური ჯამი; „მე“ მის გარშემო ისე ბრუნავს, როგორც პლანეტა მზის გარშემო.'],
+  ['ინდივიდუაცია','თვითქმნადობის (Selbstwerdung) პროცესი და მიზანი — გახდე ის, ვინც სინამდვილეში ხარ.'],
+  ['ცხოვრების შემობრუნება','Lebenswende — მეტამორფოზა 38–40 წლის ასაკში; იწყება სულისა და თვითობის არქეტიპის პერიოდი.'],
+  ['ენანტიოდრომია','საწინააღმდეგოში გადასვლა (ჰერაკლიტე): დანტე და ვირგილიუსი ჯოჯოხეთის ფსკერიდან სამოთხისკენ ბრუნდებიან.'],
+  ['ექსტრავერსია და ინტროვერსია','„ფსიქოლოგიური ტიპები“ (1921): კომპლემენტარული ატიტუდები; 4 ფუნქციასთან ერთად — 8 ტიპი.'],
+  ['ცნობიერების 4 ფუნქცია','აზროვნება და გრძნობა — რაციონალური; შეგრძნება და ინტუიცია — ირაციონალური (Ratio-ს მიღმა).'],
+  ['სიმბოლო (იუნგი)','ფსიქიკური ენერგიის ტრანსფორმატორი; რელიგიური რიტუალი ენერგიას მობილიზებს.'],
+  ['ავადმყოფობა (იუნგი)','თვითრეალიზაციის შესაძლებლობა: ფსიქიკის ჯერ განუვითარებელი, ძვირფასი ფრაგმენტი.'],
+  ['ლიბიდოს 3 სტადია','პრესექსუალური (ზრდა და კვება), პუბერტატამდელი (სექსუალური ინსტინქტის ჩასახვა), მომწიფების.'],
+  ['დიდი და მცირე ფსიქოთერაპია','დინამიკური (ხანგრძლივი ანალიზი) და მხარდამჭერი (ხანმოკლე, ზოგჯერ რჩევაც საკმარისია).']
+ ],
+ bio:['1875 — დაიბადა კესვილში (შვეიცარია), პროტესტანტი მღვდლის ოჯახში','1900 — ბიურგჰოლცლი, ე. ბლეილერის ასისტენტი','1902 — დისერტაცია ოკულტურ ფენომენებზე','1906 — ასოციაციური ექსპერიმენტი','1907 — „Dementia praecox-ის ფსიქოლოგია“','1907–1913 — თანამშრომლობა ფროიდთან („კრონპრინცი“)','1910 — საერთაშორისო ფსიქოანალიტიკური საზოგადოების პირველი პრეზიდენტი','1912 — „ლიბიდოს მეტამორფოზები და სიმბოლოები“ → დაშორება 1913','1921 — „ფსიქოლოგიური ტიპები“','1948 — ანალიზური ფსიქოლოგიის ინსტიტუტი ციურიხში','1961 — გარდაიცვალა'],
+ facts:[
+  ['ვინ იყო იუნგის ხელმძღვანელი ბიურგჰოლცლის კლინიკაში?','ე. ბლეილერი',['ზიგმუნდ ფროიდი','რ. კრაფტ-ებინგი','პიერ ჟანე']],
+  ['რომელი წიგნის შემდეგ დაშორდნენ იუნგი და ფროიდი?','„ლიბიდოს მეტამორფოზები და სიმბოლოები“',['„ფსიქოლოგიური ტიპები“','„Dementia praecox-ის ფსიქოლოგია“','„სამშვინველის ენერგეტიკის შესახებ“']],
+  ['როდის გახდა იუნგი საერთაშორისო ფსიქოანალიტიკური საზოგადოების პირველი პრეზიდენტი?','1910',['1907','1913','1921']],
+  ['რომელ ასაკში ხდება „ცხოვრების შემობრუნება“?','დაახლოებით 38–40 წელს',['18–20 წელს','50–55 წელს','65 წლის შემდეგ']],
+  ['რომელი ფუნქციებია რაციონალური იუნგის მიხედვით?','აზროვნება და გრძნობა',['შეგრძნება და ინტუიცია','აზროვნება და ინტუიცია','გრძნობა და შეგრძნება']],
+  ['რამდენ ფსიქოლოგიურ ტიპს ვიღებთ იუნგის მიხედვით?','8',['4','6','16']],
+  ['რას დაედო საფუძვლად იუნგის ასოციაციური ექსპერიმენტი?','სიცრუის დეტექტორის შექმნას',['პროექციულ ტესტებს','ინტელექტის ტესტებს','ჰიპნოზის ტექნიკას']],
+  ['ანალიზის რომელ ეტაპზე იცვლება ანალიტიკოსიც?','ტრანსფორმაციის',['კათარზისის','ტრანსფერის','აღზრდის']],
+  ['რას ადარებს იუნგი პაციენტისა და ანალიტიკოსის ურთიერთობას?','ორი ნივთიერების ქიმიურ რეაქციას',['ბრძოლას','მშობლისა და შვილის ურთიერთობას','ხელოვანისა და მაყურებლის ურთიერთობას']],
+  ['იუნგის აზრით, თუ ფროიდს თანმიმდევრულად მივყვებით, ეს იგივეა, რომ...','XIX საუკუნის გერმანიის სირთულეები რომაელთა დაპყრობებს დავაბრალოთ',['ბავშვს წყალი გადავაყოლოთ','ხე ფესვების გარეშე დავრგოთ','მითი სიზმრად მივიჩნიოთ']],
+  ['იუნგის მიხედვით, რისი იდენტიფიკაციით იყო გამოწვეული ნიცშეს განდიდების ბოდვა?','ზარატუსტრასთან — სულის არქეტიპთან',['დიონისესთან — აჩრდილთან','ნაპოლეონთან — პერსონასთან','დიდ დედასთან']]
+ ]},
+
+{id:'stekel', name:'ვილჰელმ შტეკელი', short:'შტეკელი', mono:'ვშ', years:'1868–1940', b:1868, d:1940, school:'dissent', color:'#2F7F8F',
+ one:'სიზმრების სიმბოლიკა, „პარაფილია“, აქტიური ანალიზი',
+ essence:'ფროიდის ერთ-ერთი პირველი და ახლო მოწაფე, სიზმრების სიმბოლიზმის ოსტატი. აქცენტს აკეთებდა აქტუალურ კონფლიქტზე და შექმნა აქტიური ანალიზი — ხანმოკლე თერაპიის წინამორბედი.',
+ question:'„რა ხდება ახლა?“ — აქტუალური კონფლიქტი ბავშვობის მიზეზის ნაცვლად.',
+ hook:'ფროიდი: „შტეკელის ნაშრომების დამსახურებაა, რომ სიზმრების სიმბოლიზმს უფრო ღრმად ჩავწვდი“.',
+ sig:'ტერმინი „პარაფილია“',
+ concepts:[
+  ['პარაფილია','შტეკელის დამსახურებით ტერმინი „პერვერზია“ შეიცვალა სიტყვით „პარაფილია“.'],
+  ['აქტიური ანალიზი','შტეკელის მეთოდი; ექიმი და პაციენტი — აქტიური პარტნიორები; დღეს ხანმოკლე თერაპიად ვიცნობთ.'],
+  ['ფსევდოანალიზი','პაციენტის „ღრმა ინტერპრეტაციებით დაბომბვა“, რის წინააღმდეგაც შტეკელი იყო.'],
+  ['შფოთი და ეჭვი (შტეკელი)','შფოთისას ლიბიდო სომატურ სიმპტომად გარდაიქმნება, ეჭვისას — ინტელექტუალურად.'],
+  ['სიძულვილი წინ უსწრებს სიყვარულს','შტეკელის აზრი აკვიატებულ მდგომარეობათა ნევროზზე.'],
+  ['ფეტიშიზმი (შტეკელი)','ავადმყოფის არაცნობიერი რელიგია; პათოლოგიური, როცა ობიექტის ნაწილი თვით ობიექტზე მაღლა დგება.'],
+  ['დათრგუნული მორალური ტიპი','სექსუალური ტიპის გვერდით: ნევროზისას დათრგუნულია რელიგიური, მორალური მე (Schutzbauten).'],
+  ['ეპილეფსია (შტეკელი)','ჯექსონის ტიპის გარდა — ისტერიის განსაკუთრებული ფორმა, სადაც კრიმინალური ტენდენციები ვლინდება.'],
+  ['მარჯვენა და მარცხენა','სიმბოლიკა: მარჯვენა — სწორი და მართალი, მარცხენა — მარცხიანი.'],
+  ['ხელოვანი ყველა ბავშვში','ყველა ბავშვში სძინავს შემოქმედ არტისტს; გოეთე და უბრალო ქალი ერთნაირ სიზმრებს ქმნიან.']
+ ],
+ bio:['1868 — დაიბადა ბოიანში, ბუკოვინაში (ახლანდელი უკრაინა)','ვენის უნივერსიტეტის სამედიცინო ფაკულტეტი','ნევროზის გამო ფროიდთან მკურნალობდა და მისი მიმდევარი გახდა','ე. ჯონსის აზრით — ფროიდთან ერთად პირველი ფსიქოანალიტიკური საზოგადოების დამფუძნებელი','1940 — გარდაიცვალა','სელინჯერის რომანში მისტერ ანტოლინი შტეკელს ციტირებს: მოუმწიფებელი კეთილშობილურად სიკვდილს ნატრობს, მომწიფებული — თავმდაბლად ცხოვრებას'],
+ facts:[
+  ['რა ტერმინი დაამკვიდრა შტეკელმა „პერვერზიის“ ნაცვლად?','პარაფილია',['პერსონიფიკაცია','ფეტიშიზმი','სუბლიმაცია']],
+  ['რა ერქვა შტეკელის თერაპიულ მეთოდს?','აქტიური ანალიზი',['ნებისყოფის თერაპია','ლოგოთერაპია','ხასიათის ანალიზი']],
+  ['რაში გარდაიქმნება ლიბიდო შფოთის დროს და რაში — ეჭვების დროს?','შფოთისას — სომატურ სიმპტომად, ეჭვისას — ინტელექტუალურად',['შფოთისას — ინტელექტუალურად, ეჭვისას — სომატურად','ორივე შემთხვევაში — სიზმრებად','ორივე შემთხვევაში — აგრესიად']],
+  ['რას უწოდებდა შტეკელი პაციენტის „ღრმა ინტერპრეტაციებით დაბომბვას“?','ფსევდოანალიზს',['ველურ ანალიზს','აქტიურ ანალიზს','ნეოკათარზისს']],
+  ['რომელ ნევროზზე თქვა შტეკელმა, რომ სიძულვილი წინ უსწრებს სიყვარულს?','აკვიატებულ მდგომარეობათა ნევროზზე',['შფოთვის ნევროზზე','ისტერიაზე','ნევრასთენიაზე']],
+  ['რა თქვა ფროიდმა შტეკელზე?','მისი ნაშრომებით სიზმრების სიმბოლიზმს უფრო ღრმად ჩავწვდი',['ის ჩემი კრონპრინცია','მისი ნაშრომები სუფთა ოქროა','ის ჩემი მარჯვენა ხელია']]
+ ]},
+
+{id:'rank', name:'ოტო რანკი', short:'რანკი', mono:'ორ', years:'1884–1939', b:1884, d:1939, school:'dissent', color:'#2D5F86',
+ one:'დაბადების ტრავმა, ნებისყოფა, „აქ და ახლა“',
+ essence:'ყველაზე დიდი ტრავმა დაბადებაა — ყველა შემდგომი შფოთის პროტოტიპი. ადამიანი ორ შიშს შორის მერყეობს: სიცოცხლის შიში (განცალკევების) და სიკვდილის შიში (შერწყმის). იდეალი — შემოქმედი, რომელიც ორივეს აბალანსებს.',
+ question:'„როგორ გავცალკევდე და მაინც დავრჩე კავშირში?“',
+ hook:'სიცოცხლის შიში = „წინ წასვლის“ (გამოყოფის) შიში; სიკვდილის შიში = „უკან, მთელში გაქრობის“ შიში.',
+ sig:'დაბადების ტრავმა',
+ concepts:[
+  ['დაბადების ტრავმა','საშვილოსნოდან გამოსვლა საზარელ შფოთს იწვევს; ყველა შფოთისა და მთელი ფსიქიკური ცხოვრების პროტოტიპი.'],
+  ['პრე-ოიდიპოსური ფაზა','ტერმინი, რომელიც რანკმა პირველად გამოიყენა; სეპარაციის შფოთი ოიდიპოსამდე.'],
+  ['სიცოცხლის შიში (Lebensangst)','სეპარაციისა და ინდივიდუაციის შიში — იზოლირებულ ინდივიდად არსებობის შიში.'],
+  ['სიკვდილის შიში (Todesangst)','შერწყმისა და ინდივიდუალობის დაკარგვის შიში — მთელში გაქრობის შიში.'],
+  ['საწინააღმდეგო ნებისყოფა','ნების რუდიმენტური ფორმა: საკუთარი ნების დაპირისპირება სხვების ნებასთან.'],
+  ['ნებისყოფის თერაპია','რანკის მიდგომა: წინააღმდეგობა — პაციენტის ნების გამოვლინებაა და გამოსაყენებელია.'],
+  ['„აქ და ახლა“','რანკის ტერმინი: ემოციური ცხოვრება აწმყოშია; ნევროტიკი ზედმეტად ცხოვრობს წარსულში.'],
+  ['უარყოფა (Verleugnung)','რანკი განდევნის (Verdrängung) ნაცვლად იყენებს — ემოციური ნება „დარჩე ავად აწმყოში“.'],
+  ['პიროვნების 3 ტიპი (რანკი)','ნორმალური (ბრბოს ადამიანი, კონფორმისტი), ნევროტული (ნეგატივიზმი, დანაშაული), შემოქმედი (იდეალი).'],
+  ['ნევროზი (რანკი)','შემოქმედებითი მარცხი, განუხორციელებელი შემოქმედება — და არა სექსუალობიდან გაქცევა.'],
+  ['გადაჩვევა','დრომოჭმული აზრებისგან და საკუთარი თავის წარმოდგენისგან სეპარაცია — შემოქმედების პირობა (action learning).'],
+  ['უკვდავების იდეოლოგიები','ადამიანის პერმანენტული პასუხი სიკვდილის საიდუმლოზე.'],
+  ['ანალიზის დასრულება (რანკი)','ანალიტიკოსისგან განშორება = დაბადებისას დედისგან სეპარაციის განმეორება.']
+ ],
+ bio:['1884 — დაიბადა ვენაში, ოტო როზენფელდი; ღარიბი ოჯახი','1905 — 21 წლისამ ფროიდს წარუდგინა „ხელოვანი“ (Der Künstler, გამოიცა 1907)','ვენის ფსიქოანალიტიკური საზოგადოების მდივანი; ფროიდის „მარჯვენა ხელი“','1909 — „გმირის დაბადების მითი“; 1912 — „ინცესტის მოტივი“; PhD','1912–1924 — Internationale Zeitschrift für Psychoanalyse-ის რედაქტორი','საიდუმლო კომიტეტის („ოქროს ბეჭედი“) წევრი','1924 — „დაბადების ტრავმა“ → განხეთქილება ფროიდთან („ანტიოიდიპოსური ერესი“)','1926 — პარიზი; პაციენტები ჰენრი მილერი და ანაის ნინი','1936 — ნიუ-იორკი; მეტსახელი „ჰაკი“','1939 — გარდაიცვალა ფროიდიდან ერთ თვეში'],
+ facts:[
+  ['რა იყო ოტო რანკის ნამდვილი გვარი?','როზენფელდი',['ჰომბურგერი','რონიგერი','შონბერგი']],
+  ['რა ჰქვია ნაშრომს, რომელიც 21 წლის რანკმა ფროიდს წარუდგინა?','„ხელოვანი“ (Der Künstler)',['„დაბადების ტრავმა“','„გმირის დაბადების მითი“','„ნებისყოფის თერაპია“']],
+  ['რამ გამოიწვია განხეთქილება რანკსა და ფროიდს შორის?','წიგნმა „დაბადების ტრავმა“',['მარქსიზმთან სინთეზმა','ლიბიდოს ზოგად ენერგიად გაგებამ','მასკულინური პროტესტის თეორიამ']],
+  ['ვინ შედიოდა საიდუმლო კომიტეტში („ოქროს ბეჭედი“)?','ჯონსი, ფერენცი, რანკი, ზახსი, აბრაჰამი, ეიტინგონი',['ადლერი, იუნგი, შტეკელი, რანკი, ფერენცი, ჯონსი','ანა ფროიდი, კლაინი, აბრაჰამი, რაიხი, ჯონსი, ზახსი','იუნგი, ბლეილერი, აბრაჰამი, ფერენცი, რანკი, ზახსი']],
+  ['რას ნიშნავს რანკთან „სიცოცხლის შიში“?','სეპარაციისა და ინდივიდუაციის შიში',['ინდივიდუალობის დაკარგვის შიში','ფიზიკური სიკვდილის შიში','დასჯის შიში']],
+  ['რას ნიშნავს რანკთან „სიკვდილის შიში“?','შერწყმისა და ინდივიდუალობის დაკარგვის შიში',['განცალკევების შიში','დაბადების შიში','კასტრაციის შიში']],
+  ['რომელ მიმართულებებზე მოახდინა რანკმა გავლენა?','როჯერსი, როლო მეი, გეშტალტი, გროფი',['ფრომი, ჰორნი, სალივენი','კლაინი, ვინიკოტი, ფერბერნი','ბინსვანგერი, მინკოვსკი, იასპერსი']],
+  ['რომელი ტერმინი გამოიყენა რანკმა პირველად?','პრე-ოიდიპოსური ფაზა',['კოლექტიური არაცნობიერი','ეგო ფსიქოლოგია','ობიექტის მუდმივობა']],
+  ['რომელი წიგნი დაწერა ერნსტ ბეკერმა რანკის იდეებზე?','„სიკვდილის უარყოფა“',['„ბავშვობა და საზოგადოება“','„ხელოვნება და ხელოვანი“','„ფსიქოანალიზის ახალი გზები“']]
+ ]},
+
+{id:'ferenczi', name:'შანდორ ფერენცი', short:'ფერენცი', mono:'შფ', years:'1873–1933', b:1873, d:1933, school:'dissent', color:'#3E7A5C',
+ one:'აქტიური თერაპია, „თალასა“, დედა-შვილის ურთიერთობა',
+ essence:'ფროიდის ფავორიტი, რომელმაც ანალიზის „გაადამიანურება“ სცადა: აქტიური ტექნიკა, რელაქსაცია და ნეოკათარზისი, თბილი ატმოსფერო. აქცენტი — დედა-შვილის ურთიერთობაზე.',
+ question:'„როგორ დავეხმარო პაციენტს უფრო სწრაფად და ადამიანურად?“',
+ hook:'ფროიდი მის ნაშრომებს „სუფთა ოქროს“ ეძახდა; „თალასა“ = ბერძნულად ზღვა — დაბადება ოკეანიდან ხმელეთზე გამოსვლის ტრავმის გამეორებაა.',
+ sig:'თალასა (გენიტალობის თეორია)',
+ concepts:[
+  ['აქტიური თერაპია','პაციენტის აქტიური დახმარება ნევროტულ ქცევაზე უარის სათქმელად; მკურნალობის ხანგრძლივობის ლიმიტი (რანკთან ერთად).'],
+  ['რელაქსაცია და ნეოკათარზისი','ინდულგენციის (მოწყალების) პრინციპი: ფრუსტრაციის ნაცვლად რელაქსაცია; თავმდაბალი ანალიტიკოსი.'],
+  ['თალასა (გენიტალობის თეორია)','1924: ინტრაუტერინული ცხოვრება ოკეანეში სიცოცხლის გამეორებაა; ლტოლვა ოკეანის ფსკერზე დაბრუნებისკენ.'],
+  ['ბიოანალიზი','ფერენცის მეთოდოლოგია ბიოლოგიური და ფსიქოლოგიური ფენომენების კორელაციისთვის.'],
+  ['რეალობის შეგრძნების 4 საფეხური','უპირობო ყოვლისშემძლეობა → მაგიური ჰალუცინაციური → მაგიური ჟესტებით → მაგიური აზრებითა და სიტყვებით.'],
+  ['ინტროექცია და ტრანსფერი','ჰიპნოზში მთავარი როლი პაციენტისაა: სიყვარული და შიში მშობლიურ ფიგურებთანაა დაკავშირებული.'],
+  ['ენების აღრევა','„ზრდასრულისა და ბავშვის ენების აღრევა“ — ნაშრომი, რომელმაც ფროიდთან საბოლოო გაუცხოება გამოიწვია.'],
+  ['ორგანოთა სიმბოლური ენა','სომატური დაავადება — არარეალიზებული სექსუალური ენერგიის ტრანსფორმაცია (ფერენცი, 1924).']
+ ],
+ bio:['1873 — დაიბადა უნგრეთში, წიგნის მაღაზიის მფლობელის ოჯახში','ვენის სამედიცინო ფაკულტეტი; ბუდაპეშტის მუნიციპალური ჰოსპიტალი','1908 — პირადი ანალიზი ფროიდთან','1909 — ფროიდთან ერთად კლარკის უნივერსიტეტში','1913 — შ. რადოსთან ერთად უნგრეთის ფსიქოანალიტიკური საზოგადოება','1919 — ფსიქოანალიზის პროფესორი ბუდაპეშტში','1924 — „თალასა“; 1925 — რანკთან ერთად „ფსიქოანალიზის განვითარება“','1929–1933 — დაშორება ორთოდოქსულ ფსიქოანალიზთან'],
+ facts:[
+  ['რას უწოდებდა ფროიდი ფერენცის ნაშრომებს?','სუფთა ოქროს',['კრონპრინცის ნაშრომებს','ანტიოიდიპოსურ ერესს','ფსევდოანალიზს']],
+  ['რა ჰქვია ფერენცის მეთოდოლოგიას „თალასაში“?','ბიოანალიზი',['ბედის ანალიზი','ხასიათის ანალიზი','ეგზისტენციალური ანალიზი']],
+  ['„თალასას“ მიხედვით, რის გამეორებაა დაბადება?','ცხოველების ოკეანიდან ხმელეთზე გამოსვლის ტრავმის',['პირველი ცოდვის','ოიდიპოსური კონფლიქტის','დედის ძუძუსგან მოცილების']],
+  ['რომელმა ნაშრომმა გამოიწვია ფროიდთან საბოლოო გაუცხოება?','„ზრდასრულისა და ბავშვის ენების აღრევა“',['„თალასა“','„ინტროექცია და ტრანსფერი“','„რეალობის შეგრძნების განვითარების საფეხურები“']],
+  ['ვისთან ერთად დაწერა ფერენცმა „ფსიქოანალიზის განვითარება“ (1925)?','ოტო რანკთან',['კარლ აბრაჰამთან','შანდორ რადოსთან','ერნესტ ჯონსთან']],
+  ['რა პრინციპი შემოიტანა ფერენცმა სტატიაში „რელაქსაციისა და ნეოკათარზისის პრინციპები“?','ინდულგენციის (მოწყალების) პრინციპი',['აბსტინენციის პრინციპი','რეალობის პრინციპი','ნეიტრალობის პრინციპი']]
+ ]},
+
+{id:'abraham', name:'კარლ აბრაჰამი', short:'აბრაჰამი', mono:'კა', years:'1877–1925', b:1877, d:1925, school:'classic', color:'#B4573F',
+ one:'ლიბიდოს 6 სტადია, ხასიათი, დეპრესია როგორც გლოვა',
+ essence:'ფროიდის ერთგული მეგობარი, რომელმაც ლიბიდოს განვითარება ფროიდზე ზუსტად აღწერა (6 სტადია) და ხასიათის თვისებები ფიქსაციებს დაუკავშირა. დეპრესია — გლოვის მსგავსი რეაქციაა საყვარელი ობიექტის დაკარგვაზე.',
+ question:'„სად შეჩერდა ლიბიდო?“ — ფიქსაცია ხასიათად იქცევა.',
+ hook:'6 სტადია = 3 წყვილი: ორალური (წოვა, კბენა), ანალური (გამოდევნა, შეკავება), გენიტალური (ფალური, ზრდასრული).',
+ sig:'ლიბიდოს 6 სტადია',
+ concepts:[
+  ['ადრეული ორალური სტადია','წოვა: ჩვილი საკუთარ თავს ობიექტისგან ვერ ანსხვავებს; ობიექტის გარეშე, ამბივალენტობის გარეშე.'],
+  ['გვიანი ორალური სტადია','კბენა, „სადისტური კანიბალიზმი“: ობიექტის ინკორპორაცია მის გასანადგურებლად; ჩნდება ამბივალენტობა.'],
+  ['ანალურ-ექსპულსიური სტადია','მტრული გამოდევნა; მოგვიანებით — სადიზმი.'],
+  ['ანალურ-რეტენციური სტადია','კონტროლი და შეკავება; ობსესიებისა და კომპულსიების ხასიათობრივი საფუძველი.'],
+  ['ფალური სტადია (აბრაჰამი)','პირველი გენიტალური საფეხური; ობიექტ-სიყვარული უფრო მკაფიოდ ჩნდება.'],
+  ['ზრდასრული გენიტალური სტადია','პოსტამბივალენტური ობიექტ-სიყვარული — ფიქსაციების გადალახვის შემდეგ.'],
+  ['ორალური ხასიათი','განებივრება ან დეპრივაცია → ოპტიმიზმი, წურბელასებრი დამოკიდებულება, მოუთმენლობა, ლაყბობა, სარკაზმი, შური.'],
+  ['ანალური ხასიათი','სიჯიუტე, სიძუნწე, წესრიგის სიყვარული, გადავადება, ყოყმანი, ნივთების შეგროვება.'],
+  ['დეპრესია (აბრაჰამი)','გლოვის მსგავსი რეაქცია საყვარელი ობიექტის დაკარგვაზე; ორალურობა უდევს საფუძვლად ინკორპორაციას და ამბივალენტობას.'],
+  ['პირველადი დეპრესია','ბავშვის პასუხი მშობლების სიყვარულის ნაკლებობაზე; ზრდასრულის დეპრესია მისი განმეორებაა.'],
+  ['ლიბიდოს განრიდება','შიზოფრენიისას ლიბიდო გარე სამყაროდან Ego-ზე გადადის; ფროიდი მას ფსიქოზის თეორიის ქვაკუთხედს უწოდებდა.'],
+  ['მითი და სიზმარი','მითი — მოდგმის ბავშვობის ფსიქიკური ცხოვრების ფრაგმენტი; სიზმარი — ინდივიდის მითი.'],
+  ['მაკასტრირებელი ქალი','აბრაჰამის ცნება (1921): ქალის კასტრაციის კომპლექსის გამოვლინება.'],
+  ['სიმბოლოები (აბრაჰამი)','სახლი — დედის სიმბოლო, ობობა — საშიში (feared) დედის სიმბოლო.']
+ ],
+ bio:['1877 — დაიბადა ბრემენში','დისერტაცია — თუთიყუშების ანატომიური განვითარება','1901–1904 — ბერლინის ფსიქიატრიული საავადმყოფო (აფაზია, აპრაქსია)','1904 — ბიურგჰოლცლი, ბლეილერის ასისტენტი; გაიცნო იუნგი','1907 — პირველი ფსიქოანალიტიკური ნაშრომი; მეგობრობა ფროიდთან','1910 — ბერლინის ფსიქოანალიტიკური საზოგადოება','1924–1925 — საერთაშორისო ფსიქოანალიტიკური საზოგადოების პრეზიდენტი','ანალიზანტები: ჰ. დოიჩი, მ. კლაინი, შ. რადო, თ. რაიკი','გარდაიცვალა პნევმონიით (რიდერში — 1927; ზოგადად მიღებული თარიღი — 1925)'],
+ facts:[
+  ['რას ეხებოდა აბრაჰამის სადისერტაციო ნაშრომი?','თუთიყუშების ანატომიურ განვითარებას',['აფაზიას','ეგვიპტურ მონოთეიზმს','ისტერიას']],
+  ['რამდენ სტადიას გამოყოფს აბრაჰამი ლიბიდოს განვითარებაში?','6',['3','5','8']],
+  ['რომელი საზოგადოება დააარსა აბრაჰამმა 1910 წელს?','ბერლინის ფსიქოანალიტიკური საზოგადოება',['ვენის ფსიქოანალიტიკური საზოგადოება','უნგრეთის ფსიქოანალიტიკური საზოგადოება','ინდივიდუალური ფსიქოლოგიის საზოგადოება']],
+  ['აბრაჰამის მიხედვით რას ჰგავს დეპრესია?','გლოვას — საყვარელი ობიექტის დაკარგვაზე რეაქციას',['შიშს','რისხვას','დაბადების ტრავმას']],
+  ['ვინ იყვნენ აბრაჰამის ანალიზანტები?','ჰელენე დოიჩი, მელანი კლაინი, შანდორ რადო, თეოდორ რაიკი',['ანა ფროიდი, ერიკსონი, მალერი','ადლერი, იუნგი, შტეკელი','ფერბერნი, ვინიკოტი, კოჰუტი']],
+  ['როგორ განმარტავს აბრაჰამი მითს?','ადამიანის მოდგმის ბავშვობის ფსიქიკური ცხოვრების გადარჩენილი ფრაგმენტი',['ინდივიდის განდევნილი სურვილი','კოლექტიური არაცნობიერის არქეტიპი','დაბადების ტრავმის სიმბოლო']],
+  ['რომელ სტადიაზე ჩნდება ამბივალენტობა აბრაჰამის მიხედვით?','გვიან ორალურ (კბენის) სტადიაზე',['ადრეულ ორალურ სტადიაზე','ფალურ სტადიაზე','ზრდასრულ გენიტალურ სტადიაზე']]
+ ]},
+
+{id:'annafreud', name:'ანა ფროიდი', short:'ანა ფროიდი', mono:'აფ', years:'1895–1982', b:1895, d:1982, school:'ego', color:'#2B5EA7',
+ one:'ეგო ფსიქოლოგია, დაცვითი მექანიზმები, ბავშვთა ანალიზი',
+ essence:'ფსიქოანალიზის აქცენტი Id-ის მოთხოვნებიდან Ego-ს დაცვით მექანიზმებზე გადაიტანა (1936). მელანი კლაინთან ერთად — ბავშვთა ფსიქოანალიზის ფუძემდებელი; ბავშვის პრობლემები აწმყოშია და არა წარსულის მოგონებაში.',
+ question:'„როგორ იცავს თავს Ego?“',
+ hook:'„ფსიქოანალიზთან ერთად დავიბადე“ — დაიბადა 1895-ში, როცა ფროიდმა სიზმრებზე მუშაობა დაიწყო.',
+ sig:'დაცვითი მექანიზმები',
+ concepts:[
+  ['ეგო ფსიქოლოგია','მიმართულება, რომელიც Ego-ს ყოველდღიურ, პრაქტიკულ ასპექტებს იკვლევს; თვალსაჩინო წარმომადგენელი — ერიკსონი.'],
+  ['„მე და დაცვითი მექანიზმები“','1936 წლის ნაშრომი: 10 დაცვითი მექანიზმი; ყველას საერთო მიზანი — Ego-ს დაცვა Id-ის მოთხოვნებისგან.'],
+  ['Ego — დაკვირვების ადგილი','„seat of observation“: მისი მეშვეობით ვაკვირდებით Id-სა და Super-Ego-ს მუშაობას.'],
+  ['თერაპევტი — მზრუნველი მშობელი','ბავშვთა ანალიზში თერაპევტი არც მშობლის შემცვლელია და არც მეგობარი (დღეს — ავტორიტარულ მიდგომად აღიქმება).'],
+  ['ბავშვის სიმბოლიზაცია','ბავშვს სიმბოლიზაცია და დაცვები სუსტად აქვს განვითარებული — პრობლემები ცნობიერებასთან ახლოს, ქცევაში ვლინდება.'],
+  ['დიაგნოსტიკური პროფილი','ბავშვთა დიაგნოსტიკური პროფილების სტანდარტიზაცია და ხანგრძლივი კვლევები.'],
+  ['ბუნებრივი ექსპერიმენტები','მსგავსი პრობლემის მქონე ბავშვთა ჯგუფების კვლევა: სიბრმავე, ადრეული ტრავმა, ომით დაობლება.'],
+  ['ჰემპსტედის თავშესაფარი','1941, დოროთი ბერლინგემთან ერთად — ომით დაობლებული ბავშვების დახმარება.']
+ ],
+ bio:['1895 — დაიბადა ვენაში, ფროიდის მე-6, უმცროსი შვილი','ბავშვობა — მეტოქეობა დასთან, სოფისთან; დეპრესია და ანორექსია','5 წელი მასწავლებლად ვენის დაწყებით სკოლაში; ანალიზი მამასთან','1922 — „ფანტაზიები და დღის ოცნებები“','1925–1938 — ვენის ფსიქოანალიტიკური საზოგადოების თავმჯდომარე','1927 — „შესავალი ბავშვთა ფსიქოანალიზში“','1936 — „მე და დაცვითი მექანიზმები“','1938 — გესტაპოს დაკითხვა, ემიგრაცია ლონდონში','1941–1945 — ჰემპსტედის თავშესაფარი','1952 — ჰემპსტედის ბავშვთა თერაპიის კლინიკა','1982 — გარდაიცვალა'],
+ facts:[
+  ['როდის გამოიცა „მე და დაცვითი მექანიზმები“?','1936',['1927','1923','1942']],
+  ['რამდენი დაცვითი მექანიზმი აღწერა ანა ფროიდმა ამ წიგნში?','10',['5','20','7']],
+  ['ვისთან ერთად გახსნა ანა ფროიდმა ჰემპსტედის თავშესაფარი?','დოროთი ბერლინგემთან',['მელანი კლაინთან','ჰელენე დოიჩთან','მარგარეტ მალერთან']],
+  ['როგორ უწოდებდა ანა ფროიდი Ego-ს?','დაკვირვების ადგილი (seat of observation)',['ფსიქიკის მძღოლი','შინაგანი დივერსანტი','ცრუ მე']],
+  ['რა როლი აქვს თერაპევტს ბავშვთა ანალიზში ანა ფროიდის მიხედვით?','მზრუნველი მშობლის',['მეგობრის','ნეიტრალური ეკრანის','თანატოლის']],
+  ['ვინ ჩაუტარა ანალიზი ერიკ ერიკსონს?','ანა ფროიდმა',['ზიგმუნდ ფროიდმა','მელანი კლაინმა','კარენ ჰორნიმ']],
+  ['რომელ წლებში იყო ანა ფროიდი ვენის ფსიქოანალიტიკური საზოგადოების თავმჯდომარე?','1925–1938',['1910–1920','1938–1945','1945–1960']],
+  ['რომელი ნაშრომები გამოაქვეყნა ანა ფროიდმა ომის პერიოდის კვლევებზე?','„პატარა ბავშვები ომიანობის დროს“, „ოჯახს მოკლებული ბავშვები“, „ომი და ბავშვები“',['„ბავშვობა და საზოგადოება“, „განდის ჭეშმარიტება“','„ხასიათის ანალიზი“, „ორგაზმის ფუნქცია“','„თალასა“, „ენების აღრევა“']]
+ ]},
+
+{id:'erikson', name:'ერიკ ერიკსონი', short:'ერიკსონი', mono:'ეე', years:'1902–1994', b:1902, d:1994, school:'ego', color:'#3B74C4',
+ one:'8 ფსიქოსოციალური სტადია, იდენტობის კრიზისი',
+ essence:'განვითარება მთელი სიცოცხლე გრძელდება და 8 ფსიქოსოციალურ კრიზისს გადის. თითოეულის წარმატებული გადალახვა ბაზისურ სათნოებას აძლევს, რომელიც Ego-ს აძლიერებს. კონფლიქტი Ego-ს შიგნითაა და საზოგადოებას უკავშირდება.',
+ question:'„ვინ ვარ და საით მივდივარ?“',
+ hook:'სათნოებები თანმიმდევრობით: იმედი, ნებისყოფა, მიზანდასახულობა, კომპეტენტურობა, ერთგულება, სიყვარული, ზრუნვა, სიბრძნე.',
+ sig:'იდენტობის კრიზისი',
+ concepts:[
+  ['ფსიქოსოციალური სტადიები','ფსიქოსექსუალურის ნაცვლად: ფსიქოლოგიური მოთხოვნილებები (ფსიქო) კონფლიქტშია საზოგადოების მოთხოვნებთან (სოციალური).'],
+  ['ბაზისური სათნოება','კრიზისის წარმატებული გადალახვის შედეგი; აძლიერებს Ego-ს მომავალი კრიზისებისთვის.'],
+  ['კონფლიქტი Ego-ს ფარგლებში','ერიკსონთან კონფლიქტი Ego-ს შიგნით ხდება და არა Id-სა და Super-Ego-ს შორის.'],
+  ['ეპიგენეტიკური აგებულება','ყოველი ეტაპი წინაზეა დაშენებული; გადაუწყვეტელი პრობლემა მოგვიანებით ხელახლა დგება.'],
+  ['იდენტობის კრიზისი','მე-5 სტადია (12–18): იდენტობა vs როლების აღრევა; სათნოება — ერთგულება; სოციუმში — იდეოლოგია.']
+ ],
+ bio:['1902 — დაიბადა ფრანკფურტში; ბიოლოგიური მამა — უცნობი დანიელი','ბავშვობაში — ერიკ ჰომბურგერი (მამინაცვალი პედიატრი თეოდორ ჰომბურგერი)','ებრაულ სკოლაში დასცინოდნენ ნორდიული გარეგნობის გამო, სხვაგან — ებრაელობის გამო','25 წლამდე — მხატვარი და მოგზაური','ვენის ფსიქოანალიტიკური სერტიფიკატი; ანალიზი ანა ფროიდთან','ბოსტონის პირველი ბავშვთა ფსიქოანალიტიკოსი; ჰარვარდი, იელი, ბერკლი','კვლევები ლაკოტისა და იუროკის ტომებში','მოქალაქეობის შემდეგ — ერიკსონი („ერიკის შვილი“, self-made man)','1950 — „ბავშვობა და საზოგადოება“','„განდის ჭეშმარიტება“ — პულიცერის პრემია','მაკარტიზმისას ერთგულების ფიცზე უარი, ტოვებს ბერკლის','1994 — გარდაიცვალა'],
+ facts:[
+  ['რამდენი სტადიისგან შედგება ერიკსონის ფსიქოსოციალური განვითარება?','8',['5','6','7']],
+  ['რომელი სტადიის მთავარი კითხვაა „ვინ ვარ და საით მივდივარ?“','იდენტობა vs როლების აღრევა',['ინიციატივა vs დანაშაული','ინტიმურობა vs იზოლაცია','ინტეგრულობა vs სასოწარკვეთა']],
+  ['რომელი წიგნისთვის მიიღო ერიკსონმა პულიცერის პრემია?','„განდის ჭეშმარიტება“',['„ბავშვობა და საზოგადოება“','„იდენტობა: ახალგაზრდობა და კრიზისი“','„მე და დაცვითი მექანიზმები“']],
+  ['რომელ ინდიელ ტომებს იკვლევდა ერიკსონი?','ლაკოტა და იუროკი',['ნავახო და ჰოპი','ჩეროკი და აპაჩი','ირუკეზები და მოჰიკანები']],
+  ['რა იყო ერიკსონის თავდაპირველი გვარი?','ჰომბურგერი',['აბრაჰამსენი','როზენფელდი','შონბერგი']],
+  ['სად ხედავდა ერიკსონი კონფლიქტს, ფროიდისგან განსხვავებით?','Ego-ს ფარგლებში',['მხოლოდ Id-ში','საზოგადოებასა და ბიოლოგიას შორის','მხოლოდ Super-Ego-ში']],
+  ['რომელი სათნოება მიიღწევა მე-7 სტადიაზე (გენერაციულობა vs სტაგნაცია)?','ზრუნვა',['სიბრძნე','სიყვარული','ერთგულება']],
+  ['რამდენი სტადია მოიცავს 18 წლამდე ასაკს?','5',['3','4','6']]
+ ]},
+
+{id:'mahler', name:'მარგარეტ მალერი', short:'მალერი', mono:'მმ', years:'1897–1985', b:1897, d:1985, school:'ego', color:'#4C5FB0',
+ one:'სეპარაცია-ინდივიდუაცია, „ფსიქოლოგიური დაბადება“',
+ essence:'ჩვილი ბიოლოგიურად ერთხელ იბადება, ფსიქოლოგიურად — მეორედ: სიმბიოზიდან სეპარაცია-ინდივიდუაციის გზით, ობიექტის მუდმივობამდე. დედისგან ადრეული სეპარაცია ბავშვისთვის მავნეა.',
+ question:'„როგორ გამოდის ჩვილი სიმბიოზის ნაჭუჭიდან?“',
+ hook:'ქვეფაზები ქათმის მეტაფორით: გამოჩეკვა → პრაქტიკა (სიარული) → დაახლოება (დედასთან დაბრუნება) → ობიექტის მუდმივობა.',
+ sig:'სეპარაცია-ინდივიდუაცია',
+ concepts:[
+  ['ნორმალური აუტისტური ფაზა','პირველი კვირები: ჩვილი დედისგან განცალკევებული, ძირითადად სძინავს; მოგვიანებით მალერმა ეს ფაზა უარყო.'],
+  ['ნორმალური სიმბიოზური ფაზა','~5–6 თვემდე: ბავშვი აცნობიერებს დედას, მაგრამ ინდივიდუალობის განცდა არ აქვს — დედა-ჩვილი ერთი მთელია.'],
+  ['სეპარაცია-ინდივიდუაცია','სეპარაცია — დედისგან დიფერენცირება და საზღვრები; ინდივიდუაცია — Ego-ს, იდენტობისა და კოგნიციის განვითარება.'],
+  ['გამოჩეკვა (დიფერენციაცია)','ბავშვი აცნობიერებს განსხვავებას მასა და დედას შორის; მომატებული სიფხიზლე; დედა — საორიენტაციო წერტილი.'],
+  ['პრაქტიკის ქვეფაზა','9–16 თვე: ხოხვა და სიარული, გარემოს აქტიური კვლევა; თავს ჯერ კიდევ დედასთან ერთიანობაში აღიქვამს.'],
+  ['დაახლოების ქვეფაზა','15–24 თვე: ბავშვი ისევ უახლოვდება დედას; რისკი — დედის მოუთმენლობა → მიტოვების შიში. ქვეფაზები: დასაწყისი, კრიზისი, გადაწყვეტა.'],
+  ['ობიექტის მუდმივობა (მალერი)','დედა — განცალკევებული ინდივიდია; შინაგანი ხატი იძლევა კომფორტს. მალერთან — სიყვარულისა და სიძულვილის ერთ ობიექტში დატევა.']
+ ],
+ bio:['1897 — დაიბადა სოპრონში (უნგრეთი)','ბუდაპეშტში გაიცნო შ. ფერენცი','მიუნხენი → იენის უნივერსიტეტი (cum laude) → ვენა; პედიატრიიდან ფსიქიატრიაში','1926 — ტრენინგი ჰელენე დოიჩთან','1936 — ცოლად გაჰყვა პოლ მალერს; ემიგრაცია ბრიტანეთში, შემდეგ აშშ-ში','1950 — მანჰეტენის ბავშვთა ცენტრი: მკურნალობის სამნაწილიანი მოდელი დედის მონაწილეობით','„ადამიანის ჩვილის ფსიქოლოგიური დაბადება“ — ფ. პაინთან და ა. ბერგმანთან','1985 — გარდაიცვალა'],
+ facts:[
+  ['მალერის მთავარი წვლილი ფსიქოანალიზში','სეპარაცია-ინდივიდუაციის თეორია',['თამაშის ტექნიკა','დაბადების ტრავმა','ბაზისური შფოთი']],
+  ['ვისთან გაიარა მალერმა ფსიქოანალიტიკური ტრენინგი?','ჰელენე დოიჩთან',['ანა ფროიდთან','შანდორ ფერენცთან','მელანი კლაინთან']],
+  ['რომელი ფაზა უარყო მალერმა მოგვიანებით?','ნორმალური აუტისტური ფაზა',['სიმბიოზური ფაზა','დაახლოების ქვეფაზა','ობიექტის მუდმივობა']],
+  ['რა ასაკს მოიცავს დაახლოების ქვეფაზა?','15–24 თვე',['9–16 თვე','0–5 თვე','3–5 წელი']],
+  ['რა რისკია დაახლოების ქვეფაზაში?','დედის მოუთმენლობა და მიუწვდომლობა → მიტოვების შიში',['ზედმეტი სიახლოვე → აუტიზმი','მამის არყოფნა → ოიდიპოსური ფიქსაცია','ადრეული მოცილება ძუძუსგან → ორალური ხასიათი']],
+  ['რა ასაკს მოიცავს პრაქტიკის ქვეფაზა?','9–16 თვე',['15–24 თვე','0–1 თვე','2–5 თვე']]
+ ]},
+
+{id:'klein', name:'მელანი კლაინი', short:'კლაინი', mono:'მკ', years:'1882–1960', b:1882, d:1960, school:'object', color:'#A4661C',
+ one:'პარანოიდულ-შიზოიდური და დეპრესიული პოზიციები',
+ essence:'ბავშვის ფსიქიკა ადრეული ფანტაზიებით, შფოთითა და აგრესიით არის სავსე. Super-Ego და ოიდიპოსი უფრო ადრე ყალიბდება. ბავშვი ურთიერთობს არა რეალურ, არამედ შინაგან, ფანტასტიკურ მშობლებთან.',
+ question:'„ვის ვხედავ შიგნით?“ — შინაგანი ობიექტები და ფანტაზიები.',
+ hook:'კლაინთან დეპრესიული პოზიცია ასრულებს იმ როლს, რასაც ფროიდთან ოიდიპოსის კომპლექსი.',
+ sig:'დეპრესიული პოზიცია',
+ concepts:[
+  ['პარანოიდულ-შიზოიდური პოზიცია','ჩვილის პირველი მცდელობა, დაეუფლოს დესტრუქციულ, სიკვდილის ინსტინქტს; დეპრესიულს წინ უსწრებს.'],
+  ['დეპრესიული პოზიცია','ბავშვი აცნობიერებს, რომ სიყვარულიც და სიძულვილიც ერთ ობიექტს — დედას ეხება; ცდილობს დედის დაცვას და „ზიანის“ გამოსწორებას.'],
+  ['პოზიცია (კლაინი)','არა ფაზა, არამედ ობიექტ-ურთიერთობის სპეციფიკური ფორმა.'],
+  ['შინაგანი მშობლები','ბავშვის ანალიზისას ვხედავთ ურთიერთობას ინტერნალიზებულ, ფანტასტიკურ ფიგურებთან და არა რეალურ მშობლებთან.'],
+  ['ადრეული Super-Ego','Super-Ego უფრო ადრე იწყებს ჩამოყალიბებას; არსებობს Ego-სა და ოიდიპოსის ადრეული ფორმები.'],
+  ['პროექცია და ინტროექცია (კლაინი)','ადრეულ ბავშვობაში სხვა დაცვებზე ჭარბობს; Ego-ს განვითარება — ობიექტების განუწყვეტელი ინტროექცია და პროექცია.'],
+  ['თამაშის ტექნიკა','გადატანის ჩამოსაყალიბებლად: ხატვა, ძერწვა, კონსტრუირება.'],
+  ['ნევროზის მიზეზი (კლაინი)','1 წლამდე დეპრესიული პოზიცია ვერ გადაილახა.']
+ ],
+ bio:['1882 — დაიბადა ვენაში','ანალიზი კარლ აბრაჰამთან (ბერლინი)','ბავშვთა ფსიქოანალიზის ერთ-ერთი ფუძემდებელი (ანა ფროიდთან ერთად)','1925 — რანკმა უსაყვედურა, რომ პრეოიდიპოსურ Super-Ego-ზე მისი სახელი არ ახსენა','1960 — გარდაიცვალა (რიდერში შეცდომით „1982–1960“)'],
+ facts:[
+  ['კლაინის თეორიაში რა ასრულებს იმ როლს, რასაც კლასიკურ თეორიაში ოიდიპოსის კომპლექსი?','დეპრესიული პოზიცია',['პარანოიდულ-შიზოიდური პოზიცია','გახლეჩა','შინაგანი მშობლები']],
+  ['რა ხდება დეპრესიულ პოზიციაში?','ბავშვი აცნობიერებს, რომ სიყვარულიც და სიძულვილიც ერთ ობიექტს — დედას ეხება',['ბავშვი პირველად ცდილობს სიკვდილის ინსტინქტის დაუფლებას','ბავშვი დედისგან სრულად განცალკევდება','ბავშვი მამასთან იდენტიფიცირდება']],
+  ['რომელი დაცვები ჭარბობს ადრეულ ბავშვობაში კლაინის მიხედვით?','პროექცია და ინტროექცია',['რეპრესია და სუბლიმაცია','რაციონალიზაცია და ინტელექტუალიზაცია','უარყოფა და იზოლაცია']],
+  ['რა შემოიღო კლაინმა ბავშვთა ანალიზში გადატანის ჩამოსაყალიბებლად?','თამაში — ხატვა, ძერწვა, კონსტრუირება',['ჰიპნოზი','წერილობითი კითხვარი','ასოციაციური ექსპერიმენტი']],
+  ['ნევროზის მიზეზი კლაინის მიხედვით','1 წლამდე დეპრესიული პოზიცია ვერ გადაილახა',['დაბადების ტრავმა','ორგანოს არასრულფასოვნება','ოიდიპოსის კომპლექსი ფალურ ფაზაში']],
+  ['ვისთან გაიარა კლაინმა ანალიზი?','კარლ აბრაჰამთან',['ზიგმუნდ ფროიდთან','კარლ იუნგთან','ოტო რანკთან']]
+ ]},
+
+{id:'fairbairn', name:'უილიამ ფერბერნი', short:'ფერბერნი', mono:'უფ', years:'1889–1964', b:1889, d:1964, school:'object', color:'#8C6A2A',
+ one:'ობიექტის მაძიებელი ლიბიდო, შინაგანი დივერსანტი',
+ essence:'ბავშვი ეძებს არა სიამოვნებას, არამედ ობიექტს — სხვას. ენერგია და სტრუქტურა განუყოფელია (დინამიკური სტრუქტურა). ბავშვი პრიმიტიული, მაგრამ მთლიანი, ფსიქოსომატური არსებაა.',
+ question:'„ვის ვეძებ?“ — და არა „რა მსიამოვნებს?“',
+ hook:'5 ნაწილი: ცენტრალური ეგო, ლიბიდოზური ეგო, შინაგანი დივერსანტი + უარმყოფელი და მიმზიდველი ობიექტი.',
+ sig:'შინაგანი დივერსანტი',
+ concepts:[
+  ['ობიექტის ძიება','კლაინის მსგავსად: ბავშვი მიისწრაფვის ობიექტისკენ და არა სიამოვნებისკენ.'],
+  ['დინამიკური სტრუქტურა','ენერგია და სტრუქტურა განცალკევებული არ არის — ფროიდის კრიტიკა.'],
+  ['ინფანტილური მთლიანობა','ბავშვი იწყებს ცხოვრებას, როგორც პრიმიტიული, მაგრამ გამთლიანებული არსება — კლაინზე პოზიტიური ხედვა.'],
+  ['ფერბერნის 3 საფეხური','ინფანტილური დამოკიდებულება → გარდამავალი (კვაზი-დამოუკიდებლობა) → ზრდასრული დამოკიდებულება (გაცემა).'],
+  ['ობიექტის დიქოტომია','ერთი ობიექტის ნაცვლად ორი: მიღებული (საყვარელი) და უარყოფილი (საძულველი).'],
+  ['შინაგანი დივერსანტი','აგრესიული, პერსეკუტორული ეგო — პიროვნების სტრუქტურის ნაწილი.'],
+  ['ლიბიდოზური ეგო','უფრო ინფანტილური, ნაკლებად ორგანიზებული და რეალობასთან ნაკლებად დაკავშირებული, ვიდრე ცენტრალური ეგო.'],
+  ['შიზოიდური მდგომარეობა','მისი მახასიათებელია უაზრობა, ამაოება (futility).']
+ ],
+ bio:['1889 — დაიბადა ედინბურგში','სწავლობდა თეოლოგიას და ბერძნულს; პირველი მსოფლიო ომის მონაწილე','კერძო პრაქტიკა და ლექციები ედინბურგის უნივერსიტეტში','1964 — გარდაიცვალა'],
+ facts:[
+  ['რისკენ მიისწრაფვის ბავშვი ფერბერნის მიხედვით?','ობიექტისკენ',['სიამოვნებისკენ','ძალაუფლებისკენ','საშვილოსნოში დაბრუნებისკენ']],
+  ['პიროვნების სტრუქტურა ფერბერნთან','ცენტრალური ეგო, ლიბიდოზური ეგო, შინაგანი დივერსანტი, უარმყოფელი და მიმზიდველი ობიექტი',['Id, Ego, Super-Ego','პერსონა, აჩრდილი, ანიმა, თვითობა','ჭეშმარიტი მე და ცრუ მე']],
+  ['რა ახასიათებს შიზოიდურ მდგომარეობას ფერბერნის მიხედვით?','უაზრობა, ამაოება (futility)',['მანიაკური ტრიუმფი','შფოთის სიჭარბე','დანაშაულის განცდა']]
+ ]},
+
+{id:'winnicott', name:'დონალდ ვინიკოტი', short:'ვინიკოტი', mono:'დვ', years:'1896–1971', b:1896, d:1971, school:'object', color:'#B27A28',
+ one:'საკმარისად კარგი დედა, ჭეშმარიტი და ცრუ მე',
+ essence:'ბრიტანელი პედიატრი: დედა-ბავშვის ურთიერთობა გადამწყვეტია. საკმარისად კარგი ზრუნვა ჭეშმარიტ მეს ავითარებს; მისი ნაკლებობა — კონფორმულობაზე აგებულ ცრუ მეს.',
+ question:'„საკმარისად კარგია თუ არა გარემო?“',
+ hook:'გარდამავალი ობიექტი (დათუნია, საბანი) — პირველი „არა-მე“ საკუთრება, რომელიც განშორების სტრესს ამცირებს.',
+ sig:'გარდამავალი ობიექტი',
+ concepts:[
+  ['ჰოლდინგი','აქტიური ფიზიკური დაჭერა და ზრუნვა — ფსიქოლოგიურიც და ფიზიკურიც.'],
+  ['მშობლიური ზრუნვის 3 საფეხური','ჰოლდინგი → დედისა და ჩვილის თანაცხოვრება → მამის, დედისა და ჩვილის თანაცხოვრება.'],
+  ['საკმარისად კარგი ზრუნვა','good enough care; მასთან ერთად — საკმარისად კარგი, საშუალო მოსალოდნელი და მხარდამჭერი გარემო.'],
+  ['ჭეშმარიტი მე','True self — ბავშვის შემოქმედებითი, სპონტანური და რეალური მხარე.'],
+  ['ცრუ მე','False self — კონფორმულობაზე აგებული; ყალიბდება, როცა საკმარისად კარგი ზრუნვა არ არის.'],
+  ['გარდამავალი ობიექტი','პირველი „არა-მე“ საკუთრება (თოჯინა); ხელშესახები, ამცირებს სეპარაციის სტრესს.'],
+  ['გარდამავალი ფენომენები','განმეორებითი ქცევები, სტერეოტიპული მოძრაობები, ფანტაზიები — გარდამავალი ობიექტის ფუნქციით.']
+ ],
+ bio:['1896 — დაიბადა ინგლისში','ბრიტანელი პედიატრი; მრავალი დედა-ბავშვის ურთიერთობის მკვლევარი','1971 — გარდაიცვალა'],
+ facts:[
+  ['ვინ იყო ვინიკოტი პროფესიით?','ბრიტანელი პედიატრი',['ავსტრიელი ნევროლოგი','ამერიკელი სოციოლოგი','უნგრელი გენეტიკოსი']],
+  ['რა ყალიბდება, როცა ბავშვი საკმარისად კარგ ზრუნვას მოკლებულია?','ცრუ მე',['ჭეშმარიტი მე','შინაგანი დივერსანტი','აჩრდილი']],
+  ['რა არის გარდამავალი ობიექტი?','პირველი „არა-მე“ საკუთრება, რომელიც სეპარაციის სტრესს ამცირებს',['ობიექტი, რომელსაც ბავშვი ნაწილად აღიქვამს','დედის შინაგანი ხატი','ანალიტიკოსი ტრანსფერში']]
+ ]},
+
+{id:'kernberg', name:'ოტო კერნბერგი', short:'კერნბერგი', mono:'ოკ', years:'დ. 1928', b:1928, d:null, school:'object', color:'#946036',
+ one:'მოსაზღვრე ორგანიზაცია, TFP, ნარცისიზმი',
+ essence:'ეგო ფსიქოლოგიისა და ობიექტ-ურთიერთობების (კლაინი) ინტეგრაცია. მოსაზღვრე პიროვნება ვერ ახერხებს „კარგისა“ და „ცუდის“ ერთ ობიექტში გაერთიანებას — გახლეჩა რჩება. თერაპია: ტრანსფერზე ფოკუსირებული ფსიქოთერაპია.',
+ question:'„შემიძლია ერთ ადამიანში კარგიც და ცუდიც დავინახო?“',
+ hook:'ორი ამოცანა, ორი რისკი: „მე / სხვა“ ვერ გავარჩიე → ფსიქოზი; გახლეჩა ვერ გადავლახე → მოსაზღვრე აშლილობა.',
+ sig:'ტრანსფერზე ფოკუსირებული თერაპია',
+ concepts:[
+  ['განვითარების პირველი ამოცანა','მე-სა და სხვის გარჩევა; შეუსრულებლობა — ფსიქოზის რისკი.'],
+  ['განვითარების მეორე ამოცანა','გახლეჩის გადალახვა — ობიექტისა და მე-ს აღქმა როგორც კარგისაც და ცუდისაც; შეუსრულებლობა — მოსაზღვრე პათოლოგია.'],
+  ['ლტოლვები (კერნბერგი)','თანდაყოლილი არ არის: ყალიბდება სხვებთან „კარგი“ და „ცუდი“ ინტერაქციების გამოცდილებით.'],
+  ['ობიექტ-ურთიერთობის დიადა','მე-სა და სხვის ნაწილობრივი წარმოდგენები, აფექტით შეკრული — ფსიქიკური სტრუქტურის ერთეული.'],
+  ['ტრანსფერზე ფოკუსირებული თერაპია','TFP: მოსაზღვრე ორგანიზაციისთვის; კვირაში მინიმუმ 2-ჯერ, 45–50 წუთი; კონტრაქტით იწყება.'],
+  ['იდენტობის დიფუზია','დაცვა წინააღმდეგობრივი ინტერნალიზებული ობიექტ-ურთიერთობების წინააღმდეგ; არღვევს ურთიერთობებს.'],
+  ['პრიმიტიული დაცვები','გახლეჩა, უარყოფა, პროექციული იდენტიფიკაცია, პრიმიტიული იდეალიზაცია/დამცირება, ყოვლისშემძლეობა.'],
+  ['TFP ტექნიკები','კონფრონტაცია, კლარიფიკაცია, ინტერპრეტაცია — ტრანსფერულ ურთიერთობაში.'],
+  ['ნარცისიზმის 3 ტიპი','ნორმალური ზრდასრული, ნორმალური ინფანტილური, პათოლოგიური.'],
+  ['პათოლოგიური ნარცისიზმის 3 ქვეტიპი','ინფანტილური თვითშეფასების რეგულაციაზე რეგრესი (მსუბუქი) → ობიექტის ნარცისული არჩევა → ნარცისული პიროვნების აშლილობა (მძიმე).'],
+  ['ნორმალური ნარცისიზმი (კერნბერგი)','მე-ს ლიბიდოზური ინვესტირება, რომელიც მომდინარეობს ურთიერთობებიდან და არა ინსტინქტური წყაროდან.']
+ ],
+ bio:['1928 — დაიბადა ვენაში','1939 — ოჯახი ნაცისტებს გაექცა ჩილეში; იქ — მედიცინა, ფსიქიატრია, ფსიქოანალიზი','1961 — აშშ, მენინგერის კლინიკა (შემდეგ დირექტორი)','1973 — ნიუ-იორკი; 1974 — კოლუმბიის უნივერსიტეტის პროფესორი','1976 — კორნელის უნივერსიტეტი, პიროვნების აშლილობების ინსტიტუტი','1997–2001 — საერთაშორისო ფსიქოანალიტიკური ასოციაციის პრეზიდენტი'],
+ facts:[
+  ['რომელ პაციენტებთან მუშაობდა ძირითადად კერნბერგი?','მოსაზღვრე პიროვნული ორგანიზაციის მქონე',['ისტერიულ პაციენტებთან','მხოლოდ ბავშვებთან','ფსიქოსომატურ პაციენტებთან']],
+  ['TFP-ის სიხშირე და სეანსის ხანგრძლივობა','კვირაში მინიმუმ 2-ჯერ, 45–50 წუთი',['კვირაში 1-ჯერ, 10–12 სეანსი','ყოველდღე, 90 წუთი','თვეში 2-ჯერ, 30 წუთი']],
+  ['რას იწვევს პირველი ამოცანის (მე / სხვა) შეუსრულებლობა?','ფსიქოზის რისკს',['მოსაზღვრე აშლილობას','ნევროზს','ნარცისიზმს']],
+  ['რას იწვევს მეორე ამოცანის (გახლეჩის გადალახვის) შეუსრულებლობა?','მოსაზღვრე პიროვნული აშლილობის რისკს',['ფსიქოზს','შფოთვის ნევროზს','დეპრესიას']],
+  ['არიან თუ არა ლტოლვები თანდაყოლილი კერნბერგის მიხედვით?','არა — ყალიბდება ინტერაქციის გამოცდილებით',['კი, ფროიდის მსგავსად','მხოლოდ აგრესიული ლტოლვაა თანდაყოლილი','მხოლოდ ლიბიდოა თანდაყოლილი']],
+  ['ვისთან ჰქონდა კერნბერგს მთავარი უთანხმოება ნარცისიზმზე?','ჰაინც კოჰუტთან',['მელანი კლაინთან','მარგარეტ მალერთან','ოტო რანკთან']],
+  ['რომელ ქვეყანაში მიიღო კერნბერგმა განათლება?','ჩილეში',['ავსტრიაში','არგენტინაში','შვეიცარიაში']],
+  ['პათოლოგიური ნარცისიზმის ყველაზე მსუბუქი ფორმა','ინფანტილური თვითშეფასების რეგულაციაზე რეგრესი',['ნარცისული პიროვნების აშლილობა','ობიექტის ნარცისული არჩევა','ნორმალური ინფანტილური ნარცისიზმი']]
+ ]},
+
+{id:'sullivan', name:'ჰარი სტეკ სალივენი', short:'სალივენი', mono:'ჰს', years:'1892–1949', b:1892, d:1949, school:'neo', color:'#5C7F3C',
+ one:'ინტერპერსონალური ფსიქიატრია, პარატაქსისი',
+ essence:'პიროვნება მხოლოდ ინტერპერსონალურ ველში არსებობს: ანალიზის ერთეული ინტერპერსონალური სიტუაციაა. ადამიანს ორი მოთხოვნილება აქვს — დაკმაყოფილება და უსაფრთხოება; ქცევის დარღვევა გაზრდილ შფოთზე პასუხია.',
+ question:'„რა ხდება ჩვენს შორის?“',
+ hook:'„პრო-პარა-სინ“: პროტოტაქსისი (ნაკადი), პარატაქსისი (შემთხვევითი კავშირები, ცრურწმენა), სინტაქსისი (ენა და ლოგიკა).',
+ sig:'პარატაქსისი',
+ concepts:[
+  ['ინტერპერსონალური ფსიქიატრია','ფსიქიატრია, როგორც მოძღვრება ინტერპერსონალურ ურთიერთობებზე (1934); სოციალური ფსიქიატრიაც ჰქვია.'],
+  ['პერსონიფიკაცია','საკუთარი თავისა და სხვების გამთლიანებული ხატები; შფოთის შესამცირებლად იქმნება.'],
+  ['დინამიზმი','ენერგიის გარდაქმნის მინიმალური ერთეული: მოძრაობა, აზრი, გრძნობა, ხატი.'],
+  ['ეგო-სისტემა (სელფ-სისტემა)','დაცვითი დინამიზმი, რომელიც შფოთს ამცირებს; შეუსაბამო ინფორმაციას გამორიცხავს.'],
+  ['დაკმაყოფილება და უსაფრთხოება','ორი ძირითადი მოთხოვნილება: ბიოლოგიური (ალერსი, სინაზე) და ინტერპერსონალური (უსაფრთხოება).'],
+  ['შერჩევითი ყურადღება','შფოთის გადალახვის მთავარი საშუალება: შფოთის გამომწვევი ინფორმაციის უგულებელყოფა.'],
+  ['პროტოტაქსისი','გამოცალკევებული შეგრძნებების, ემოციების და ხატების ნაკადი; ბავშვობა, სიზმარი.'],
+  ['პარატაქსისი','მოვლენებს შორის შემთხვევითი, ზედაპირული კავშირები; ცრურწმენების საფუძველი.'],
+  ['სინტაქსისი','სიმბოლურ აქტივობასა და ენაზე დაფუძნებული, ლოგიკური, საყოველთაოდ გაზიარებული გამოცდილება.'],
+  ['შფოთი (სალივენი)','ბავშვს დედისგან გადაეცემა; ბიოლოგიური საფრთხე იწვევს შიშს, უსაფრთხოების საფრთხე — შფოთს.']
+ ],
+ bio:['1892 — დაიბადა აშშ-ში','1934 — ინტერპერსონალური კონცეფციის ძირითადი პრინციპები','კვლევის მეთოდები: საუბარი, დაკვირვება, სტრუქტურირებული ინტერვიუ','მოწაფე ფრიდა ფრომ-რაიხმანმა შექმნა ინტენსიური ფსიქოთერაპია','1949 — გარდაიცვალა'],
+ facts:[
+  ['გამოცდილების 3 ფორმა სალივენთან','პროტოტაქსისი, პარატაქსისი, სინტაქსისი',['ორალური, ანალური, გენიტალური','ჰოლდინგი, თანაცხოვრება, სამეული','კათარზისი, ტრანსფერი, ტრანსფორმაცია']],
+  ['რაზეა დაფუძნებული ცრურწმენები სალივენის მიხედვით?','პარატაქსისზე',['პროტოტაქსისზე','სინტაქსისზე','სელფ-სისტემაზე']],
+  ['სალივენის ორი ძირითადი მოთხოვნილება','დაკმაყოფილება და უსაფრთხოება',['ძალაუფლება და სიყვარული','ლიბიდო და აგრესია','იდენტობა და ინტიმურობა']],
+  ['შფოთის გადალახვის მთავარი საშუალება სალივენთან','შერჩევითი ყურადღება',['სუბლიმაცია','რაციონალიზაცია','პროექცია']],
+  ['ვინ ჩამოაყალიბა ინტენსიური ფსიქოთერაპია სალივენის იდეებზე?','ფრიდა ფრომ-რაიხმანმა',['კარენ ჰორნიმ','ერიხ ფრომმა','ანა ფროიდმა']],
+  ['რა არის მეცნიერული ანალიზის ერთეული სალივენისთვის?','ინტერპერსონალური სიტუაცია',['ინდივიდის ფსიქიკა','ოჯახური კონსტელაცია','არქეტიპი']]
+ ]},
+
+{id:'horney', name:'კარენ ჰორნი', short:'ჰორნი', mono:'კჰ', years:'1885–1952', b:1885, d:1952, school:'neo', color:'#4B7629',
+ one:'ბაზისური შფოთი, სამი ორიენტაცია, მოვალეობის ტირანია',
+ essence:'ყველა ადამიანს შეუძლია გახდეს ის, რაც სურს, თუ გარემო ზრდას არ ბლოკავს. მტრულ გარემოში ბავშვს უჩნდება ბაზისური შფოთი — კულტურისა და აღზრდის და არა მემკვიდრეობის პროდუქტი. ნევროზი მისი დაძლევის უშედეგო მცდელობაა.',
+ question:'„როგორ ვიცავ თავს შფოთისგან — მივდივარ ადამიანებისკენ, მათ წინააღმდეგ თუ მათგან?“',
+ hook:'სამი მიმართულება: → ადამიანებისკენ (დამყოლი), ⟷ ადამიანების წინააღმდეგ (აგრესიული), ← ადამიანებისგან (განცალკევებული).',
+ sig:'ბაზისური შფოთი',
+ concepts:[
+  ['ბაზისური შფოთი','ბავშვის დაუცველობა და შფოთი პოტენციურად მტრულ გარემოში; კულტურისა და აღზრდის პროდუქტი.'],
+  ['ადამიანებისკენ მოძრაობა','უსუსურობის დაცვა: სიყვარულის მაძიებელი, დამყოლი ტიპი — მფარველობისა და დახმარების სწრაფვა.'],
+  ['ადამიანების წინააღმდეგ მოძრაობა','აგრესიულობის დაცვა: „ჯუნგლის კანონი“, სხვებით მანიპულირება.'],
+  ['ადამიანებისგან მოძრაობა','გამიჯვნის დაცვა: ინტიმური და მეგობრული კონტაქტების უარყოფა.'],
+  ['იდეალიზებული მე','გადაჭარბებული, დიდებული ხატი საკუთარ თავზე; იწვევს მიუღწეველ მიზნებს და მოჯადოებულ წრეს.'],
+  ['მოვალეობის ტირანია','ნევროტიკის უმოწყალო „უნდა“: ყოველთვის გამარჯვებული, ზუსტი, მოსიყვარულე, არაეგოისტური.'],
+  ['ფსიქოსინთეზი','ჰორნიმ ანალიზს დაუმატა: პაციენტის კონსტრუქციული ძალებისა და თვითაქტუალიზაციის განვითარება.'],
+  ['ქარაქტეროლოგიური ანალიზი','ჰორნის კონცეფცია „ფსიქოანალიზის ახალ გზებში“ (1939).'],
+  ['ოიდიპოსი (ჰორნი)','ადლერის მსგავსად: უნივერსალური არ არის, მხოლოდ განებივრებულ ბავშვებში გვხვდება.']
+ ],
+ bio:['1885 — დაიბადა (რიდერში მითითებულია 1895)','15 წელი — ორთოდოქსი ფსიქოანალიტიკოსი','შემდეგ — კავშირის გაწყვეტა ფროიდის სკოლასთან და საკუთარი ასოციაცია','1939 — „ფსიქოანალიზის ახალი გზები“','1952 — გარდაიცვალა'],
+ facts:[
+  ['რას უწოდებს ჰორნი ნევროტიკის უმოწყალო მოთხოვნებს საკუთარი თავისადმი?','მოვალეობის ტირანიას',['ძალაუფლების ნებას','აპერცეფციის სქემას','ცრუ მეს']],
+  ['ბაზისური შფოთის წყარო ჰორნის მიხედვით','კულტურა და აღზრდა',['მემკვიდრეობა','სიკვდილის ინსტინქტი','ორგანოს არასრულფასოვნება']],
+  ['ჰორნის 3 ორიენტაცია','ადამიანებისკენ, ადამიანების წინააღმდეგ, ადამიანებისგან',['მორჩილება, ძალაუფლება, ნგრევა','აზროვნება, გრძნობა, ინტუიცია','ნდობა, ავტონომია, ინიციატივა']],
+  ['რა დაუმატა ჰორნიმ ანალიზურ პროცედურას?','ფსიქოსინთეზი',['ბიოანალიზი','აქტიური ანალიზი','ინდულგენცია']],
+  ['რომელ წელს გამოსცა ჰორნიმ „ფსიქოანალიზის ახალი გზები“?','1939',['1936','1950','1923']],
+  ['ვისი აზრი იზიარებდა ჰორნი, რომ ოიდიპოსის კომპლექსი უნივერსალური არ არის?','ადლერის',['იუნგის','ფრომის','რანკის']]
+ ]},
+
+{id:'fromm', name:'ერიხ ფრომი', short:'ფრომი', mono:'ეფ', years:'1900–1980', b:1900, d:1980, school:'neo', color:'#3D6B3A',
+ one:'ჰუმანისტური ფსიქოანალიზი, თავისუფლებისგან გაქცევა',
+ essence:'ფილოსოფოსი და სოციოლოგი, ჰუმანისტური ფსიქოანალიზის ფუძემდებელი. ადამიანის განვითარება თავისუფლებით სრულდება; ნევროტული მექანიზმების წყარო სოციალურ-კულტურულ, კაპიტალისტურ სისტემაშია.',
+ question:'„რა უყო საზოგადოებამ ჩემს თავისუფლებას?“',
+ hook:'4 გაქცევა: მორჩილება, ძალაუფლება, ნგრევა, ავტომატური კონფორმიზმი — „მ-ძ-ნ-ა“.',
+ sig:'ავტომატური კონფორმიზმი',
+ concepts:[
+  ['ჰუმანისტური ფსიქოანალიზი','ფრომის მიმართულება; სოციოლოგიისა და ფილოსოფიის გავლენით.'],
+  ['ლტოლვათა თეორიის კრიტიკა','ადამიანისა და ცხოველის ინსტინქტებს შორის დიდი განსხვავებაა.'],
+  ['მორჩილება ავტორიტეტისადმი','სუბმისიის მოთხოვნილება — პირველი ნევროტული მექანიზმი.'],
+  ['ავტორიტარული ხასიათი','ძალაუფლებისკენ სწრაფვა.'],
+  ['ნგრევისადმი ლტოლვა','დესტრუქციულობა, როგორც ნევროტული მექანიზმი.'],
+  ['ავტომატური კონფორმიზმი','მექანიკური კონფორმიზმის აკვიატებული კომპულსიები.'],
+  ['პროდუქტიული ხასიათი','ჯანსაღი ხასიათი; ადლერის სოციალური გრძნობის მატარებელი პიროვნების მსგავსი.'],
+  ['ოიდიპოსი (ფრომი)','ბავშვის აჯანყება ავტორიტარული მამის პატრიარქალური სისტემის წინააღმდეგ.']
+ ],
+ bio:['1900 — დაიბადა','ფილოსოფოსი, სოციოლოგი, ფსიქოანალიტიკოსი','1980 — გარდაიცვალა'],
+ facts:[
+  ['ფრომის 4 ნევროტული მექანიზმი','მორჩილება ავტორიტეტისადმი, ძალაუფლებისკენ სწრაფვა, ნგრევისადმი ლტოლვა, ავტომატური კონფორმიზმი',['ადამიანებისკენ, წინააღმდეგ, ადამიანებისგან','რეპრესია, პროექცია, რეგრესია, სუბლიმაცია','პროტოტაქსისი, პარატაქსისი, სინტაქსისი, დინამიზმი']],
+  ['როგორ ხსნის ფრომი ოიდიპოსის კომპლექსს?','ბავშვის აჯანყებით ავტორიტარული მამის წინააღმდეგ',['დედისადმი სექსუალური ლტოლვით','დაბადების ტრავმით','არასრულფასოვნების განცდით']],
+  ['რომელ ადლერისეულ ცნებას ჰგავს ფრომის პროდუქტიული ხასიათი?','სოციალური გრძნობის მატარებელ პიროვნებას',['ჰიპერკომპენსაციას','მასკულინურ პროტესტს','აპერცეფციის სქემას']],
+  ['სად ხედავს ფრომი ნევროტული მექანიზმების წყაროს?','სოციალურ-კულტურულ ფაქტორებში, კაპიტალისტურ სისტემაში',['ბავშვის ფსიქოსექსუალურ განვითარებაში','კოლექტიურ არაცნობიერში','დაბადების ტრავმაში']]
+ ]},
+
+{id:'reich', name:'ვილჰელმ რაიხი', short:'რაიხი', mono:'ვრ', years:'1897–1957', b:1897, d:1957, school:'body', color:'#9C3A63',
+ one:'ხასიათის ჯავშანი, ორგონული ენერგია, ფროიდო-მარქსიზმი',
+ essence:'წინააღმდეგობა არა მხოლოდ ფსიქიკაში, არამედ სხეულშიც ვლინდება — კუნთოვან, „ხასიათის ჯავშანში“. ცდილობდა ფროიდისა და მარქსის სინთეზს; სექსუალური დათრგუნვა ავტორიტარიზმსა და ფაშიზმს კვებავს.',
+ question:'„სად ინახავს სხეული დათრგუნულ ემოციას?“',
+ hook:'„ორგონი“ = ორგანიზმი + ორგაზმი: ენერგიის თავისუფალი ნაკადი; ბლოკი = ჯავშანი (მაგ. შეკუმშული მუშტები, სახის ბლოკი).',
+ sig:'ხასიათის ჯავშანი',
+ concepts:[
+  ['ხასიათის ჯავშანი','დაცვითი მექანიზმები პიროვნების განსაკუთრებულ პროფილად; ფიზიოლოგიურად — სხეულებრივი, კუნთოვანი ჯავშანი.'],
+  ['ხასიათის ანალიზი','1933: წინააღმდეგობა ვლინდება კუნთოვანი დაძაბულობის სპეციფიკურ ტიპებში.'],
+  ['ორგონული ენერგია','ყველა ცოცხალი ორგანიზმის სასიცოცხლო ენერგია; შეესაბამება ფროიდის ლიბიდოს და ჩინურ „ჩის“.'],
+  ['ორგონის აკუმულატორი','ხელსაწყო „ენერგიის აღსადგენად“; 1954 — FDA-მ აკრძალა.'],
+  ['ორგაზმის ფუნქცია','კავშირი შფოთს, სექსუალობასა და ვეგეტატიურ ნერვულ სისტემას შორის; ორგაზმი ენერგიას არეგულირებს.'],
+  ['სექს-პოლი','სექსუალური ჰიგიენის კლინიკები მშრომელთათვის (1929); გამომცემლობა Sexpol-Verlag.'],
+  ['მასობრივი ფსიქოლოგია და ფაშიზმი','1933: სექსუალური ტაბუ → ავტორიტარული ოჯახისა და სახელმწიფოსადმი მორჩილება → ტოტალიტარიზმი.'],
+  ['სხეულზე ორიენტირებული თერაპიები','რაიხის მემკვიდრეობა: ლოუენის ბიოენერგეტიკა, როლფინგი, ფელდენკრაისის მეთოდი.']
+ ],
+ bio:['1897 — დაიბადა გალიციაში, ებრაელი ფერმერის ოჯახში','ბავშვობის ტრაგედია: დედის თვითმკვლელობა, მამის სიკვდილი','1922 — ვენის სამედიცინო ფაკულტეტი','1924 — ფსიქოანალიზის ტრენინგ-ინსტიტუტის დირექტორი ვენაში','1927 — გაუცხოება ფროიდთან','1929 — საბჭოთა კავშირში ვიზიტი; სექსუალური ჰიგიენის კლინიკები','1933 — „ხასიათის ანალიზი“, „მასობრივი ფსიქოლოგია და ფაშიზმი“; გარიცხეს კომპარტიიდან','დანია, ნორვეგია (ოსლო) — ბიოენერგეტიკა','1939 — ნიუ-იორკი, ორგონის ინსტიტუტი','1957 — გარდაიცვალა ფედერალურ ციხეში'],
+ facts:[
+  ['რა ჰქვია რაიხის სასიცოცხლო ენერგიას?','ორგონული ენერგია',['ლიბიდო','ბიოანალიზური ენერგია','ფსიქიკური ენტროპია']],
+  ['რას უწოდებს რაიხი წინააღმდეგობის სხეულებრივ გამოვლინებას?','ხასიათის (კუნთოვანი) ჯავშანი',['ცრუ მე','პერსონა','ორგანოთა ნევროზი']],
+  ['რომელ წელს დაწერა რაიხმა „მასობრივი ფსიქოლოგია და ფაშიზმი“?','1933',['1929','1939','1954']],
+  ['რა დაარსა რაიხმა 1929 წელს მშრომელთათვის?','სექსუალური ჰიგიენის კლინიკა',['ორგონის ინსტიტუტი','ბავშვთა თავშესაფარი','ჩიკაგოს ინსტიტუტი']],
+  ['რომელ მიდგომებს დაუდო საფუძველი რაიხის თერაპიამ?','ბიოენერგეტიკა, როლფინგი, ფელდენკრაისის მეთოდი',['ლოგოთერაპია, დაზაინანალიზი','ტრანზაქციული ანალიზი, ბედის ანალიზი','ჰიპნოზი, განცდათა რეპროდუქცია']],
+  ['როგორ დასრულდა რაიხის ცხოვრება?','გარდაიცვალა ფედერალურ ციხეში (1957)',['თვითმკვლელობით ვენაში','ემიგრაციაში ოსლოში','ნიუ-იორკის კლინიკაში 1939 წელს']]
+ ]},
+
+{id:'alexander', name:'ფრანც ალექსანდერი', short:'ალექსანდერი', mono:'ფა', years:'1891–1964', b:1891, d:1964, school:'body', color:'#8B4570',
+ one:'ფსიქოსომატური მედიცინა, „ჩიკაგოს შვიდეული“',
+ essence:'ფსიქოსომატური მედიცინისა და ფსიქოანალიტიკური კრიმინოლოგიის ფუძემდებელი. დათრგუნული ემოციები ორგანოთა ქრონიკულ დისფუნქციას იწვევს; კონკრეტული კონფლიქტი კონკრეტულ სისტემას ირჩევს.',
+ question:'„რომელი ემოცია რომელ ორგანოში „დასახლდა“?“',
+ hook:'3 ფაქტორი = „ორგანო + ბავშვობა + ახლა“: ორგანოს სისუსტე, ადრეული კონფლიქტის პატერნი, აქტუალური ტრავმული სიტუაცია.',
+ sig:'ფსიქოსომატური „შვიდეული“',
+ concepts:[
+  ['ფსიქოსომატური მედიცინა','სომატური დაავადების ეტიოლოგიაში ემოციურ ფაქტორებს დიდი მნიშვნელობა აქვს.'],
+  ['ალექსანდერის 3 პრინციპი','ფსიქიკური მიზეზები სპეციფიკურია; ემოციების დათრგუნვა → ორგანოთა ქრონიკული დისფუნქცია; აქტუალური სიტუაცია მხოლოდ აჩქარებს.'],
+  ['ისტერიული კონვერსია','ემოციის სიმბოლური გამოხატვა ნებელობითი ინერვაციის ზონაში (ამავროზი, ასტაზია-აბაზია).'],
+  ['ვეგეტატიური ნევროზი','უფრო ღრმა კონფლიქტი: ვეგეტატიური ნერვული სისტემის დისფუნქცია (გული, სუნთქვა, საჭმლის მონელება).'],
+  ['ფსიქოსომატური „შვიდეული“','წყლული, ბრონქული ასთმა, წყლულოვანი კოლიტი, რევმატოიდული ართრიტი, ნეიროდერმიტი, ჰიპერტენზია, თირეოტოქსიკოზი.'],
+  ['დათრგუნული რისხვა','სიმპათიკური სისტემა → ჰიპერტენზია, გულ-სისხლძარღვთა დარღვევები.'],
+  ['არარეალიზებული მოთხოვნილებები','აღიარების, თვითდარწმუნების მოთხოვნილება → პარასიმპათიკური აგზნება → კუჭისა და თორმეტგოჯა ნაწლავის წყლული.'],
+  ['ფსიქოსომატიკის 3 ფაქტორი','ორგანოს თანდაყოლილი/ადრე შეძენილი სისუსტე + კონფლიქტისა და დაცვის პატერნი + აქტუალური ფსიქოტრავმა.']
+ ],
+ bio:['1891 — დაიბადა ბუდაპეშტში','ბერლინში — კარლ აბრაჰამის წრე','ეყრდნობოდა კენონის კვლევებს (სიმპათიკური / პარასიმპათიკური)','1950 — „ფსიქოსომატური მედიცინა“','ჩიკაგოს ფსიქოანალიზის ინსტიტუტის დამფუძნებელი და ხელმძღვანელი','ხანმოკლე ფსიქოდინამიკური თერაპიის ერთ-ერთი ფუძემდებელი','1964 — გარდაიცვალა'],
+ facts:[
+  ['ალექსანდერის ფსიქოსომატური „შვიდეული“','წყლული, ასთმა, კოლიტი, რევმატოიდული ართრიტი, ნეიროდერმიტი, ჰიპერტენზია, თირეოტოქსიკოზი',['შაკიკი, ფსორიაზი, ეგზემა, ლუმბაგო, დისმენორეა, ასთმა, დიაბეტი','ისტერია, ნევრასთენია, ფობია, ობსესია, დეპრესია, მანია, შიზოფრენია','გრიპი, ანგინა, პნევმონია, გასტრიტი, კოლიტი, ართრიტი, ასთმა']],
+  ['ფსიქოსომატური დაავადების 3 ფაქტორი','ორგანოს სისუსტე + ადრეული კონფლიქტის პატერნი + აქტუალური ფსიქოტრავმა',['მემკვიდრეობა + ინფექცია + სტრესი','Id + Ego + Super-Ego','დაბადების ტრავმა + ოიდიპოსი + კასტრაციის შიში']],
+  ['დათრგუნული რისხვა რომელ სისტემაზე მოქმედებს ალექსანდერის მიხედვით?','გულ-სისხლძარღვთა (სიმპათიკური გზით)',['საჭმლის მომნელებელ (პარასიმპათიკური)','სასუნთქ სისტემაზე','კანზე']],
+  ['რომელი ინსტიტუტი დააარსა ალექსანდერმა?','ჩიკაგოს ფსიქოანალიზის ინსტიტუტი',['ორგონის ინსტიტუტი','ჰემპსტედის კლინიკა','ანალიზური ფსიქოლოგიის ინსტიტუტი']],
+  ['ალექსანდერის სამი კატეგორია','ისტერიული კონვერსია, ვეგეტატიური ნევროზი, ფსიქოსომატური დაავადება',['ნევროზი, ფსიქოზი, ფსიქოპათია','ორალური, ანალური, გენიტალური','ორგანოს ნევროზი, სექტორული თერაპია, ბიოანალიზი']]
+ ]},
+
+{id:'frankl', name:'ვიქტორ ფრანკლი', short:'ფრანკლი', mono:'ვფ', years:'1905–1997', b:1905, d:1997, school:'exist', color:'#556070',
+ one:'ლოგოთერაპია — ვენის მესამე სკოლა',
+ essence:'საზრისის ძიება ადამიანის თანდაყოლილი მოტივაციაა. ადამიანს ჰომეოსტაზი კი არა, მიზნისთვის ბრძოლა სჭირდება; საზრისის განუხორციელებლობა იწვევს ეგზისტენციალურ ფრუსტრაციასა და ნოოგენურ ნევროზს.',
+ question:'„რისთვის?“ — ცხოვრების საზრისი.',
+ hook:'ვენის სამი სკოლა: ფროიდი — სიამოვნების ნება, ადლერი — ძალაუფლების ნება, ფრანკლი — საზრისის ნება.',
+ sig:'ლოგოთერაპია',
+ concepts:[
+  ['ლოგოთერაპია','Logos — საზრისი; ვენის მესამე სკოლა (ფროიდისა და ადლერის გვერდით).'],
+  ['ეგზისტენციალური ფრუსტრაცია','ცხოვრების საზრისის განუხორციელებლობა; შეიძლება კომპენსირდეს ძალაუფლებისა და სიამოვნების სწრაფვით.'],
+  ['ნოოგენური ნევროზი','სულიერ სფეროში აღმოცენებული, ფასეულობათა და ზნეობრივი კონფლიქტით გამოწვეული აშლილობა.'],
+  ['პარადოქსული ინტენცია','ფობიების, ობსესიებისა და სექსუალური ნევროზების მკურნალობის მეთოდი; ეყრდნობა თვითგამიჯვნას.'],
+  ['თვითტრანსცენდენცია და თვითგამიჯვნა','ადამიანის არსებობის ორი ფუნდამენტური ანთროპოლოგიური მახასიათებელი.'],
+  ['სოკრატული დიალოგი','ეხმარება პაციენტს საკუთარი ცხოვრების საზრისის აღმოჩენაში.'],
+  ['ფასეულობების 3 ტიპი','შემოქმედების (შრომა), განცდის (სიყვარული), დამოკიდებულების (საზრიანი პოზიცია ტანჯვაშიც).']
+ ],
+ bio:['1905 — დაიბადა ვენაში','ლოგოთერაპიის ფუძემდებელი','1997 — გარდაიცვალა'],
+ facts:[
+  ['რას ნიშნავს „ლოგოს“ ლოგოთერაპიაში?','საზრისს',['სიტყვას','ლოგიკას','კანონს']],
+  ['ფრანკლის 3 ფასეულობა','შემოქმედების, განცდის, დამოკიდებულების',['ძალაუფლების, სიამოვნების, საზრისის','ნდობის, ავტონომიის, ინიციატივის','შრომის, ოჯახის, რწმენის']],
+  ['რომელი მეთოდი გამოიყენება ფობიებისა და ობსესიების დროს ფრანკლთან?','პარადოქსული ინტენცია',['სოკრატული დიალოგი','თავისუფალი ასოციაცია','ჰიპნოზი']],
+  ['ლოგოთერაპიას რომელ სკოლასაც უწოდებენ?','ვენის მესამე სკოლას',['ციურიხის სკოლას','ჩიკაგოს სკოლას','ბრიტანულ სკოლას']]
+ ]}
+];
+
+/* Minor figures: compact cards; still feed the games */
+const M = [
+ {id:'kohut', name:'ჰაინც კოჰუტი', short:'კოჰუტი', mono:'ჰკ', school:'object', color:'#A5703F', one:'სელფ ფსიქოლოგია', concepts:[['სელფ ფსიქოლოგია','ობიექტ-ურთიერთობების კოჰუტისეული ვერსია; აქცენტი ნარცისიზმზე და მე-ში ემოციურ ინვესტირებაზე.'],['ნარცისიზმი (კოჰუტი)','კერნბერგისგან განსხვავებით ანსხვავებს ნარცისიზმის ჯანმრთელ და ავადმყოფურ ფორმებს.']]},
+ {id:'binswanger', name:'ლუდვიგ ბინსვანგერი', short:'ბინსვანგერი', mono:'ლბ', school:'exist', color:'#556070', one:'დაზაინანალიზი (ეგზისტენციალური ანალიზი)', concepts:[['დაზაინანალიზი','Daseinsanalyse — ჰაიდეგერის გავლენით; In-der-Welt-Sein (სამყაროში ყოფნის) ანალიზი (1942).'],['თვითრეალიზაციაზე უარი','დაზაინანალიზის მიხედვით — ფსიქიკური დარღვევების მთავარი „დიაგნოზი“; განკურნება = თვითრეალიზაციის უნარის აღდგენა.']]},
+ {id:'minkowski', name:'ეჟენ მინკოვსკი', short:'მინკოვსკი', mono:'ემ', school:'exist', color:'#556070', one:'განცდილი დრო, ავადმყოფური გეომეტრიზმი', concepts:[['განცდილი დრო','დროის აღქმის დარღვევა (მომავლისადმი განწყობა) ბაზისურია და წინ უსწრებს პათოლოგიას.'],['ავადმყოფური გეომეტრიზმი','შიზოფრენიისას სივრცის განცდა დროის განცდაზე ჭარბობს.']]},
+ {id:'szondi', name:'ლეოპოლდ სონდი', short:'სონდი', mono:'ლს', school:'exist', color:'#556070', one:'ბედის ანალიზი, ოჯახის არაცნობიერი', concepts:[['ბედის ანალიზი','Schicksalsanalysis (1944): ბედი — ცხოვრებისეული არჩევანების (პარტნიორი, პროფესია, დაავადება) ჯამი.'],['ოჯახის არაცნობიერი','არაცნობიერის შრე ფსიქიატრიული გენეტიკისა და ფსიქოანალიზის გადაკვეთაზე.'],['გენოტროპიზმი და ოპეროტროპიზმი','არჩევანი გენეტიკური მსგავსებით (ქორწინება) და საქმიანობის არჩევა (სუბლიმაცია).']]},
+ {id:'rogers', name:'კარლ როჯერსი', short:'როჯერსი', mono:'კრ', school:'exist', color:'#556070', one:'კლიენტზე ცენტრირებული თერაპია', concepts:[['კლიენტზე ცენტრირებული თერაპია','არადირექტიული მეთოდი: კლიენტი თვითონ აცნობიერებს და წყვეტს პრობლემებს; თანდაყოლილი სწრაფვა აქტუალიზაციისკენ.']]},
+ {id:'jaspers', name:'კარლ იასპერსი', short:'იასპერსი', mono:'ია', school:'exist', color:'#556070', one:'ეგზისტენციალური ვაკუუმი', concepts:[['ეგზისტენციალური ვაკუუმი','იასპერსის მიხედვით დაავადების საფუძველი; მკურნალობა — მისი სულიერებით ავსება.']]},
+ {id:'sartre', name:'ჟან-პოლ სარტრი', short:'სარტრი', mono:'ჟს', school:'exist', color:'#556070', one:'ეგზისტენციალური ფსიქოანალიზი', concepts:[['ფუნდამენტური პროექტი','სარტრი ეძებს არა არაცნობიერ კომპლექსებს, არამედ პიროვნების პირველად არჩევანს.']]},
+ {id:'berne', name:'ერიკ ბერნი', short:'ბერნი', mono:'ებ', school:'exist', color:'#556070', one:'თამაშები, რომლებსაც ადამიანები თამაშობენ', concepts:[['თამაშები (ბერნი)','ცხოვრებისეული სტილები და ქცევითი ტიპები, როგორც ადამიანების მიერ წარმოებული თამაშები.']]},
+ {id:'frommreichmann', name:'ფრიდა ფრომ-რაიხმანი', short:'ფრომ-რაიხმანი', mono:'ფფ', school:'neo', color:'#5C7F3C', one:'ინტენსიური ფსიქოთერაპია', concepts:[['ინტენსიური ფსიქოთერაპია','სალივენის იდეებზე: ფსიქიატრია — ინტერპერსონალური ურთიერთობების მეცნიერება და ხელოვნება; გამოიყენებოდა ფსიქოზებშიც.']]},
+ {id:'fdeutsch', name:'ფელიქს დოიჩი', short:'ფ. დოიჩი', mono:'ფდ', school:'body', color:'#8B4570', one:'ორგანოთა ნევროზები, სექტორული თერაპია', concepts:[['ორგანოთა ნევროზები','ორგანოს სისუსტე წინამავალი ავადმყოფობის შედეგად; ახლოსაა ადლერის ორგანოთა არასრულფასოვნებასთან.'],['სექტორული თერაპია','მიმართულია პრობლემის შეზღუდულ ასპექტზე, ადაპტაციის მიზნით.']]},
+ {id:'meyer', name:'ადოლფ მაიერი', short:'მაიერი', mono:'ამ', school:'exist', color:'#556070', one:'ფსიქობიოლოგიური თერაპია', concepts:[['ფსიქობიოლოგია (მაიერი)','პატერნების სისტემა — ფიზიოლოგიური და კონსტიტუციური ფაქტორების ურთიერთზემოქმედება; მიზანი — პიროვნების გამთლიანება.']]},
+ {id:'masserman', name:'ჯულს მასერმანი', short:'მასერმანი', mono:'ჯმ', school:'exist', color:'#556070', one:'ბიოდინამიკური კონცეფცია', concepts:[['ბიოდინამიკური კონცეფცია','4 პრინციპი: მოტივაცია, გარემოს ინტეგრაცია (რეაგირება გარემოს წარმოდგენაზე), ადაპტაცია, კონფლიქტი და შიში.']]},
+ {id:'karpman', name:'ბენ კარპმანი', short:'კარპმანი', mono:'ბკ', school:'exist', color:'#556070', one:'ობიექტური ფსიქოთერაპია', concepts:[['ობიექტური ფსიქოთერაპია','პაციენტი წერილობით პასუხობს ბიოგრაფიულ კითხვებს; ბიბლიოთერაპია და წერილობითი ანალიზი.']]},
+ {id:'baruk', name:'ანრი ბარუკი', short:'ბარუკი', mono:'აბ', school:'exist', color:'#556070', one:'მორალური ფსიქიატრია', concepts:[['მორალური ფსიქიატრია','პიროვნების მორალური ბირთვი მდგრადია რეგრესისა და დემენციის დროსაც.']]},
+ {id:'georgian', name:'ქართული ფსიქოთერაპიული ტრადიცია', short:'ქართული სკოლა', mono:'ქს', school:'exist', color:'#556070', one:'ასათიანი, უზნაძე, წულაძე, შეროზია, სარჯველაძე', concepts:[['განცდათა რეპროდუქციის მეთოდი','მ. ასათიანი (1926): ფსიქონევროზების ჰიპნოზით მკურნალობის საკუთარი მეთოდი.'],['არაცნობიერის პოზიტიური დეფინიცია','დ. უზნაძე: განწყობის თეორია; ფსიქოანალიზის ნეგატიური განსაზღვრებისგან განსხვავებით.'],['ნევროზების კლასიფიკაცია (წულაძე)','ს. წულაძე (1974): ნევროზი პიროვნების მიმართებათა რეგისტრების დარღვევის ჭრილში.'],['დამატებითობის პრინციპი (შეროზია)','ა. შეროზია: ცნობიერისა და არაცნობიერის ზოგადი თეორია; პიროვნების მიმართებები.'],['პიროვნება — სოციალური სამყარო','ნ. სარჯველაძე: ინტერპერსონალური ურთიერთობები და ფარული რესურსების აქტუალიზაცია.']]}
+];
+
+/* Topics: shared vocabularies that feed the games */
+const DEFENSES = [
+ ['რეპრესია (განდევნა)','მიუღებელი აზრების, გრძნობებისა და სურვილების არაცნობიერი განდევნა ცნობიერებიდან.','მტკივნეული მოვლენა საერთოდ „არ ახსოვს“',1,0],
+ ['დათრგუნვა','ცნობიერი, შეგნებული განდევნა (ვაილანტის ჯანმრთელი მექანიზმი).','„ამაზე ხვალ ვიფიქრებ“ — შეგნებულად გადადებს',0,1],
+ ['კომპენსაცია','რეალური ან წარმოსახვითი დანაკლისის ანაზღაურება; შეიძლება ცნობიერიც იყოს.','დაბალი ბიჭი კალათბურთში ბრწყინავს',0,0],
+ ['კონვერსია','შფოთის სიმბოლური გამოხატვა სომატურ სიმპტომში; ყოველთვის პათოლოგიური, ისტერიული.','გამოცდის შიშით მარჯვენა ხელის დამბლა',0,0],
+ ['უარყოფა','გარე სამყაროს უსიამოვნო ასპექტის იგნორირება და სასიამოვნო ფანტაზიით ჩანაცვლება.','მძიმე დიაგნოზს „არ იჯერებს“',0,0],
+ ['გადანაცვლება','შინაგანი მიუღებელი გრძნობის გადატანა ნეიტრალურ სიტუაციაზე ან პირზე (ფობიები).','უფროსზე ბრაზს სახლში ანთხევს',0,0],
+ ['დისოციაცია','მენტალური პროცესების ჯგუფი გამოეყოფა პიროვნებას და ავტონომიურად ფუნქციონირებს.','ტრავმას თითქოს „გვერდიდან უყურებს“',0,0],
+ ['იდეალიზაცია','სხვისი თვისების ან მთელი პიროვნების გადაჭარბებული შეფასება.','ახალი ნაცნობი „უნაკლოა“',0,0],
+ ['იდენტიფიკაცია','სხვისი თვისებების არაცნობიერი გაშინაგნება და მათ შესაბამისად ქცევა (იმიტაცია — ცნობიერია).','ბიჭი შეუმჩნევლად ითვისებს მამის მანერებს',0,0],
+ ['ინტროექცია','მშობლების მოთხოვნებისა და ფასეულობების გათავისება, როგორც საკუთარის — ქმნის Super-Ego-ს.','მშობლის „არ შეიძლება“ შინაგან ხმად იქცევა',1,0],
+ ['ინტელექტუალიზაცია','გრძნობების განცდის ნაცვლად მათზე ლოგიკური, რაციონალური მსჯელობა.','საკუთარ დანაკარგზე მხოლოდ „სამეცნიეროდ“ საუბრობს',0,0],
+ ['იზოლაცია','ემოციის გამოცალკევება კონკრეტული ფსიქიკური შინაარსისგან.','ტრაგედიას ემოციის გარეშე, მშრალად ჰყვება',1,0],
+ ['რაციონალიზაცია','მიუღებელი ქცევის თვითგამართლება ფსევდო-რაციონალური არგუმენტით.','„ის სამსახური მაინც არ მინდოდა“',0,0],
+ ['პროექცია','საკუთარი მიუღებელი აზრების და გრძნობების მიწერა სხვებისთვის (პარანოიდული შიზოფრენია).','საკუთარ მტრობას სხვას მიაწერს: „ის მემტრება“',1,0],
+ ['რეაქციის ფორმირება','არაცნობიერის საპირისპირო, სოციალურად მისაღები ქცევა (ობსესიურ-კომპულსური სინდრომი).','ფარული მტრობა ზედმეტ სიტკბოდ იქცევა',1,0],
+ ['რეგრესია','ნაწილობრივი ან სრული დაბრუნება ქცევისა და რეაგირების ადრეულ ეტაპებზე.','სტრესისას ბავშვი ისევ თითს წოვს',1,0],
+ ['გაუქმება (undoing)','რიტუალით უკვე ჩადენილის სიმბოლური „მოსპობა“ — მაგიური რიტუალი.','ცუდ ფიქრზე სამჯერ ხეზე კაკუნი',1,0],
+ ['სომატიზაცია','ფსიქიკური კონფლიქტი ფიზიკურ სიმპტომში: კონვერსია, იპოქონდრია ან ფსიქოსომატური დარღვევა.','დაძაბულობისას მუდმივი კუჭის ტკივილი',0,0],
+ ['საკუთარ თავზე შემობრუნება','გადანაცვლების ვარიანტი: აგრესია საკუთარ თავზე — თვითბრალდება, თავის სიძულვილი.','სხვაზე ბრაზის ნაცვლად თავს ადანაშაულებს',1,0],
+ ['შებრუნება (reversal)','იმპულსის საპირისპიროში გადაყვანა, მაგ. აქტიურიდან პასიურში.','სურვილი „ვაწყენინო“ იქცევა შიშად „მაწყენინებენ“',1,0],
+ ['სუბლიმაცია','მიუღებელი იმპულსის სოციალურად მისაღები ფორმით დაკმაყოფილება.','აგრესია — კრივში',1,1],
+ ['ალტრუიზმი','სხვისი ინტერესებისთვის საკუთარის დამორჩილება (ვაილანტი, ჯანმრთელი).','საკუთარ დარდს სხვების დახმარებით უმკლავდება',0,1],
+ ['იუმორი','საკუთარ თავზე სიცილის უნარი უხერხულ სიტუაციაში (ვაილანტი, ჯანმრთელი).','წარუმატებლობაზე თვითონვე ხუმრობს',0,1]
+];
+
+const OBJREL = [
+ ['ობიექტი','პიროვნება (ან მისი ნაწილი, ან სიმბოლო), რომელთანაც სუბიექტი ურთიერთობს.'],
+ ['ობიექტ-რეპრეზენტაცია','ობიექტის მენტალური წარმოდგენა — როგორ „ფლობს“ პიროვნება ობიექტს.'],
+ ['გარეგანი ობიექტი','აქტუალური პიროვნება, ადგილი ან საგანი, დატვირთული ემოციური ენერგიით.'],
+ ['შინაგანი ობიექტი','მოგონება, იდეა, ფანტაზია სხვაზე; ასახავს დედასთან ურთიერთობის თავისებურებას.'],
+ ['თვით-წარმოდგენა','შინაგანი წარმოდგენა საკუთარ თავზე, მნიშვნელოვან სხვებთან ურთიერთობის კონტექსტში.'],
+ ['სელფ-ობიექტი','საზღვრების დაკარგვა: აღრეულია, რა ეკუთვნის სუბიექტს და რა — ობიექტს (გეშტალტში — კონფლუენცია).'],
+ ['ნაწილობრივი ობიექტი','პიროვნების ნაწილი (ხელი, მკერდი); სხვა მთლიან ადამიანად არ აღიქმება.'],
+ ['მთელი ობიექტი','სხვა, როგორც მთლიანი ადამიანი — საკუთარი უფლებებით, გრძნობებით, ძალით და სისუსტით.'],
+ ['ობიექტის მდგრადობა','ხანგრძლივი ურთიერთობის შენარჩუნება კონკრეტულ ობიექტთან; ერთ ობიექტში სიყვარულისა და სიძულვილის დატევა.'],
+ ['გახლეჩა','ორი საპირისპირო გრძნობის ერთდროულად დატევის უუნარობა — ფოკუსი მხოლოდ ერთ მხარეზე.']
+];
+
+const ERIKSON = [
+ ['ნდობა vs უნდობლობა','იმედი','0–1,5 წელი','„სანდოა თუ არა ჩემი გარემო?“'],
+ ['ავტონომია vs სირცხვილი და ეჭვი','ნებისყოფა','1,5–3 წელი','„შემიძლია თვითონ გავაკეთო?“'],
+ ['ინიციატივა vs დანაშაული','მიზანდასახულობა','3–6 წელი','„კარგი ვარ თუ ცუდი?“'],
+ ['პროდუქტიულობა vs არასრულფასოვნება','კომპეტენტურობა','6–12 წელი','„როგორ შეიძლება ვიყო კარგი?“'],
+ ['იდენტობა vs როლების აღრევა','ერთგულება','12–18 წელი','„ვინ ვარ და საით მივდივარ?“'],
+ ['ინტიმურობა vs იზოლაცია','სიყვარული','19–40 წელი','„ვუყვარვარ და ვუნდივარ?“'],
+ ['გენერაციულობა vs სტაგნაცია','ზრუნვა','40–65 წელი','„რაიმე ღირებულს შევქმნი?“'],
+ ['ეგოს ინტეგრულობა vs სასოწარკვეთა','სიბრძნე','65+ წელი','„ვიცხოვრე სრულფასოვანი ცხოვრებით?“']
+];
+
+const BOOKS = [
+ ['„სიზმრის ინტერპრეტაცია“ (1900)','ფროიდი'],
+ ['„ორგანოთა უკმარისობის შესახებ“','ადლერი'],
+ ['„ლიბიდოს მეტამორფოზები და სიმბოლოები“ (1912)','იუნგი'],
+ ['„ფსიქოლოგიური ტიპები“ (1921)','იუნგი'],
+ ['„მე და დაცვითი მექანიზმები“ (1936)','ანა ფროიდი'],
+ ['„შესავალი ბავშვთა ფსიქოანალიზში“ (1927)','ანა ფროიდი'],
+ ['„ბავშვობა და საზოგადოება“ (1950)','ერიკსონი'],
+ ['„განდის ჭეშმარიტება“','ერიკსონი'],
+ ['„დაბადების ტრავმა“','რანკი'],
+ ['„გმირის დაბადების მითი“ (1909)','რანკი'],
+ ['„ნებისყოფის თერაპია“','რანკი'],
+ ['„თალასა: გენიტალობის თეორია“ (1924)','ფერენცი'],
+ ['„ზრდასრულისა და ბავშვის ენების აღრევა“','ფერენცი'],
+ ['„ხასიათის ანალიზი“ (1933)','რაიხი'],
+ ['„მასობრივი ფსიქოლოგია და ფაშიზმი“ (1933)','რაიხი'],
+ ['„ადამიანის ჩვილის ფსიქოლოგიური დაბადება“','მალერი'],
+ ['„ფსიქოანალიზის ახალი გზები“ (1939)','ჰორნი'],
+ ['„ფსიქოსომატური მედიცინა“ (1950)','ალექსანდერი'],
+ ['„ქალური კასტრაციის კომპლექსის გამოვლინებები“ (1921)','აბრაჰამი'],
+ ['„ადამიანის ეგზისტენციის შემეცნება“ (1942)','ბინსვანგერი'],
+ ['„განცდილი დრო“','მინკოვსკი'],
+ ['„ქორწინების ანალიზი“ (1938)','სონდი']
+];
+
+const ARCHETYPES = [
+ ['პერსონა','სოციალური ნიღაბი, ადაპტაციის ფასადი'],
+ ['აჩრდილი','დამალული, უარყოფილი თვისებები'],
+ ['ანიმა','ქალური ხატი მამაკაცის არაცნობიერში'],
+ ['ანიმუსი','მამაკაცური ხატი ქალის არაცნობიერში'],
+ ['მოხუცი ბრძენკაცი','სულის არქეტიპი, ჩნდება მძიმე გადაწყვეტილებისას'],
+ ['დიდი დედა','Magna Mater: ღვთისმშობელი, alma mater, დედა-სამშობლო'],
+ ['თვითობა','პიროვნების ცენტრი და მთლიანობა'],
+ ['„მე“ (Ego)','ცნობიერების ცენტრი, ნებელობის აქტში ვლინდება']
+];
+
+const PSYSOMA = [
+ ['დათრგუნული რისხვა და მტრობა','ჰიპერტენზია, გულ-სისხლძარღვთა დარღვევები'],
+ ['ქრონიკული კუნთოვანი დაძაბულობა','ართრიტი'],
+ ['სისხლძარღვთა ტონუსის მომატება','თავის ტკივილი, შაკიკი'],
+ ['ზემოქმედება ენდოკრინულ სისტემაზე','დიაბეტი, თირეოტოქსიკოზი'],
+ ['არარეალიზებული აღიარების მოთხოვნილება','კუჭისა და თორმეტგოჯა ნაწლავის წყლული'],
+ ['დანაშაულის განცდა','კვების დარღვევები'],
+ ['სექსუალური ლტოლვისა და დათრგუნვის კონფლიქტი','სასუნთქი გზების დისფუნქცია']
+];
+
+const DATES = [
+ ['1896','ფროიდი მეთოდს ფსიქოანალიზს უწოდებს'],
+ ['1900','„სიზმრის ინტერპრეტაცია“'],
+ ['1906','იუნგის ასოციაციური ექსპერიმენტი'],
+ ['1909','ფროიდი და იუნგი აშშ-ში'],
+ ['1910','საერთაშორისო ფსიქოანალიტიკური საზოგადოება; ბერლინის საზოგადოება'],
+ ['1911','ადლერი ტოვებს ფროიდის საზოგადოებას'],
+ ['1913','იუნგისა და ფროიდის განხეთქილება'],
+ ['1921','„ფსიქოლოგიური ტიპები“'],
+ ['1923','პიროვნების სამწევრა მოდელი'],
+ ['1924','„დაბადების ტრავმა“ და „თალასა“'],
+ ['1933','რაიხის „ხასიათის ანალიზი“'],
+ ['1936','„მე და დაცვითი მექანიზმები“'],
+ ['1939','ფროიდის გარდაცვალება; ჰორნის „ახალი გზები“'],
+ ['1950','„ბავშვობა და საზოგადოება“; „ფსიქოსომატური მედიცინა“']
+];
+
+const TOPIC_CARDS = [
+ {id:'defense', name:'დაცვითი მექანიზმები', short:'დაცვითი მექანიზმები', mono:'დმ', school:'topic', color:'#3A4566',
+  one:'ანა ფროიდის 10 მექანიზმი, ვაილანტის 4 ჯანმრთელი, დღეს ცნობილი ~20',
+  intro:'ცნება შემოიღო ფროიდმა 1894 წელს („დაცვითი ნეიროფსიქოზები“). ყველა მექანიზმის მიზანი — Ego-ს დაცვა შფოთისა და თვითბრალდებისგან. ვაილანტი ანსხვავებს ნევროზულ, პათოლოგიურ და ჯანმრთელ მექანიზმებს.'},
+ {id:'objrel', name:'ობიექტ-ურთიერთობების ლექსიკონი', short:'ობიექტ-ურთიერთობები', mono:'ოუ', school:'topic', color:'#3A4566',
+  one:'ობიექტი, რეპრეზენტაცია, ნაწილობრივი და მთელი ობიექტი, გახლეჩა',
+  intro:'ფსიქოანალიზის „პირმშო“, რომელიც ურთიერთობის, განსაკუთრებით დედა-შვილის ურთიერთობის მნიშვნელობას უსვამს ხაზს. ობიექტი აქ პიროვნებას ნიშნავს. კოჰუტის სელფ ფსიქოლოგია ამ თეორიის განშტოებაა.'},
+ {id:'psyche', name:'ფსიქიკა და ტვინი', short:'ფსიქიკა და ტვინი', mono:'ფტ', school:'topic', color:'#3A4566',
+  one:'დინამიკური vs ბიოლოგიური ფსიქიატრია',
+  intro:'დინამიკური ფსიქიატრია ფსიქიკასა და სომას ერთი მოვლენის ორ ასპექტად განიხილავს: არც აცალკევებს და არც აიგივებს. დასკვნა: როგორც ბიოლოგიის უარმყოფელი დინამიკური მიდგომა, ისე ფსიქოლოგიის უგულებელმყოფელი ბიოლოგიური ფსიქიატრია შეზღუდული და რედუქციონისტულია.'},
+ {id:'brief', name:'ხანმოკლე ფსიქოდინამიკური თერაპია', short:'ხანმოკლე თერაპია', mono:'ხთ', school:'topic', color:'#3A4566',
+  one:'1–40 სეანსი, ფოკალური კონფლიქტი, 3 ფაზა',
+  intro:'ფუძემდებლები: ალექსანდერი, სიფნეოსი, მალანი, მენი, დავანლო, ბალინტი. მიზანი — ფოკალური კონფლიქტი და არა პიროვნების სტრუქტურის გარდაქმნა; თერაპევტი აქტიური და ემოციურად ჩართულია.'},
+ {id:'neofreud', name:'ნეოფროიდისტების 7 საერთო იდეა', short:'ნეოფროიდიზმი', mono:'ნფ', school:'topic', color:'#3A4566',
+  one:'რას უარყოფენ და რას ამატებენ ფროიდთან შედარებით',
+  intro:'ნეოფროიდისტების (ჰორნი, ფრომი, სალივენი) უმრავლესობა იზიარებს შვიდ მსგავს თეორიულ იდეას.'}
+];
+const TOPIC_CONCEPTS = {
+ defense: DEFENSES.map(d=>[d[0],d[1]]),
+ objrel: OBJREL,
+ psyche: [
+  ['კანდელი (1979)','ფსიქოთერაპიული ჩარევა ზეგავლენას ახდენს ტვინზე — დადასტურებულია მოლეკულურ დონეზე.'],
+  ['ლიპოვსკი (1989)','აშლილობების ახსნა მხოლოდ ბიოქიმიური დისბალანსით — ზერელე და რედუქციონისტურია.'],
+  ['პოსტი (1982)','დედისგან ადრეული განშორება → რეცეპტორების სენსიბილიზაცია → მიდრეკილება დეპრესიისკენ.'],
+  ['კოუ (1978, 1983)','დედისგან იზოლირებულ პრიმატებში კორტიზოლი მატულობს; განმეორებით — ცვლილება პათოლოგიური ხდება.'],
+  ['ვან დერ კოლკი (1987)','დედასთან ემოციური კავშირის გაწყვეტა ტვინში მორფოლოგიურ ცვლილებებს იწვევს — შექცევადად.'],
+  ['როუზი და პარდესი (1989)','ფსიქიკურ მომწიფებას ხელს უწყობს ნორეპინეფრინის კლება Locus coeruleus-ში 40–60 წლისთვის.'],
+  ['ორი მთავარი კითხვა','1) ეტიოლოგია — ფსიქიკაში თუ ტვინში? 2) მკურნალობა — სომატური თუ ფსიქოთერაპიული?']
+ ],
+ brief: [
+  ['ხანგრძლივობა','1–40 სეანსი (ოპტიმალურად 10–12), კვირაში 1-ჯერ.'],
+  ['მიზანი','ფოკალური კონფლიქტის გამოყოფა, გადამუშავება და კორექცია — არა პიროვნების სტრუქტურის გარდაქმნა.'],
+  ['თერაპევტი','აქტიური, ემოციურ კონტაქტში — ორთოდოქსული ნეიტრალური პოზიციისგან განსხვავებით.'],
+  ['ჩვენებები','ფოკალური ოიდიპოსური კონფლიქტი, საყვარელი ადამიანის დაკარგვა, მაღალი მოტივაცია, რეფლექსიის უნარი.'],
+  ['უკუჩვენებები','გამოხატული დეპრესია, ნარცისული და შიზოიდური ფსიქოზური დარღვევები, სუიციდი, ნარკომანია.'],
+  ['3 ფაზა','კონტაქტის დამყარება → ფოკალური კონფლიქტის გადამუშავება → სეპარაცია (ტრანსფერის გადალახვა).']
+ ],
+ neofreud: [
+  ['ლიბიდო','ფროიდისეული ლიბიდო და მისი საფეხურები უარყოფილია.'],
+  ['ოიდიპოსი','ოიდიპოსის კომპლექსს სხვაგვარ ინტერპრეტაციას აძლევენ.'],
+  ['გარემო','თანდაყოლილ ინსტინქტებზე მეტად — გარემო და ინტერპერსონალური ურთიერთობები.'],
+  ['ადამიანის ბუნება','ადამიანი დაბადებიდანვე შფოთის, შიშისა და აგრესიის მქონე არსება არ არის.'],
+  ['თერაპიის ობიექტი','Id-Ego-Super-Ego-ს კონფლიქტის ნაცვლად — არაცნობიერად არჩეული ნევროტული ცხოვრების სტილი.'],
+  ['სექსუალობა','მხოლოდ ერთ-ერთი გამოვლინება; თვითდამკვიდრების ინსტინქტი უფრო მნიშვნელოვანია.'],
+  ['სიზმრები','სიზმრის სიმბოლოთა ანალიზი მინიმუმამდეა დაყვანილი.']
+ ]
+};
+
+const SEQUENCES = [
+ {id:'freud', title:'ფროიდის ფსიქოსექსუალური ფაზები', items:['ორალური','ანალური','ფალური','ლატენტური','გენიტალური']},
+ {id:'erik', title:'ერიკსონის 8 კრიზისი', items:ERIKSON.map(e=>e[0])},
+ {id:'virt', title:'ერიკსონის სათნოებები', items:ERIKSON.map(e=>e[1])},
+ {id:'abr', title:'აბრაჰამის ლიბიდოს 6 სტადია', items:['ადრეული ორალური (წოვა)','გვიანი ორალური (კბენა)','ანალურ-ექსპულსიური','ანალურ-რეტენციური','ფალური','ზრდასრული გენიტალური']},
+ {id:'mahl', title:'მალერის ფაზები და ქვეფაზები', items:['ნორმალური აუტისტური','ნორმალური სიმბიოზური','გამოჩეკვა (დიფერენციაცია)','პრაქტიკა','დაახლოება','ობიექტის მუდმივობა']},
+ {id:'kern', title:'კერნბერგის 5 სტადია', items:['ნორმალური აუტიზმი (0–1 თვე)','ნორმალური სიმბიოზი (2 – 6–8 თვე)','მე-ს დიფერენცირება ობიექტისგან','მე და ობიექტ-წარმოდგენების ინტეგრაცია','Super-Ego-ს კონსოლიდაცია და ეგოს ინტეგრაცია']},
+ {id:'jung', title:'იუნგის ანალიზის 4 ეტაპი', items:['კათარზისი (აღსარება)','ტრანსფერი','აღზრდა','ტრანსფორმაცია']},
+ {id:'jungtasks', title:'იუნგის ანალიზის ამოცანები', items:['რეალობასთან დაბრუნება','აჩრდილის გაცნობიერება','ანიმა / ანიმუსის ანალიზი','ბრძენკაცისა და დიდი დედის ანალიზი']},
+ {id:'fer', title:'ფერენცის რეალობის შეგრძნების საფეხურები', items:['უპირობო ყოვლისშემძლეობა','მაგიური ჰალუცინაციური ყოვლისშემძლეობა','ყოვლისშემძლეობა მაგიური ჟესტებით','მაგიური აზრები და სიტყვები']},
+ {id:'sul', title:'სალივენის გამოცდილების ფორმები', items:['პროტოტაქსისი','პარატაქსისი','სინტაქსისი']},
+ {id:'fair', title:'ფერბერნის 3 საფეხური', items:['ინფანტილური დამოკიდებულება','გარდამავალი (კვაზი-დამოუკიდებლობა)','ზრდასრული დამოკიდებულება']},
+ {id:'winn', title:'ვინიკოტის მშობლიური ზრუნვა', items:['ჰოლდინგი','დედისა და ჩვილის თანაცხოვრება','მამის, დედისა და ჩვილის თანაცხოვრება']},
+ {id:'fperiods', title:'ფროიდის შემოქმედების 3 პერიოდი', items:['სამედიცინო მეთოდი ფსიქონევროზებისთვის','ზოგადფსიქოლოგიური მოძღვრება პიროვნებაზე','ფილოსოფიური სისტემა: კულტურა და რელიგია']},
+ {id:'tfp', title:'ტრანსფერზე ფოკუსირებული თერაპიის ეტაპები', items:['ობიექტ-ურთიერთობის დიაგნოსტიკური აღწერა','წარმოდგენების დამუშავება ტრანსფერში','გახლეჩილი წარმოდგენების ინტეგრაცია']},
+ {id:'brief', title:'ხანმოკლე თერაპიის 3 ფაზა', items:['კონტაქტის დამყარება','ფოკალური კონფლიქტის გადამუშავება','სეპარაცია']},
+ {id:'dates', title:'ქრონოლოგია: მოვლენები', items:DATES.map(d=>d[1]), labels:DATES.map(d=>d[0])}
+];
+
+const COMPARE = [
+ {id:'faj', title:'ფროიდი · ადლერი · იუნგი', icon:'scale',
+  cols:[['ფროიდი','#9A3A2B'],['ადლერი','#17706A'],['იუნგი','#5B3F8F']],
+  summary:'ფროიდი იყურება უკან — წარსულისა და სექსუალობისკენ; ადლერი წინ — მიზნისა და საზოგადოებისკენ; იუნგი სიღრმეში — კოლექტიური არაცნობიერისა და მთლიანობისკენ.',
+  rows:[
+   ['სკოლა','ფსიქოანალიზი','ინდივიდუალური ფსიქოლოგია','ანალიზური ფსიქოლოგია'],
+   ['ფროიდთან','დამფუძნებელი','თანამშრომლობა 1902–1911; წავიდა 1911 („მასკულინური პროტესტი“)','„კრონპრინცი“ 1907–1913; დაშორება 1913 („ლიბიდოს მეტამორფოზები“)'],
+   ['მთავარი კითხვა','„საიდან?“ — წარსული მიზეზი','„საითკენ?“ — მომავალი მიზანი','„ვინ უნდა გავხდე?“ — თვითობისკენ'],
+   ['პრინციპი','კაუზალობა, ფსიქიკური დეტერმინიზმი','ფინალიზმი','ენერგიას აქვს მიზეზიც და მიზანიც'],
+   ['ლიბიდო','სექსუალური ენერგია','ცენტრშია არა ლიბიდო, არამედ სწრაფვა ძალაუფლებისა და უპირატესობისკენ','ზოგადი ფსიქიკური ენერგია'],
+   ['მამოძრავებელი','სექსუალური და აგრესიული ლტოლვები','არასრულფასოვნების დაძლევა, კომპენსაცია','ინდივიდუაცია, თვითრეალიზაცია'],
+   ['არაცნობიერი','განდევნილი, პირადი მასალა; პირველადი პროცესი','ცნობიერ და არაცნობიერ მიზნებს შორის დაცილება (ნევროტიკთან დიდია)','პირადი + კოლექტიური (არქეტიპები); ავტონომიური, კომპენსატორული; ცნობიერება მისგან გამომდინარეობს'],
+   ['ფსიქიკის აგებულება','Id, Ego, Super-Ego; ცნობიერი, ქვეცნობიერი, არაცნობიერი','ერთიანი პიროვნება: ცხოვრების სტილი, აპერცეფციის სქემა','„მე“, პერსონა, აჩრდილი, ანიმა/ანიმუსი, სულის არქეტიპი, თვითობა'],
+   ['განვითარება','ფსიქოსექსუალური ფაზები: ორალური, ანალური, ფალური...','ოჯახური კონსტელაცია, აღზრდა (სიმკაცრე / განებივრება), ადრეული მიზნები','ლიბიდოს 3 სტადია; ცხოვრების შემობრუნება ~38–40 წელს'],
+   ['ოიდიპოსი','ცენტრალური, ნორმალური მოვლენა ფალურ ფაზაში','უნივერსალური არ არის — განებივრებულ ბავშვებშია (ამას ჰორნიც იზიარებს)','უარყოფს: დედა — მკვებავი და მფარველი ფიგურა, არა ინცესტური ლტოლვის ობიექტი'],
+   ['ნევროზის მიზეზი','კონფლიქტის კომპრომისული გადაწყვეტა; ფესვები ადრეულ ბავშვობაში','ცხოვრების მცდარი სტილი, არარეალური მიზნები, სუსტი სოციალური ინტერესი','აქტუალური სიტუაცია, რომელიც ძველ კონფლიქტებს რეაქტივირებს'],
+   ['ავადმყოფობა','Id-ის, Ego-სა და Super-Ego-ს ბრძოლის კომპრომისი','ავადმყოფობაში გაქცევა: პასუხისმგებლობის მოხსნა','ავადმყოფობაში გაქცევაც და თვითრეალიზაციის შესაძლებლობაც'],
+   ['თერაპიის მიზანი','წარსული ტრავმის გაცნობიერება','ცხოვრების სტილის გაგება, თვითშემეცნება, სოციალური ინტერესი','კათარზისი → ტრანსფერი → აღზრდა → ტრანსფორმაცია'],
+   ['ადამიანის ხედვა','ინსტინქტებით მართული; ომი და ნგრევა ბუნებითაა','პილოტი და არა რობოტი; ფილოსოფიური ოპტიმიზმი','მოგზაური შინაგან სამყაროში (ოდისეა, ენეიდა, ღვთაებრივი კომედია)'],
+   ['რელიგია','მესამე პერიოდში ფსიქოანალიზი კულტურასა და რელიგიას ხსნის','დადებითი: ღმერთი — სრულყოფის იდეალი; რელიგია = რწმენა, ინდ. ფსიქოლოგია = მეცნიერება','აღმოსავლური ფილოსოფიის გავლენა; რიტუალი ენერგიის მობილიზაციაა']
+  ],
+  common:['სამივე ექიმია და ვენის/ციურიხის ფსიქიატრიიდან მოდის; სამივე აღიარებს არაცნობიერის როლს.','ადლერი და იუნგი ორივე საუბრობს „ავადმყოფობაში გაქცევაზე“ — აქ იუნგი ადლერს და ჟანეს უახლოვდება.','ადლერის „მასკულინური პროტესტი“ იუნგის ენაზე „ანიმუსით შეპყრობილი ქალია“.','ორივე განდგომილი უარყოფს ფროიდის ლიბიდოს სექსუალურ გაგებას.']},
+
+ {id:'stages', title:'განვითარების სტადიები ასაკის მიხედვით', icon:'clock',
+  cols:[['ფროიდი','#9A3A2B'],['აბრაჰამი','#B4573F'],['ერიკსონი','#3B74C4'],['მალერი','#4C5FB0'],['კერნბერგი','#946036']],
+  summary:'ერთი ასაკი — ხუთი თვალსაზრისი: ფროიდი და აბრაჰამი ლიბიდოს ზონებს მიჰყვებიან, ერიკსონი სოციალურ კრიზისებს, მალერი და კერნბერგი — დედისგან ფსიქოლოგიურ დაბადებას.',
+  rows:[
+   ['0–1 თვე','ორალური','ადრეული ორალური: წოვა, ობიექტის გარეშე','ნდობა vs უნდობლობა','ნორმალური აუტისტური','ნორმალური აუტიზმი'],
+   ['2–6 თვე','ორალური','ადრეული ორალური','ნდობა vs უნდობლობა (იმედი)','ნორმალური სიმბიოზური (~5 თვემდე)','ნორმალური სიმბიოზი (6–8 თვემდე)'],
+   ['6–18 თვე','ორალური (18 თვემდე)','გვიანი ორალური: კბენა, ამბივალენტობა','ნდობა vs უნდობლობა (12–18 თვემდე)','გამოჩეკვა; პრაქტიკა (9–16 თვე)','მე-ს დიფერენცირება ობიექტისგან (6–8 → 18–36 თვე)'],
+   ['18 თვე – 3 წელი','ანალური','ანალურ-ექსპულსიური → ანალურ-რეტენციური','ავტონომია vs სირცხვილი/ეჭვი (ნებისყოფა)','დაახლოება (15–24 თვე) → ობიექტის მუდმივობა','დიფერენცირება (გაგრძელება)'],
+   ['3–6 წელი','ფალური, ოიდიპოსი','ფალური — პირველი გენიტალური','ინიციატივა vs დანაშაული (მიზანდასახულობა)','—','ინტეგრაცია (36 თვიდან ოიდიპოსამდე) → Super-Ego-ს კონსოლიდაცია'],
+   ['6–12 წელი','ლატენტური','—','პროდუქტიულობა vs არასრულფასოვნება (კომპეტენტურობა)','—','—'],
+   ['12–18 წელი','გენიტალური','ზრდასრული გენიტალური: პოსტამბივალენტური სიყვარული','იდენტობა vs როლების აღრევა (ერთგულება)','—','—'],
+   ['19–40 წელი','—','—','ინტიმურობა vs იზოლაცია (სიყვარული)','—','—'],
+   ['40–65 წელი','—','—','გენერაციულობა vs სტაგნაცია (ზრუნვა)','—','—'],
+   ['65+','—','—','ეგოს ინტეგრულობა vs სასოწარკვეთა (სიბრძნე)','—','—']
+  ],
+  common:['ერიკსონი ერთადერთია, ვინც განვითარებას მთელ სიცოცხლეზე ავრცელებს (8 სტადიიდან 3 — ზრდასრულობა).','კერნბერგი პირველ ორ სტადიას პირდაპირ მალერისგან იღებს (აუტიზმი, სიმბიოზი).','აბრაჰამი ფროიდის ფაზებს ორად ყოფს: ორალური = წოვა + კბენა, ანალური = გამოდევნა + შეკავება.']},
+
+ {id:'akl', title:'ანა ფროიდი · მელანი კლაინი', icon:'users',
+  cols:[['ანა ფროიდი','#2B5EA7'],['მელანი კლაინი','#A4661C']],
+  summary:'ორივე ბავშვთა ფსიქოანალიზის ფუძემდებელია, მაგრამ ანა ფროიდი უყურებს Ego-ს და რეალურ, აწმყო სიტუაციას, კლაინი კი — ადრეულ ფანტაზიებსა და შინაგან ობიექტებს.',
+  rows:[
+   ['სკოლა','ეგო ფსიქოლოგია','ობიექტ-ურთიერთობები'],
+   ['ფოკუსი','Ego და მისი დაცვითი მექანიზმები','ადრეული არაცნობიერი ფანტაზიები, შფოთი, აგრესია'],
+   ['ბავშვი ანალიზში','ურთიერთობს რეალურ მშობლებთან; პრობლემა აწმყოშია','ურთიერთობს შინაგან, ფანტასტიკურ მშობლებთან'],
+   ['თერაპევტი','მზრუნველი მშობელი; ბავშვის სიმბოლიზაცია სუსტია','თამაში (ხატვა, ძერწვა, კონსტრუირება) გადატანის შესაქმნელად'],
+   ['Super-Ego','კლასიკური ხედვა','ყალიბდება ადრე; არსებობს ადრეული ოიდიპოსი'],
+   ['დაცვები','10 მექანიზმი; Ego-ს დაცვა Id-ის მოთხოვნებისგან','ადრეულ ბავშვობაში პროექცია და ინტროექცია ჭარბობს; გახლეჩა'],
+   ['განვითარება','ფაზები და კრიზისები ბავშვობასა და მოზარდობაში','პოზიციები: პარანოიდულ-შიზოიდური → დეპრესიული'],
+   ['მთავარი ნაშრომი / ცნება','„მე და დაცვითი მექანიზმები“ (1936)','დეპრესიული პოზიცია (= ფროიდის ოიდიპოსის როლი)']
+  ],
+  common:['ორივემ ბავშვთა ანალიზი ადაპტაციურ, პედაგოგიურ ხასიათთან დააკავშირა.','ორივე ფროიდის იდეებიდან მოდის; კლაინმა ანალიზი აბრაჰამთან გაიარა, ანამ — მამასთან.']},
+
+ {id:'rank', title:'ფროიდი · რანკი', icon:'repeat',
+  cols:[['ფროიდი','#9A3A2B'],['რანკი','#2D5F86']],
+  summary:'ფროიდისთვის ნევროზის ბირთვი ოიდიპოსი და მამაა, რანკისთვის — დაბადება, დედა და სეპარაცია. ფროიდი წარსულს იკვლევს, რანკი — „აქ და ახლა“-ს.',
+  rows:[
+   ['ნევროზის ბირთვი','ოიდიპოსის კომპლექსი','დაბადების ტრავმა, სეპარაციის შფოთი (პრე-ოიდიპოსური)'],
+   ['ცენტრალური ფიგურა','მამა','დედა'],
+   ['დრო','წარსული, ბავშვობა','„აქ და ახლა“'],
+   ['ტერმინი','განდევნა (Verdrängung)','უარყოფა (Verleugnung)'],
+   ['ემოციები','ლიბიდოს დერივატები, სექსუალური','ემოცია = ურთიერთობა'],
+   ['წინააღმდეგობა','დასაძლევი','ნების გამოვლინება — გამოსაყენებელი'],
+   ['თერაპია','ხანგრძლივი; „სადაც Id იყო, იქ Ego უნდა იყოს“','აქტიური, ეგალიტარული, ხანმოკლე; ნებისყოფის თერაპია'],
+   ['ნევროზის ხედვა','სექსუალობიდან გაქცევა','შემოქმედებითი მარცხი'],
+   ['მიზეზობრიობა','კაუზალური პარადიგმა','კაუზალურ პარადიგმას არ იზიარებს']
+  ],
+  common:['ფროიდიც აღიარებდა დაბადებას შფოთის პროტოტიპად — რანკი ამას მთელ ფსიქიკურ ცხოვრებაზე ავრცელებს.','თავიდან ფროიდმა „დაბადების ტრავმა“ შეაქო, შემდეგ კი „ანტიოიდიპოსურ ერესად“ მონათლა.']},
+
+ {id:'neo', title:'ჰორნი · ფრომი · სალივენი', icon:'users',
+  cols:[['ჰორნი','#4B7629'],['ფრომი','#3D6B3A'],['სალივენი','#5C7F3C']],
+  summary:'სამივე ნევროზის წყაროს საზოგადოებასა და ურთიერთობებში ეძებს: ჰორნი — ბაზისურ შფოთში, ფრომი — თავისუფლებისგან გაქცევაში, სალივენი — ინტერპერსონალურ სიტუაციაში.',
+  rows:[
+   ['მიმართულება','ქარაქტეროლოგიური ანალიზი','ჰუმანისტური ფსიქოანალიზი','ინტერპერსონალური ფსიქიატრია'],
+   ['ცენტრალური ცნება','ბაზისური შფოთი','თავისუფლება და ნევროტული მექანიზმები','ინტერპერსონალური სიტუაცია, პერსონიფიკაცია'],
+   ['ნევროზის წყარო','კულტურა და აღზრდა, მტრული გარემო','სოციალურ-კულტურული ფაქტორები, კაპიტალიზმი','გაზრდილი შფოთი; შფოთი დედისგან გადაეცემა'],
+   ['ტიპოლოგია','ადამიანებისკენ, წინააღმდეგ, ადამიანებისგან','მორჩილება, ძალაუფლება, ნგრევა, ავტომატური კონფორმიზმი','პროტოტაქსისი, პარატაქსისი, სინტაქსისი'],
+   ['ოიდიპოსი','არაუნივერსალური — განებივრებულ ბავშვებში','აჯანყება ავტორიტარული მამის წინააღმდეგ','—'],
+   ['ჯანსაღი იდეალი','თვითრეალიზაცია','პროდუქტიული ხასიათი','უსაფრთხოება და ადექვატური ურთიერთობები'],
+   ['თერაპია','იდეალიზებული მე-ს მხილება + ფსიქოსინთეზი','—','ადრეული ურთიერთობების ანალიზი, პარატაქსიური დამახინჯების კორექცია']
+  ],
+  common:['სამივე ნეოფროიდისტია: უარყოფენ ლიბიდოს თეორიას და გარემოს ინსტინქტზე მაღლა აყენებენ.','ჰორნი და ფრომი ორივე ადლერს უახლოვდება (ოიდიპოსი, სოციალური გრძნობა).']},
+
+ {id:'kk', title:'კერნბერგი · კოჰუტი: ნარცისიზმი', icon:'eye',
+  cols:[['კერნბერგი','#946036'],['კოჰუტი','#A5703F']],
+  summary:'ორივე ნარცისიზმზე და მძიმე პაციენტებზეა ფოკუსირებული, მაგრამ კერნბერგისთვის ნარცისიზმი ძირითადად ფსიქოპათოლოგიაა, კოჰუტი კი ჯანმრთელ და ავადმყოფურ ფორმებს ანსხვავებს.',
+  rows:[
+   ['მიმართულება','ეგო ფსიქოლოგიისა და ობიექტ-ურთიერთობების ინტეგრაცია','სელფ ფსიქოლოგია'],
+   ['ნარცისიზმი','ძირითადად ფსიქოპათოლოგიური ფენომენი; 3 ტიპი','ჯანმრთელი და ავადმყოფური ფორმები'],
+   ['ნორმალური ნარცისიზმი','მე-ს ლიბიდოზური ინვესტირება — ურთიერთობებიდან, არა ინსტინქტიდან','მე-ში ემოციური ინვესტირება ცენტრალური თემაა'],
+   ['უთანხმოების საგანი','ნარცისული და მოსაზღვრე პიროვნებების მიმართება; ნორმა და პათოლოგია','ნარცისული იდეალიზაცია, გრანდიოზული მე, ტექნიკა, ნარცისული ტრანსფერი']
+  ],
+  common:['ორივე მუშაობდა ნარცისულ, მოსაზღვრე და ფსიქოზურ პაციენტებთან.']},
+
+ {id:'bio', title:'დინამიკური · ბიოლოგიური ფსიქიატრია', icon:'brain',
+  cols:[['დინამიკური','#3A4566'],['ბიოლოგიური','#556070']],
+  summary:'ორივე მიდგომა, თუ მეორეს უარყოფს, შეზღუდული და რედუქციონისტულია: ფსიქიკა და ტვინი ერთმანეთზე მოქმედებს.',
+  rows:[
+   ['ეტიოლოგია','ფსიქიკაში, პიროვნებაში','ტვინში, ბიოქიმიაში'],
+   ['მკურნალობა','ფსიქოთერაპია','სომატური: მედიკამენტური, ფიზიოთერაპიული'],
+   ['ფსიქიკა და სომა','ერთი მოვლენის ორი ასპექტი — არც გაყოფა, არც გაიგივება','ტვინის ცვლილება — მიზეზი და არა მედიატორი (ლიპოვსკის კრიტიკით)'],
+   ['მტკიცებულება','კანდელი: თერაპია ტვინს ცვლის; ვან დერ კოლკი: დეპრივაცია → მორფოლოგიური ცვლილებები','როუზი და პარდესი: ნორეპინეფრინის კლება ხელს უწყობს მომწიფებას']
+  ],
+  common:['ფსიქიკისა და ტვინის პირველადობის საკითხი ფილოსოფიურ-რელიგიურია და მეცნიერების ფარგლებს სცდება.','დინამიკური ფსიქიატრია მაინც გადამწყვეტ როლს პიროვნებას ანიჭებს.']}
+];
+
+const EPITHETS = [
+ ['კრონპრინცი','ფროიდი იუნგზე — „უფროსი შვილი და მემკვიდრე“','jung'],
+ ['მარჯვენა ხელი','რანკი — ფროიდის უახლოესი, „პატარა რანკი“','rank'],
+ ['სუფთა ოქრო','ფროიდი ფერენცის ნაშრომებზე','ferenczi'],
+ ['ანტიოიდიპოსური ერესი','ფროიდი რანკის „დაბადების ტრავმაზე“','rank'],
+ ['ფსიქოანალიზთან ერთად დავიბადე','ანა ფროიდი საკუთარ თავზე (1895)','annafreud'],
+ ['ვენის მესამე სკოლა','ფრანკლის ლოგოთერაპია','frankl'],
+ ['დასავლეთის იოგა','იუნგი ანალიზურ ფსიქოლოგიაზე','jung'],
+ ['პილოტი, არა რობოტი','ადლერის ხედვა ადამიანზე','adler']
+];
+
+const SPLITS = [
+ ['1911','ადლერი','„მასკულინური პროტესტის“ შემდეგ, ფიურტმიულერთან ერთად; ინდივიდუალური ფსიქოლოგია','adler'],
+ ['1913','იუნგი','„ლიბიდოს მეტამორფოზები და სიმბოლოები“: ლიბიდო = ზოგადი ენერგია','jung'],
+ ['1924–26','რანკი','„დაბადების ტრავმა“: ოიდიპოსის ცენტრალური როლის ეჭვქვეშ დაყენება','rank'],
+ ['1927–34','რაიხი','მარქსიზმი და ნევროზის სექსუალური წარმოშობა; persona non grata','reich'],
+ ['1929–33','ფერენცი','აქტიური თერაპია, „ენების აღრევა“; გარიყვა ორთოდოქსიიდან','ferenczi'],
+ ['~1930-იანი','ჰორნი','15 წლის ორთოდოქსიის შემდეგ — საკუთარი ასოციაცია','horney']
+];
+
+/* ================= HELPERS ================= */
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ic = (n, cls='') => `<svg class="i ${cls}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = (a, n) => shuffle(a).slice(0, n);
+const ALL = [...T, ...M];
+const byId = Object.fromEntries([...ALL, ...TOPIC_CARDS].map(t => [t.id, t]));
+const byShort = Object.fromEntries(ALL.map(t => [t.short, t]));
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const AUTH_RE = new RegExp('\\s*\\((' + ALL.map(t => reEsc(t.short)).join('|') + ')\\)', 'g');
+const clean = s => String(s).replace(AUTH_RE, '');
+const colorOf = id => (byId[id] && byId[id].color) || '#3A4566';
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('pr:' + k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem('pr:' + k, JSON.stringify(v)); } catch(e){} }
+};
+let toastT;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1800); }
+function fmtTime(s){ const m = Math.floor(s / 60); return m + ':' + String(s % 60).padStart(2, '0'); }
+
+/* ================= FLASHCARD POOL ================= */
+const CARDS = [];
+ALL.forEach(t => {
+  t.concepts.forEach((c, i) => CARDS.push({id: t.id + ':c' + i, deck: t.id, kind:'concept', front: clean(c[0]), back: c[1], who: t.id}));
+  (t.facts || []).forEach((f, i) => CARDS.push({id: t.id + ':f' + i, deck: t.id, kind:'fact', front: f[0], back: f[1], who: t.id}));
+});
+DEFENSES.forEach((d, i) => CARDS.push({id:'defense:' + i, deck:'defense', kind:'term', front: d[0], back: d[1] + ' მაგალითი: ' + d[2] + '.', who:'defense'}));
+OBJREL.forEach((d, i) => CARDS.push({id:'objrel:' + i, deck:'objrel', kind:'term', front: d[0], back: d[1], who:'objrel'}));
+TOPIC_CONCEPTS.psyche.forEach((d, i) => CARDS.push({id:'psyche:' + i, deck:'psyche', kind:'term', front: d[0], back: d[1], who:'psyche'}));
+TOPIC_CONCEPTS.brief.forEach((d, i) => CARDS.push({id:'brief:' + i, deck:'brief', kind:'term', front: 'ხანმოკლე თერაპია: ' + d[0], back: d[1], who:'brief'}));
+TOPIC_CONCEPTS.neofreud.forEach((d, i) => CARDS.push({id:'neofreud:' + i, deck:'neofreud', kind:'term', front: 'ნეოფროიდისტები: ' + d[0], back: d[1], who:'neofreud'}));
+ERIKSON.forEach((e, i) => CARDS.push({id:'erikstage:' + i, deck:'erikson', kind:'fact', front: 'ერიკსონის ' + (i + 1) + '-ე სტადია: რა კრიზისი, ასაკი და სათნოებაა?', back: e[0] + ' · ' + e[2] + ' · სათნოება: ' + e[1] + '. კითხვა: ' + e[3], who:'erikson'}));
+
+/* ================= STATE ================= */
+const S = {
+  view: 'map',
+  fcStatus: store.get('fc', {}),   // id -> 1 (learning) | 2 (known)
+  best: store.get('best', {}),
+  thinkerFilter: 'all', thinkerQuery: '',
+  cmp: 'faj', selftest: false
+};
+function saveFc(){ store.set('fc', S.fcStatus); renderStrip(); }
+function setBest(key, val, better){ const cur = S.best[key]; if (cur == null || better(val, cur)) { S.best[key] = val; store.set('best', S.best); return true; } return false; }
+
+/* ================= NAV ================= */
+const VIEWS = [['map','რუკა','compass'],['thinkers','ავტორები','users'],['compare','შედარება','scale'],['cards','ბარათები','layers'],['match','დაკავშირება','link'],['memory','მეხსიერება','grid'],['order','თანმიმდევრობა','list'],['quiz','ქვიზი','help']];
+function renderTabs(){
+  $('#tabs').innerHTML = VIEWS.map(v => `<button class="tab" role="tab" id="tab-${v[0]}" aria-controls="view-${v[0]}" aria-selected="${S.view === v[0]}" data-go="${v[0]}">${ic(v[2])}<span>${v[1]}</span></button>`).join('');
+}
+const rendered = {};
+function go(view, opts={}){
+  if (!VIEWS.some(v => v[0] === view)) view = 'map';
+  S.view = view;
+  $$('[data-view]').forEach(s => s.hidden = s.id !== 'view-' + view);
+  $$('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.go === view));
+  const tab = $('#tab-' + view); if (tab) tab.scrollIntoView({block:'nearest', inline:'nearest'});
+  if (!rendered[view] || opts.force) { RENDER[view](opts); rendered[view] = true; }
+  else if (RENDER_ON_SHOW[view]) RENDER_ON_SHOW[view](opts);
+  try { history.replaceState(null, '', '#' + view); } catch(e){}
+  if (!opts.keepScroll) window.scrollTo({top: 0});
+}
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]');
+  if (g) { e.preventDefault(); go(g.dataset.go); return; }
+  const th = e.target.closest('[data-thinker]');
+  if (th) { e.preventDefault(); openThinker(th.dataset.thinker); return; }
+  const st = e.target.closest('[data-study]');
+  if (st) { e.preventDefault(); S.fcDeck = st.dataset.study; go('cards', {force:true}); return; }
+});
+
+function renderStrip(){
+  const known = Object.values(S.fcStatus).filter(v => v === 2).length;
+  const pct = Math.round(known / CARDS.length * 100);
+  const qb = S.best.quiz != null ? S.best.quiz + '%' : '—';
+  $('#pstrip').innerHTML = `
+    <div class="pstat"><b>${ALL.length}</b><span>ავტორი</span></div>
+    <div class="pstat"><b class="tab-nums">${known}/${CARDS.length}</b><span>ნასწავლი ბარათი</span></div>
+    <div class="pstat"><b>${pct}%</b><span>პროგრესი</span></div>
+    <div class="pstat"><b>${qb}</b><span>ქვიზის რეკორდი</span></div>`;
+}
+
+/* ================= VIEW: MAP ================= */
+function renderMap(){
+  const order = ['classic','dissent','ego','object','neo','body','exist'];
+  const schoolsHtml = order.map(k => {
+    const list = ALL.filter(t => t.school === k && t.id !== 'georgian');
+    return `<div class="school"><div class="school-head" style="background:${SCHOOLS[k].color}">${SCHOOLS[k].name}</div>
+      <div class="school-list">${list.map(t => `<button class="person" data-thinker="${t.id}"><span class="mono" style="background:${t.color}">${t.mono}</span><span><b>${esc(t.name)}</b><span>${esc(t.one)}</span></span></button>`).join('')}</div></div>`;
+  }).join('');
+  const tips = [
+    ['target','ერთი კითხვა თითო ავტორზე','ფროიდი — „საიდან?“, ადლერი — „საითკენ?“, იუნგი — „ვინ უნდა გავხდე?“. კითხვა ავტორის მთელ თეორიას „იხსნის“.'],
+    ['grid','ფერი = სკოლა','ყოველ სკოლას თავისი ფერი აქვს — ბარათებშიც, თამაშებშიც. ფერი თავისთავად დაგაჯგუფებინებს ავტორებს.'],
+    ['eye','აქტიური გახსენება','ბარათის გადაბრუნებამდე პასუხი ხმამაღლა თქვი. გახსენების მცდელობა ტვინს უფრო აძლიერებს, ვიდრე ხელახლა წაკითხვა.'],
+    ['repeat','ინტერვალური გამეორება','„ვერ გავიხსენე“ ბარათები „სუსტ“ დასტაში რჩება. ჯერ ისინი გაიმეორე, მერე — ახალი.'],
+    ['scale','შედარებით დამახსოვრება','მსგავსი ავტორები ერთმანეთში ირევა. შედარების ცხრილში ჩართე „თვითშემოწმება“ და უჯრები თვითონ გაიხსენე.'],
+    ['bulb','დასამახსოვრებელი ფრაზა','თითო ავტორს აქვს მოკლე მნემონიკა — სასაცილო წინადადება, მეტაფორა ან ფროიდის ეპითეტი.']
+  ];
+  const tl = renderTimeline();
+  $('#view-map').innerHTML = `
+  <div class="hero">
+    <div class="panel hero-lead">
+      <span class="label">სიღრმის ფსიქოლოგია · რიდერის შეჯამება</span>
+      <h2>ფროიდი შუაშია, დანარჩენები მასთან კამათით ან მისი გაგრძელებით ჩამოყალიბდნენ.</h2>
+      <p class="muted">აქ რიდერის მთელი მასალაა: ${ALL.length} ავტორი, ${COMPARE.length} შედარების ცხრილი და ${CARDS.length} ბარათი. ჯერ რუკით დაინახე სურათი, მერე ავტორების ბარათებზე გადადი და ბოლოს თამაშებით შეამოწმე, რა დაგამახსოვრდა.</p>
+      <div class="row"><button class="btn primary" data-go="thinkers">${ic('users')}ავტორები</button><button class="btn" data-go="compare">${ic('scale')}ფროიდი · ადლერი · იუნგი</button></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-bottom:12px">სწავლის გეგმა</h3>
+      <div class="plan">
+        ${[['thinkers','წაიკითხე ავტორის ბარათი','არსი, საკვანძო კითხვა, მნემონიკა'],['compare','შეადარე მეზობლებს','თვითშემოწმების რეჟიმით'],['cards','ბარათები','აქტიური გახსენება და გამეორება'],['match','დაკავშირება და მეხსიერება','ცნება ↔ ავტორი, მექანიზმი ↔ მაგალითი'],['order','თანმიმდევრობა','სტადიები და ეტაპები სწორი რიგით'],['quiz','ქვიზი','საბოლოო შემოწმება']].map((s,i) => `<button class="plan-step" data-go="${s[0]}"><span class="n">${i+1}</span><span><b>${s[1]}</b><span>${s[2]}</span></span></button>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <div class="view-head"><div><h2>სკოლების რუკა</h2><p>დააჭირე ავტორს — გაიხსნება მისი სრული ბარათი.</p></div></div>
+  <div class="schools">${schoolsHtml}</div>
+
+  <div class="view-head"><div><h2>სიცოცხლის ხაზი</h2><p>ვინ ვის თანამედროვე იყო. ოქროსფერი ხაზები — გარდამტეხი თარიღები.</p></div></div>
+  <div class="panel tl-scroll">${tl}</div>
+
+  <div class="view-head"><div><h2>ვინ როდის დაშორდა ფროიდს</h2><p>განხეთქილების ქრონიკა: თითოეული განდგომა ახალ სკოლას ბადებს.</p></div></div>
+  <div class="split-list">${SPLITS.map(s => `<button class="split" data-thinker="${s[3]}" style="text-align:left"><span class="yr" style="color:${colorOf(s[3])}">${s[0]}</span><b>${s[1]}</b><span class="small muted">${esc(s[2])}</span></button>`).join('')}</div>
+
+  <div class="view-head"><div><h2>ფრაზები, რომლებიც გამოცდაზე გაგახსენდება</h2><p>ეპითეტები და მეტსახელები — ყველაზე სწრაფი „კაკვები“ მეხსიერებისთვის.</p></div></div>
+  <div class="epithets">${EPITHETS.map(e => `<button class="epithet" data-thinker="${e[2]}" style="text-align:left"><q>${esc(e[0])}</q><span class="small muted">${esc(e[1])}</span><span class="tag" style="align-self:flex-start"><span class="dot" style="width:8px;height:8px;background:${colorOf(e[2])}"></span>${esc(byId[e[2]].short)}</span></button>`).join('')}</div>
+
+  <div class="view-head"><div><h2>როგორ დაიმახსოვრო</h2></div></div>
+  <div class="panel tips">${tips.map(t => `<div class="tip"><span class="ic">${ic(t[0])}</span><div><b>${t[1]}</b><p>${t[2]}</p></div></div>`).join('')}</div>`;
+}
+function renderTimeline(){
+  const y0 = 1850, y1 = 2000, span = y1 - y0;
+  const pos = y => ((y - y0) / span * 100).toFixed(2) + '%';
+  const list = T.slice().sort((a, b) => a.b - b.b);
+  let ticks = '', grid = '';
+  for (let y = y0; y <= y1; y += 25) { ticks += `<span class="tl-tick" style="left:${pos(y)}">${y}</span>`; grid += `<span class="tl-grid" style="left:${pos(y)}"></span>`; }
+  const events = [[1896,'ფსიქოანალიზი'],[1911,'ადლერი'],[1913,'იუნგი'],[1939,'ფროიდი †']];
+  const ev = events.map(e => `<span class="tl-event" style="left:${pos(e[0])}"><span>${e[0]} ${e[1]}</span></span>`).join('');
+  const rows = list.map(t => {
+    const end = t.d || y1;
+    return `<div class="tl-row"><button class="tl-bar" data-thinker="${t.id}" style="left:${pos(t.b)};width:calc(${pos(end)} - ${pos(t.b)});background:${t.color}${t.d ? '' : ';opacity:.8'}" title="${esc(t.name)} ${t.years}">${esc(t.short)} · ${t.years}</button></div>`;
+  }).join('');
+  return `<div class="tl"><div class="tl-axis">${ticks}</div>${grid}${ev}<div style="position:relative;padding-top:14px">${rows}</div></div>`;
+}
+
+/* ================= VIEW: THINKERS ================= */
+function extraFor(t){
+  if (t.id === 'erikson') {
+    return `<div class="extra"><span class="label">8 სტადია</span><div class="tbl-scroll"><table class="mini-table"><thead><tr><th>#</th><th>კრიზისი</th><th>ასაკი</th><th>სათნოება</th></tr></thead><tbody>${ERIKSON.map((e,i) => `<tr><td class="tab-nums">${i+1}</td><td><b>${e[0]}</b><div class="small muted">${e[3]}</div></td><td class="tab-nums" style="white-space:nowrap">${e[2]}</td><td>${e[1]}</td></tr>`).join('')}</tbody></table></div><p class="small muted">შენიშვნა: რიდერში მე-2 სტადიის სათნოებად შეცდომით „ნდობა“ წერია; ერიკსონთან ეს ნებისყოფაა (Will).</p></div>`;
+  }
+  if (t.id === 'jung') {
+    return `<div class="extra"><span class="label">ცნობიერების 4 ფუნქცია (სქემა №9)</span>
+    <svg class="jung-fig" viewBox="0 0 340 250" role="img" aria-label="იუნგის ოთხი ფუნქცია: ვერტიკალურ ღერძზე აზროვნება და გრძნობა, ჰორიზონტალურზე შეგრძნება და ინტუიცია">
+      <line x1="170" y1="34" x2="170" y2="216" stroke="#5B3F8F" stroke-width="3"/>
+      <line x1="62" y1="125" x2="278" y2="125" stroke="#8A93A3" stroke-width="3"/>
+      <rect x="140" y="95" width="60" height="60" fill="#5B3F8F"/>
+      <text x="170" y="131" text-anchor="middle" fill="#FFFFFF" font-size="15" font-weight="700" font-family="Noto Sans Georgian, sans-serif">მე</text>
+      <text x="170" y="22" text-anchor="middle" fill="#18202E" font-size="14" font-weight="700" font-family="Noto Sans Georgian, sans-serif">აზროვნება</text>
+      <text x="170" y="240" text-anchor="middle" fill="#18202E" font-size="14" font-weight="700" font-family="Noto Sans Georgian, sans-serif">გრძნობა</text>
+      <text x="56" y="130" text-anchor="end" fill="#18202E" font-size="14" font-weight="700" font-family="Noto Sans Georgian, sans-serif">შეგრძნება</text>
+      <text x="284" y="130" text-anchor="start" fill="#18202E" font-size="14" font-weight="700" font-family="Noto Sans Georgian, sans-serif">ინტუიცია</text>
+      <text x="180" y="72" fill="#5B3F8F" font-size="11.5" font-family="Noto Sans Georgian, sans-serif">რაციონალური</text>
+      <text x="212" y="146" fill="#566173" font-size="11.5" font-family="Noto Sans Georgian, sans-serif">ირაციონალური</text>
+    </svg>
+    <p class="small muted">მოპირდაპირე ფუნქციები ერთმანეთს ეწინააღმდეგება: თუ აზროვნებაა წამყვანი, გრძნობა ყველაზე განუვითარებელია. × ექსტრავერსია / ინტროვერსია = 8 ტიპი.</p></div>`;
+  }
+  if (t.id === 'horney') {
+    const arrow = (kind) => kind === 'to' ? '<svg viewBox="0 0 54 22"><line x1="2" y1="11" x2="40" y2="11" stroke="#4B7629" stroke-width="3"/><path d="M34 4 42 11 34 18" fill="none" stroke="#4B7629" stroke-width="3"/><rect x="45" y="5" width="8" height="12" fill="#18202E"/></svg>'
+      : kind === 'against' ? '<svg viewBox="0 0 54 22"><line x1="2" y1="11" x2="38" y2="11" stroke="#B03A3A" stroke-width="3"/><path d="M32 4 40 11 32 18" fill="none" stroke="#B03A3A" stroke-width="3"/><rect x="42" y="2" width="5" height="18" fill="#B03A3A"/><rect x="47" y="5" width="6" height="12" fill="#18202E"/></svg>'
+      : '<svg viewBox="0 0 54 22"><rect x="1" y="5" width="8" height="12" fill="#18202E"/><line x1="52" y1="11" x2="18" y2="11" stroke="#566173" stroke-width="3"/><path d="M24 4 16 11 24 18" fill="none" stroke="#566173" stroke-width="3"/></svg>';
+    return `<div class="extra"><span class="label">სამი ორიენტაცია ბაზისური შფოთის წინააღმდეგ</span><div class="horney">
+      <div>${arrow('to')}<span><b>ადამიანებისკენ</b> — უსუსურობა, სიყვარულის მაძიებელი (სუბმისიური)</span></div>
+      <div>${arrow('against')}<span><b>ადამიანების წინააღმდეგ</b> — აგრესიულობა, ძალაუფლება</span></div>
+      <div>${arrow('away')}<span><b>ადამიანებისგან</b> — გამიჯვნა, განცალკევება (გაქცევა)</span></div></div></div>`;
+  }
+  if (t.id === 'annafreud') {
+    const ten = DEFENSES.filter(d => d[3]).map(d => d[0].replace(/ \(.*\)/, ''));
+    return `<div class="extra"><span class="label">ანა ფროიდის 10 მექანიზმი</span><div class="chips">${ten.map(n => `<span class="tag">${esc(n)}</span>`).join('')}</div><button class="btn flat" data-thinker="defense">${ic('book','i-sm')}ყველა დაცვითი მექანიზმი</button></div>`;
+  }
+  return '';
+}
+function thinkerCard(t){
+  return `<article class="tcard" id="t-${t.id}" data-school="${t.school}">
+    <header class="tc-head"><span class="mono" style="background:${t.color}">${t.mono}</span><div><h3>${esc(t.name)}</h3><div class="meta">${t.years} · ${SCHOOLS[t.school].name}</div></div></header>
+    <div class="tc-body">
+      <p class="essence">${esc(t.essence)}</p>
+      <div class="hookbox">${ic('bulb')}<div><p><b>საკვანძო კითხვა:</b> ${esc(t.question)}</p><p><b>დაიმახსოვრე:</b> ${esc(t.hook)}</p></div></div>
+      ${extraFor(t)}
+      <details class="more"><summary>${ic('book','i-sm')}ცნებები (${t.concepts.length})${ic('chev','i-sm chev')}</summary><div class="inner"><dl class="concepts">${t.concepts.map(c => `<div><dt>${esc(c[0])}</dt><dd>${esc(c[1])}</dd></div>`).join('')}</dl></div></details>
+      <details class="more"><summary>${ic('clock','i-sm')}ბიოგრაფია და თარიღები${ic('chev','i-sm chev')}</summary><div class="inner"><ul class="bio">${t.bio.map(b => `<li>${esc(b)}</li>`).join('')}</ul></div></details>
+      <div class="tc-actions"><button class="btn primary" data-study="${t.id}">${ic('layers','i-sm')}ბარათები (${CARDS.filter(c => c.deck === t.id).length})</button></div>
+    </div></article>`;
+}
+function topicCard(tp){
+  let body = '';
+  if (tp.id === 'defense') {
+    body = `<div class="tbl-scroll"><table class="mini-table"><thead><tr><th>მექანიზმი</th><th>რას აკეთებს</th><th>მაგალითი</th></tr></thead><tbody>${DEFENSES.map(d => `<tr><td><b>${esc(d[0])}</b>${d[3] ? '<div class="small" style="color:#2B5EA7">ანა ფროიდის 10-დან</div>' : ''}${d[4] ? '<div class="small" style="color:#2D7A4C">ჯანმრთელი (ვაილანტი)</div>' : ''}</td><td>${esc(d[1])}</td><td class="muted">${esc(d[2])}</td></tr>`).join('')}</tbody></table></div>`;
+  } else {
+    body = `<dl class="concepts">${TOPIC_CONCEPTS[tp.id].map(c => `<div><dt>${esc(c[0])}</dt><dd>${esc(c[1])}</dd></div>`).join('')}</dl>`;
+  }
+  return `<article class="tcard" id="t-${tp.id}" data-school="topic">
+    <header class="tc-head"><span class="mono" style="background:${tp.color}">${tp.mono}</span><div><h3>${esc(tp.name)}</h3><div class="meta">${esc(tp.one)}</div></div></header>
+    <div class="tc-body"><p class="essence">${esc(tp.intro)}</p>
+      <details class="more"${tp.id === 'defense' ? ' open' : ''}><summary>${ic('book','i-sm')}სრული ჩამონათვალი${ic('chev','i-sm chev')}</summary><div class="inner">${body}</div></details>
+      <div class="tc-actions"><button class="btn primary" data-study="${tp.id}">${ic('layers','i-sm')}ბარათები (${CARDS.filter(c => c.deck === tp.id).length})</button></div>
+    </div></article>`;
+}
+function renderThinkers(){
+  const schoolsUsed = ['all','classic','dissent','ego','object','neo','body','exist','topic'];
+  $('#view-thinkers').innerHTML = `
+    <div class="view-head"><div><h2>ავტორები და თემები</h2><p>თითო ბარათზე: არსი ერთ აბზაცში, საკვანძო კითხვა, დასამახსოვრებელი ფრაზა, ცნებები და თარიღები.</p></div></div>
+    <div class="filters">
+      <label class="search">${ic('search','i-sm')}<input id="tq" type="search" placeholder="ძებნა: ცნება ან სახელი" value="${esc(S.thinkerQuery)}"></label>
+      <div class="chips" id="tfilters">${schoolsUsed.map(k => `<button class="chip" data-f="${k}" aria-pressed="${S.thinkerFilter === k}">${k !== 'all' ? `<span class="dot" style="background:${SCHOOLS[k].color}"></span>` : ''}${k === 'all' ? 'ყველა' : SCHOOLS[k].name}</button>`).join('')}</div>
+    </div>
+    <div class="tgrid" id="tgrid"></div>
+    <div id="minorwrap"></div>`;
+  $('#tq').addEventListener('input', e => { S.thinkerQuery = e.target.value; drawThinkers(); });
+  $('#tfilters').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; S.thinkerFilter = b.dataset.f; $$('#tfilters .chip').forEach(c => c.setAttribute('aria-pressed', c === b)); drawThinkers(); });
+  drawThinkers();
+}
+function matchesQuery(obj, q){
+  if (!q) return true;
+  q = q.toLowerCase();
+  const hay = [obj.name, obj.one, obj.essence || '', obj.intro || '', ...(obj.concepts || []).flat(), ...(TOPIC_CONCEPTS[obj.id] || []).flat()].join(' ').toLowerCase();
+  return hay.includes(q);
+}
+function drawThinkers(){
+  const f = S.thinkerFilter, q = S.thinkerQuery.trim();
+  const major = T.filter(t => (f === 'all' || t.school === f) && matchesQuery(t, q));
+  const topics = TOPIC_CARDS.filter(tp => (f === 'all' || f === 'topic') && matchesQuery(tp, q));
+  const minor = M.filter(t => (f === 'all' || t.school === f) && matchesQuery(t, q));
+  $('#tgrid').innerHTML = major.map(thinkerCard).join('') + topics.map(topicCard).join('') || (minor.length ? '' : '<div class="panel empty">ვერაფერი მოიძებნა. სცადე სხვა სიტყვა.</div>');
+  $('#minorwrap').innerHTML = minor.length ? `<div class="view-head" style="margin-top:8px"><div><h3>სხვა ავტორები და მიმართულებები</h3><p>რიდერის ბოლო თავებიდან — მოკლედ.</p></div></div><div class="minor-grid">${minor.map(t => `<div class="minor" id="t-${t.id}"><div class="who"><span class="mono" style="background:${t.color}">${t.mono}</span><b>${esc(t.name)}</b></div><p>${esc(t.one)}</p><ul>${t.concepts.map(c => `<li><b>${esc(c[0])}</b> — ${esc(c[1])}</li>`).join('')}</ul></div>`).join('')}</div>` : '';
+}
+function openThinker(id){
+  S.thinkerFilter = 'all'; S.thinkerQuery = '';
+  go('thinkers', {force:true});
+  requestAnimationFrame(() => {
+    const el = document.getElementById('t-' + id); if (!el) return;
+    $$('details', el).forEach((d, i) => { if (i === 0) d.open = true; });
+    el.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
+    el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1600);
+  });
+}
+
+/* ================= VIEW: COMPARE ================= */
+function renderCompare(){
+  $('#view-compare').innerHTML = `
+    <div class="view-head"><div><h2>შედარება</h2><p>მსგავსი ავტორები მეხსიერებაში ირევა — ცხრილი მათ გამიჯნავს. „თვითშემოწმებაში“ უჯრები იმალება: ჯერ გაიხსენე, მერე დააჭირე.</p></div>
+      <div class="row"><button class="btn" id="selftest" aria-pressed="${S.selftest}">${ic('eye','i-sm')}<span>${S.selftest ? 'ყველა უჯრის ჩვენება' : 'თვითშემოწმება'}</span></button></div></div>
+    <div class="cmp-layout">
+      <div class="cmp-menu" id="cmpmenu">${COMPARE.map(c => `<button class="cmp-item" data-cmp="${c.id}" aria-pressed="${S.cmp === c.id}">${ic(c.icon,'i-sm')}${esc(c.title)}</button>`).join('')}</div>
+      <div class="cmp-stack" id="cmpbody"></div>
+    </div>`;
+  $('#cmpmenu').addEventListener('click', e => { const b = e.target.closest('[data-cmp]'); if (!b) return; S.cmp = b.dataset.cmp; $$('#cmpmenu .cmp-item').forEach(x => x.setAttribute('aria-pressed', x === b)); drawCompare(); });
+  $('#selftest').addEventListener('click', e => { S.selftest = !S.selftest; e.currentTarget.setAttribute('aria-pressed', S.selftest); $('span', e.currentTarget).textContent = S.selftest ? 'ყველა უჯრის ჩვენება' : 'თვითშემოწმება'; drawCompare(); });
+  drawCompare();
+}
+function drawCompare(){
+  const c = COMPARE.find(x => x.id === S.cmp);
+  $('#cmpbody').innerHTML = `
+    <div class="panel cmp-summary">${ic('quote','i-lg')}<p>${esc(c.summary)}</p></div>
+    <div class="cmp-scroll ${S.selftest ? 'selftest' : ''}" id="cmpscroll"><table class="cmp">
+      <thead><tr><th scope="col">კრიტერიუმი</th>${c.cols.map(col => `<th scope="col" style="background:${col[1]}">${esc(col[0])}</th>`).join('')}</tr></thead>
+      <tbody>${c.rows.map(r => `<tr><th scope="row">${esc(r[0])}</th>${r.slice(1).map(v => `<td tabindex="${S.selftest ? 0 : -1}">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+    <div class="panel common"><h3>${ic('link','i-sm')} რა აქვთ საერთო და რა უნდა გახსოვდეს</h3><ul>${c.common.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+  const sc = $('#cmpscroll');
+  const reveal = td => { if (td && S.selftest) td.classList.add('shown'); };
+  sc.addEventListener('click', e => reveal(e.target.closest('td')));
+  sc.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { const td = e.target.closest('td'); if (td) { e.preventDefault(); reveal(td); } } });
+}
+
+/* ================= VIEW: FLASHCARDS ================= */
+const FC = {deck:[], i:0, flipped:false};
+function deckOptions(){
+  const opts = [['all','ყველა ბარათი'],['weak','სუსტი ბარათები (ვერ გავიხსენე)'],['new','ჯერ უნახავი']];
+  T.forEach(t => opts.push([t.id, t.name]));
+  TOPIC_CARDS.forEach(t => opts.push([t.id, t.name]));
+  opts.push(['minor','სხვა ავტორები']);
+  return opts;
+}
+function buildDeck(key){
+  let list;
+  if (key === 'all') list = CARDS;
+  else if (key === 'weak') list = CARDS.filter(c => S.fcStatus[c.id] === 1);
+  else if (key === 'new') list = CARDS.filter(c => !S.fcStatus[c.id]);
+  else if (key === 'minor') list = CARDS.filter(c => M.some(m => m.id === c.deck));
+  else list = CARDS.filter(c => c.deck === key);
+  return shuffle(list);
+}
+function renderCards(){
+  const key = S.fcDeck || 'all';
+  $('#view-cards').innerHTML = `
+    <div class="view-head"><div><h2>ბარათები</h2><p>ჯერ თვითონ გაიხსენე პასუხი, მერე გადააბრუნე. „ვერ გავიხსენე“ ბარათები „სუსტ“ დასტაში რჩება გასამეორებლად.</p></div>
+      <div class="row"><label class="label" for="fcdeck">დასტა</label><select id="fcdeck">${deckOptions().map(o => `<option value="${o[0]}"${o[0] === key ? ' selected' : ''}>${esc(o[1])}</option>`).join('')}</select></div></div>
+    <div class="fc-wrap">
+      <div class="fc-stage">
+        <div class="fc" id="fc" tabindex="0" role="button" aria-label="ბარათის გადაბრუნება"><div class="fc-inner"><div class="face front" id="fcf"></div><div class="face back" id="fcb"></div></div></div>
+        <div class="fc-controls">
+          <button class="btn" id="fcprev" aria-label="წინა">${ic('left')}</button>
+          <button class="btn bad" id="fcno">${ic('x')}<span class="lbl">ვერ გავიხსენე</span></button>
+          <button class="btn good" id="fcyes">${ic('check')}<span class="lbl">ვიცი</span></button>
+          <button class="btn" id="fcnext" aria-label="შემდეგი">${ic('right')}</button>
+        </div>
+      </div>
+      <aside class="fc-side">
+        <div class="panel" style="display:flex;flex-direction:column;gap:10px">
+          <div class="row"><b id="fcpos" class="tab-nums"></b><span class="spacer"></span><button class="btn flat" id="fcshuf">${ic('shuffle','i-sm')}არევა</button></div>
+          <div class="bar"><i id="fcbar"></i></div>
+          <div class="fc-counts"><div><b id="cK">0</b><span>ვიცი</span></div><div><b id="cL">0</b><span>სუსტი</span></div><div><b id="cN">0</b><span>ახალი</span></div></div>
+        </div>
+        <div class="panel small muted" style="display:flex;flex-direction:column;gap:6px">
+          <span><span class="kbd">Space</span> გადაბრუნება</span>
+          <span><span class="kbd">←</span> <span class="kbd">→</span> წინა / შემდეგი</span>
+          <span><span class="kbd">1</span> ვერ გავიხსენე · <span class="kbd">2</span> ვიცი</span>
+          <button class="btn flat" id="fcreset" style="margin-top:6px">${ic('rotate','i-sm')}ამ დასტის პროგრესის განულება</button>
+        </div>
+      </aside>
+    </div>`;
+  FC.deck = buildDeck(key); FC.i = 0; FC.flipped = false;
+  $('#fcdeck').addEventListener('change', e => { S.fcDeck = e.target.value; FC.deck = buildDeck(S.fcDeck); FC.i = 0; drawCard(); });
+  $('#fc').addEventListener('click', flip);
+  $('#fc').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); flip(); } });
+  $('#fcprev').addEventListener('click', () => step(-1));
+  $('#fcnext').addEventListener('click', () => step(1));
+  $('#fcno').addEventListener('click', () => mark(1));
+  $('#fcyes').addEventListener('click', () => mark(2));
+  $('#fcshuf').addEventListener('click', () => { FC.deck = shuffle(FC.deck); FC.i = 0; drawCard(); toast('ბარათები აირია'); });
+  $('#fcreset').addEventListener('click', () => { FC.deck.forEach(c => delete S.fcStatus[c.id]); saveFc(); drawCard(); toast('პროგრესი განულდა'); });
+  drawCard();
+}
+function whoBlock(id){ const o = byId[id]; return o ? `<span class="who"><span class="mono" style="background:${o.color}">${o.mono}</span>${esc(o.name)}</span>` : ''; }
+function drawCard(){
+  const c = FC.deck[FC.i];
+  FC.flipped = false; $('#fc').classList.remove('flipped');
+  const k = FC.deck.filter(x => S.fcStatus[x.id] === 2).length, l = FC.deck.filter(x => S.fcStatus[x.id] === 1).length;
+  $('#cK').textContent = k; $('#cL').textContent = l; $('#cN').textContent = FC.deck.length - k - l;
+  if (!c) {
+    $('#fcf').innerHTML = `<div class="empty">${S.fcDeck === 'weak' ? 'სუსტი ბარათები არ გაქვს. ყოჩაღ!' : 'ამ დასტაში ბარათი არ არის.'}</div>`;
+    $('#fcb').innerHTML = ''; $('#fcpos').textContent = '0 / 0'; $('#fcbar').style.width = '0%';
+    return;
+  }
+  const st = S.fcStatus[c.id];
+  const stTag = st === 2 ? `<span class="tag" style="background:var(--good-bg);color:var(--good)">${ic('check','i-sm')}ვიცი</span>` : st === 1 ? `<span class="tag" style="background:var(--bad-bg);color:var(--bad)">სუსტი</span>` : `<span class="tag">ახალი</span>`;
+  const prompt = c.kind === 'concept' ? 'ვისი ცნებაა და რას ნიშნავს?' : c.kind === 'term' ? 'რას ნიშნავს?' : 'გაიხსენე პასუხი';
+  const frontTag = c.kind === 'concept' ? `<span class="tag">${ic('help','i-sm')}ცნება</span>` : `<span class="tag" style="color:${colorOf(c.who)}">${esc(byId[c.who].short)}</span>`;
+  $('#fcf').innerHTML = `<div class="topline">${frontTag}${stTag}</div><div class="q">${esc(c.front)}</div><div class="prompt">${ic('rotate','i-sm')}${prompt} · დააჭირე გადასაბრუნებლად</div>`;
+  $('#fcb').innerHTML = `<div class="topline">${whoBlock(c.who)}${stTag}</div><div class="a">${c.kind === 'concept' ? `<b>${esc(c.front)}</b> — ` : ''}${esc(c.back)}</div><div class="prompt">${ic('check','i-sm')}გაიხსენე? მონიშნე ქვემოთ</div>`;
+  $('#fcpos').textContent = (FC.i + 1) + ' / ' + FC.deck.length;
+  $('#fcbar').style.width = ((FC.i + 1) / FC.deck.length * 100) + '%';
+}
+function flip(){ if (!FC.deck[FC.i]) return; FC.flipped = !FC.flipped; $('#fc').classList.toggle('flipped', FC.flipped); }
+function step(d){ if (!FC.deck.length) return; FC.i = (FC.i + d + FC.deck.length) % FC.deck.length; drawCard(); }
+function mark(v){
+  const c = FC.deck[FC.i]; if (!c) return;
+  S.fcStatus[c.id] = v; saveFc();
+  if (FC.i === FC.deck.length - 1) toast(v === 2 ? 'დასტის ბოლო ბარათი. თავიდან ვიწყებთ.' : 'დასტის ბოლო ბარათი.');
+  step(1);
+}
+document.addEventListener('keydown', e => {
+  if (S.view !== 'cards') return;
+  if (['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+  if (e.key === ' ') { e.preventDefault(); flip(); }
+  else if (e.key === 'ArrowRight') step(1);
+  else if (e.key === 'ArrowLeft') step(-1);
+  else if (e.key === '1') mark(1);
+  else if (e.key === '2') mark(2);
+});
+
+/* ================= VIEW: MATCHING ================= */
+const PAIR_COLORS = ['#2B5EA7','#17706A','#9A3A2B','#5B3F8F','#A4661C','#4B7629','#9C3A63'];
+const MATCH_SETS = [
+ {id:'concept', title:'ცნება ↔ ავტორი', l:'ცნება', r:'ავტორი', make(){
+   const authors = pick(T, 6);
+   return authors.map(t => { const c = t.concepts[Math.floor(Math.random() * t.concepts.length)]; return [clean(c[0]), t.short, t.color]; }); }},
+ {id:'erik', title:'კრიზისი ↔ სათნოება', l:'ერიკსონის კრიზისი', r:'სათნოება', make(){ return pick(ERIKSON, 6).map(e => [e[0], e[1]]); }},
+ {id:'def', title:'დაცვითი მექანიზმი ↔ მაგალითი', l:'მექანიზმი', r:'მაგალითი', make(){ return pick(DEFENSES, 6).map(d => [d[0], d[2]]); }},
+ {id:'defdef', title:'დაცვითი მექანიზმი ↔ განმარტება', l:'მექანიზმი', r:'განმარტება', make(){ return pick(DEFENSES, 5).map(d => [d[0], d[1]]); }},
+ {id:'arch', title:'იუნგის არქეტიპები', l:'სუბპერსონა', r:'აღწერა', make(){ return pick(ARCHETYPES, 6); }},
+ {id:'books', title:'წიგნი ↔ ავტორი', l:'წიგნი', r:'ავტორი', make(){ const seen = new Set(); return shuffle(BOOKS).filter(b => !seen.has(b[1]) && seen.add(b[1])).slice(0, 6); }},
+ {id:'soma', title:'ემოცია ↔ ორგანო (ალექსანდერი)', l:'ემოციური ფაქტორი', r:'სომატური შედეგი', make(){ return pick(PSYSOMA, 6); }},
+ {id:'dates', title:'თარიღი ↔ მოვლენა', l:'წელი', r:'მოვლენა', make(){ return pick(DATES, 6); }},
+ {id:'question', title:'საკვანძო კითხვა ↔ ავტორი', l:'კითხვა', r:'ავტორი', make(){ return pick(T, 5).map(t => [t.question, t.short, t.color]); }}
+];
+const MG = {set:'concept', pairs:[], sel:null, done:0, miss:0, t0:0, timer:null, links:[]};
+function renderMatch(){
+  $('#view-match').innerHTML = `
+    <div class="view-head"><div><h2>დაკავშირება</h2><p>მონიშნე მარცხენა ელემენტი, მერე — მისი წყვილი მარჯვნივ. სწორ წყვილს ხაზი შეაერთებს.</p></div></div>
+    <div class="chips" id="msets">${MATCH_SETS.map(s => `<button class="chip" data-set="${s.id}" aria-pressed="${MG.set === s.id}">${esc(s.title)}</button>`).join('')}</div>
+    <div class="game-bar"><span class="stat">${ic('check','i-sm')}<span id="mdone" class="tab-nums">0</span></span><span class="stat">${ic('x','i-sm')}<span id="mmiss" class="tab-nums">0</span></span><span class="stat">${ic('clock','i-sm')}<span id="mtime" class="tab-nums">0:00</span></span><span class="spacer"></span><button class="btn" id="mnew">${ic('shuffle','i-sm')}ახალი რაუნდი</button></div>
+    <div id="mboard"></div>`;
+  $('#msets').addEventListener('click', e => { const b = e.target.closest('[data-set]'); if (!b) return; MG.set = b.dataset.set; $$('#msets .chip').forEach(c => c.setAttribute('aria-pressed', c === b)); newMatch(); });
+  $('#mnew').addEventListener('click', newMatch);
+  newMatch();
+}
+function newMatch(){
+  const set = MATCH_SETS.find(s => s.id === MG.set);
+  MG.pairs = set.make().map((p, i) => ({l:p[0], r:p[1], c:p[2] || PAIR_COLORS[i % PAIR_COLORS.length], i}));
+  MG.sel = null; MG.done = 0; MG.miss = 0; MG.links = [];
+  clearInterval(MG.timer); MG.t0 = Date.now();
+  MG.timer = setInterval(() => { const el = $('#mtime'); if (el) el.textContent = fmtTime(Math.round((Date.now() - MG.t0) / 1000)); }, 500);
+  const rights = shuffle(MG.pairs);
+  $('#mboard').innerHTML = `<div class="match-board" id="mb"><svg class="match-lines" id="mlines" aria-hidden="true"></svg>
+    <div class="match-col"><h4>${esc(set.l)}</h4>${MG.pairs.map(p => `<button class="mi" data-side="l" data-i="${p.i}">${esc(p.l)}</button>`).join('')}</div>
+    <div class="match-col"><h4>${esc(set.r)}</h4>${rights.map(p => `<button class="mi" data-side="r" data-i="${p.i}">${esc(p.r)}</button>`).join('')}</div></div>`;
+  $('#mdone').textContent = 0; $('#mmiss').textContent = 0; $('#mtime').textContent = '0:00';
+  $('#mb').addEventListener('click', onMatchClick);
+}
+function onMatchClick(e){
+  const b = e.target.closest('.mi'); if (!b || b.classList.contains('done')) return;
+  const side = b.dataset.side;
+  if (!MG.sel || MG.sel.dataset.side === side) {
+    if (MG.sel) MG.sel.classList.remove('sel');
+    MG.sel = b; b.classList.add('sel'); return;
+  }
+  const a = MG.sel; MG.sel = null; a.classList.remove('sel');
+  const L = side === 'l' ? b : a, R = side === 'r' ? b : a;
+  if (L.dataset.i === R.dataset.i) {
+    const p = MG.pairs[+L.dataset.i];
+    [L, R].forEach(x => { x.classList.add('done'); x.style.background = p.c; });
+    MG.links.push([L, R, p.c]); drawLines();
+    MG.done++; $('#mdone').textContent = MG.done;
+    if (MG.done === MG.pairs.length) finishMatch();
+  } else {
+    MG.miss++; $('#mmiss').textContent = MG.miss;
+    [L, R].forEach(x => { x.classList.remove('wrong'); void x.offsetWidth; x.classList.add('wrong'); setTimeout(() => x.classList.remove('wrong'), 400); });
+  }
+}
+function drawLines(){
+  const svg = $('#mlines'); if (!svg) return;
+  const box = $('#mb').getBoundingClientRect();
+  svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+  svg.innerHTML = MG.links.map(([L, R, c]) => {
+    const a = L.getBoundingClientRect(), b = R.getBoundingClientRect();
+    const x1 = a.right - box.left, y1 = a.top + a.height / 2 - box.top, x2 = b.left - box.left, y2 = b.top + b.height / 2 - box.top;
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}"/><rect x="${x1 - 4}" y="${y1 - 4}" width="8" height="8" fill="${c}"/><rect x="${x2 - 4}" y="${y2 - 4}" width="8" height="8" fill="${c}"/>`;
+  }).join('');
+}
+window.addEventListener('resize', () => { if (S.view === 'match') drawLines(); });
+function finishMatch(){
+  clearInterval(MG.timer);
+  const secs = Math.round((Date.now() - MG.t0) / 1000);
+  const rec = setBest('match:' + MG.set, secs + MG.miss * 5, (a, b) => a < b);
+  const res = document.createElement('div');
+  res.className = 'panel result';
+  res.innerHTML = `${ic('trophy','i-lg')}<span class="big">${fmtTime(secs)}</span><span class="muted">${MG.miss} შეცდომა${rec ? ' · ახალი რეკორდი ამ ნაკრებში' : ''}</span><span class="spacer"></span><button class="btn primary" id="magain">${ic('shuffle','i-sm')}კიდევ ერთი</button>`;
+  $('#mboard').appendChild(res);
+  $('#magain').addEventListener('click', newMatch);
+}
+
+/* ================= VIEW: MEMORY ================= */
+const MEM_MODES = [
+ {id:'sig', title:'ავტორი ↔ ცნება', make(n){ return pick(ALL.filter(t => t.sig), n).map(t => [t.short, t.sig, t.color]); }},
+ {id:'erik', title:'კრიზისი ↔ სათნოება', make(n){ return pick(ERIKSON, n).map((e, i) => [e[0], e[1], PAIR_COLORS[i % PAIR_COLORS.length]]); }},
+ {id:'def', title:'მექანიზმი ↔ მაგალითი', make(n){ return pick(DEFENSES, n).map((d, i) => [d[0], d[2], PAIR_COLORS[i % PAIR_COLORS.length]]); }},
+ {id:'epi', title:'ეპითეტი ↔ ავტორი', make(n){ const seen = new Set(); return shuffle(EPITHETS).filter(e => !seen.has(e[2]) && seen.add(e[2])).slice(0, n).map(e => [e[0], byId[e[2]].short, colorOf(e[2])]); }}
+];
+const MEMS = {mode:'sig', tiles:[], open:[], moves:0, found:0, lock:false, n:8};
+function renderMemory(){
+  $('#view-memory').innerHTML = `
+    <div class="view-head"><div><h2>მეხსიერება</h2><p>გადააბრუნე ორი ფილა და იპოვე წყვილი. ნაპოვნი წყვილი ავტორის ან ნაკრების ფერით შეიღებება.</p></div></div>
+    <div class="chips" id="memmodes">${MEM_MODES.map(m => `<button class="chip" data-mode="${m.id}" aria-pressed="${MEMS.mode === m.id}">${esc(m.title)}</button>`).join('')}</div>
+    <div class="game-bar"><span class="stat">${ic('repeat','i-sm')}სვლა: <span id="memmoves" class="tab-nums">0</span></span><span class="stat">${ic('check','i-sm')}წყვილი: <span id="memfound" class="tab-nums">0</span></span><span class="stat" id="membest"></span><span class="spacer"></span><button class="btn" id="memnew">${ic('shuffle','i-sm')}ახალი თამაში</button></div>
+    <div class="mem-grid" id="memgrid"></div><div id="memres"></div>`;
+  $('#memmodes').addEventListener('click', e => { const b = e.target.closest('[data-mode]'); if (!b) return; MEMS.mode = b.dataset.mode; $$('#memmodes .chip').forEach(c => c.setAttribute('aria-pressed', c === b)); newMemory(); });
+  $('#memnew').addEventListener('click', newMemory);
+  $('#memgrid').addEventListener('click', onTile);
+  newMemory();
+}
+function newMemory(){
+  MEMS.n = window.innerWidth < 560 ? 6 : 8;
+  const mode = MEM_MODES.find(m => m.id === MEMS.mode);
+  const pairs = mode.make(MEMS.n);
+  MEMS.n = pairs.length;
+  MEMS.tiles = shuffle(pairs.flatMap((p, i) => [{pair:i, text:p[0], kind:'ა', color:p[2]}, {pair:i, text:p[1], kind:'ბ', color:p[2]}]));
+  MEMS.open = []; MEMS.moves = 0; MEMS.found = 0; MEMS.lock = false;
+  $('#memgrid').innerHTML = MEMS.tiles.map((t, i) => `<button class="tile" data-i="${i}" aria-label="ფილა ${i + 1}"><span class="tile-in"><span class="side cover">${ic('brain')}</span><span class="side face2${t.text.length > 34 ? ' long' : ''}">${esc(t.text)}</span></span></button>`).join('');
+  $('#memmoves').textContent = 0; $('#memfound').textContent = 0; $('#memres').innerHTML = '';
+  const b = S.best['mem:' + MEMS.mode + ':' + MEMS.n];
+  $('#membest').innerHTML = b != null ? `${ic('trophy','i-sm')}რეკორდი: ${b} სვლა` : '';
+}
+function onTile(e){
+  const el = e.target.closest('.tile'); if (!el || MEMS.lock) return;
+  const i = +el.dataset.i; if (el.classList.contains('done') || MEMS.open.includes(i)) return;
+  el.classList.add('open'); el.setAttribute('aria-label', MEMS.tiles[i].text); MEMS.open.push(i);
+  if (MEMS.open.length < 2) return;
+  MEMS.moves++; $('#memmoves').textContent = MEMS.moves;
+  const [a, b] = MEMS.open; const ta = MEMS.tiles[a], tb = MEMS.tiles[b];
+  const ea = $(`.tile[data-i="${a}"]`), eb = $(`.tile[data-i="${b}"]`);
+  if (ta.pair === tb.pair) {
+    [ea, eb].forEach(x => { x.classList.add('done'); $('.face2', x).style.background = ta.color; });
+    MEMS.open = []; MEMS.found++; $('#memfound').textContent = MEMS.found;
+    if (MEMS.found === MEMS.n) {
+      const rec = setBest('mem:' + MEMS.mode + ':' + MEMS.n, MEMS.moves, (x, y) => x < y);
+      $('#memres').innerHTML = `<div class="panel result">${ic('trophy','i-lg')}<span class="big">${MEMS.moves}</span><span class="muted">სვლა${rec ? ' · ახალი რეკორდი' : ''}</span><span class="spacer"></span><button class="btn primary" id="memagain">${ic('shuffle','i-sm')}კიდევ ერთი</button></div>`;
+      $('#memagain').addEventListener('click', newMemory);
+    }
+  } else {
+    MEMS.lock = true;
+    setTimeout(() => { [ea, eb].forEach(x => { x.classList.remove('open'); x.setAttribute('aria-label', 'დახურული ფილა'); }); MEMS.open = []; MEMS.lock = false; }, 950);
+  }
+}
+
+/* ================= VIEW: ORDER ================= */
+const OG = {seq:'erik', items:[], next:0, miss:0, hints:0};
+function renderOrder(){
+  $('#view-order').innerHTML = `
+    <div class="view-head"><div><h2>თანმიმდევრობა</h2><p>სტადიები, ეტაპები და თარიღები სწორი რიგით. დააჭირე ელემენტს, რომელიც შემდეგ ადგილზე უნდა დადგეს.</p></div></div>
+    <div class="chips" id="oseqs">${SEQUENCES.map(s => `<button class="chip" data-seq="${s.id}" aria-pressed="${OG.seq === s.id}">${esc(s.title)}</button>`).join('')}</div>
+    <div class="game-bar"><span class="stat">${ic('x','i-sm')}შეცდომა: <span id="omiss" class="tab-nums">0</span></span><span class="spacer"></span><button class="btn flat" id="ohint">${ic('bulb','i-sm')}მინიშნება</button><button class="btn" id="onew">${ic('shuffle','i-sm')}თავიდან</button></div>
+    <div class="order-layout"><div class="panel"><h3 style="margin-bottom:10px" id="otitle"></h3><div class="slots" id="oslots"></div></div><div class="panel"><h3 style="margin-bottom:10px">ვარიანტები</h3><div class="pool" id="opool"></div></div></div>
+    <div id="ores"></div>`;
+  $('#oseqs').addEventListener('click', e => { const b = e.target.closest('[data-seq]'); if (!b) return; OG.seq = b.dataset.seq; $$('#oseqs .chip').forEach(c => c.setAttribute('aria-pressed', c === b)); newOrder(); });
+  $('#onew').addEventListener('click', newOrder);
+  $('#ohint').addEventListener('click', () => { const s = SEQUENCES.find(x => x.id === OG.seq); const want = s.items[OG.next]; const btn = $$('#opool .mi').find(x => x.dataset.v === want); if (btn) { OG.hints++; btn.classList.add('hint'); setTimeout(() => btn.classList.remove('hint'), 1200); } });
+  $('#opool').addEventListener('click', onOrderPick);
+  newOrder();
+}
+function newOrder(){
+  const s = SEQUENCES.find(x => x.id === OG.seq);
+  OG.next = 0; OG.miss = 0; OG.hints = 0;
+  $('#otitle').textContent = s.title;
+  $('#oslots').innerHTML = s.items.map((it, i) => `<div class="slot${i === 0 ? ' next' : ''}" data-slot="${i}"><span class="n">${s.labels ? s.labels[i] : i + 1}</span><span class="txt muted">…</span></div>`).join('');
+  if (s.labels) $$('#oslots .n').forEach(n => { n.style.width = 'auto'; n.style.padding = '0 8px'; });
+  $('#opool').innerHTML = shuffle(s.items).map(it => `<button class="mi" data-v="${esc(it)}">${esc(it)}</button>`).join('');
+  $('#omiss').textContent = 0; $('#ores').innerHTML = '';
+}
+function onOrderPick(e){
+  const b = e.target.closest('.mi'); if (!b) return;
+  const s = SEQUENCES.find(x => x.id === OG.seq);
+  if (b.dataset.v === s.items[OG.next]) {
+    const slot = $(`#oslots [data-slot="${OG.next}"]`);
+    slot.classList.remove('next'); slot.classList.add('filled'); $('.txt', slot).textContent = b.dataset.v; $('.txt', slot).classList.remove('muted');
+    b.remove(); OG.next++;
+    const nx = $(`#oslots [data-slot="${OG.next}"]`); if (nx) nx.classList.add('next');
+    if (OG.next === s.items.length) {
+      const rec = setBest('order:' + OG.seq, OG.miss, (a, c) => a < c);
+      $('#ores').innerHTML = `<div class="panel result">${ic('trophy','i-lg')}<span class="big">${OG.miss === 0 ? 'უშეცდომოდ' : OG.miss + ' შეცდომა'}</span><span class="muted">${OG.hints ? OG.hints + ' მინიშნება' : ''}${rec ? ' · ახალი რეკორდი' : ''}</span><span class="spacer"></span><button class="btn primary" id="oagain">${ic('shuffle','i-sm')}თავიდან</button></div>`;
+      $('#oagain').addEventListener('click', newOrder);
+    }
+  } else {
+    OG.miss++; $('#omiss').textContent = OG.miss;
+    b.classList.remove('wrong'); void b.offsetWidth; b.classList.add('wrong'); setTimeout(() => b.classList.remove('wrong'), 400);
+  }
+}
+
+/* ================= VIEW: QUIZ ================= */
+const QZ = {mode:'mix', qs:[], i:0, score:0, wrong:[], answered:false};
+function quizPool(mode){
+  const out = [];
+  if (mode !== 'facts') {
+    ALL.forEach(t => t.concepts.forEach(c => {
+      const others = pick(ALL.filter(o => o.id !== t.id && o.school !== 'topic'), 3).map(o => o.short);
+      out.push({q:`ვის ეკუთვნის ცნება „${clean(c[0])}“?`, a:t.short, opts:[t.short, ...others], ex:c[1], who:t.id});
+    }));
+    T.forEach(t => {
+      if (t.concepts.length < 4) return;
+      const c = t.concepts[Math.floor(Math.random() * t.concepts.length)];
+      const others = pick(t.concepts.filter(x => x !== c), 3).map(x => clean(x[0]));
+      out.push({q:`${t.short}: რომელ ცნებას შეესაბამება — „${c[1]}“`, a:clean(c[0]), opts:[clean(c[0]), ...others], ex:clean(c[0]) + ' — ' + c[1], who:t.id});
+    });
+    DEFENSES.forEach(d => { const others = pick(DEFENSES.filter(x => x !== d), 3).map(x => x[0]); out.push({q:`რომელი დაცვითი მექანიზმია: „${d[2]}“?`, a:d[0], opts:[d[0], ...others], ex:d[1], who:'defense'}); });
+  }
+  if (mode !== 'concepts') {
+    ALL.forEach(t => (t.facts || []).forEach(f => out.push({q:f[0], a:f[1], opts:[f[1], ...f[2]], ex:'', who:t.id})));
+    ERIKSON.forEach((e, i) => { const others = pick(ERIKSON.filter(x => x !== e), 3).map(x => x[1]); out.push({q:`რომელი სათნოება მიიღწევა სტადიაზე „${e[0]}“?`, a:e[1], opts:[e[1], ...others], ex:`${e[2]}; ${e[3]}`, who:'erikson'}); });
+  }
+  return out;
+}
+function renderQuiz(){
+  $('#view-quiz').innerHTML = `
+    <div class="view-head"><div><h2>ქვიზი</h2><p>10 შემთხვევითი კითხვა მთელი რიდერიდან. ყოველი პასუხის შემდეგ — მოკლე განმარტება.</p></div></div>
+    <div class="chips" id="qmodes">${[['mix','შერეული'],['concepts','ცნებები'],['facts','ფაქტები და თარიღები']].map(m => `<button class="chip" data-qm="${m[0]}" aria-pressed="${QZ.mode === m[0]}">${m[1]}</button>`).join('')}</div>
+    <div id="qbox"></div>`;
+  $('#qmodes').addEventListener('click', e => { const b = e.target.closest('[data-qm]'); if (!b) return; QZ.mode = b.dataset.qm; $$('#qmodes .chip').forEach(c => c.setAttribute('aria-pressed', c === b)); newQuiz(); });
+  newQuiz();
+}
+function newQuiz(){
+  QZ.qs = pick(quizPool(QZ.mode), 10).map(q => ({...q, opts: shuffle([...new Set(q.opts)])}));
+  QZ.i = 0; QZ.score = 0; QZ.wrong = []; drawQ();
+}
+function drawQ(){
+  const q = QZ.qs[QZ.i]; QZ.answered = false;
+  if (!q) return quizEnd();
+  const who = byId[q.who];
+  $('#qbox').innerHTML = `<div class="quiz-card">
+    <div class="row"><span class="label tab-nums">კითხვა ${QZ.i + 1} / ${QZ.qs.length}</span><span class="spacer"></span><span class="stat">${ic('check','i-sm')}<span class="tab-nums">${QZ.score}</span></span></div>
+    <div class="bar"><i style="width:${QZ.i / QZ.qs.length * 100}%"></i></div>
+    <div class="quiz-q">${esc(q.q)}</div>
+    <div class="opts" id="qopts">${q.opts.map((o, i) => `<button class="opt" data-o="${esc(o)}"><span class="letter">${'აბგდ'[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div id="qex"></div></div>`;
+  $('#qopts').addEventListener('click', e => {
+    const b = e.target.closest('.opt'); if (!b || QZ.answered) return;
+    QZ.answered = true; $('#qopts').classList.add('locked');
+    const ok = b.dataset.o === q.a;
+    $$('#qopts .opt').forEach(x => { if (x.dataset.o === q.a) x.classList.add('right'); });
+    if (ok) QZ.score++; else { b.classList.add('wrongpick'); QZ.wrong.push(q); }
+    const exText = q.ex ? esc(q.ex) : esc(q.a);
+    $('#qex').innerHTML = `<div class="explain" style="${ok ? 'background:var(--good-bg)' : 'background:var(--bad-bg)'}">${ic(ok ? 'check' : 'x')}<div><b>${ok ? 'სწორია.' : 'სწორი პასუხი: ' + esc(q.a) + '.'}</b> ${ok ? exText : (q.ex ? exText : '')}${who ? ` <button class="btn flat" data-thinker="${who.id}" style="margin-top:8px;min-height:34px;padding:6px 12px">${ic('book','i-sm')}${esc(who.short)}: ბარათი</button>` : ''}</div></div>
+      <div class="row" style="margin-top:12px"><span class="spacer"></span><button class="btn primary" id="qnext">${QZ.i === QZ.qs.length - 1 ? 'შედეგი' : 'შემდეგი'}${ic('right','i-sm')}</button></div>`;
+    $('#qnext').addEventListener('click', () => { QZ.i++; drawQ(); });
+    $('#qnext').focus();
+  });
+}
+function quizEnd(){
+  const pct = Math.round(QZ.score / QZ.qs.length * 100);
+  const rec = setBest('quiz', pct, (a, b) => a > b); renderStrip();
+  $('#qbox').innerHTML = `<div class="quiz-card">
+    <div class="result">${ic('trophy','i-lg')}<span class="big tab-nums">${QZ.score} / ${QZ.qs.length}</span><span class="muted">${pct}%${rec ? ' · ახალი რეკორდი' : ''}</span><span class="spacer"></span><button class="btn primary" id="qagain">${ic('shuffle','i-sm')}ახალი ქვიზი</button></div>
+    ${QZ.wrong.length ? `<h3>გასამეორებელი</h3><div class="review">${QZ.wrong.map(w => `<div><b>${esc(w.q)}</b><br><span class="muted">${esc(w.a)}</span></div>`).join('')}</div>` : '<p class="muted">შეცდომა არ დაგიშვია. შემდეგ რაუნდში სხვა კითხვები შეგხვდება.</p>'}
+  </div>`;
+  $('#qagain').addEventListener('click', newQuiz);
+}
+
+/* ================= BOOT ================= */
+const RENDER = {map:renderMap, thinkers:renderThinkers, compare:renderCompare, cards:renderCards, match:renderMatch, memory:renderMemory, order:renderOrder, quiz:renderQuiz};
+const RENDER_ON_SHOW = {match:() => requestAnimationFrame(drawLines)};
+function start(){
+  renderTabs(); renderStrip();
+  const h = (location.hash || '').slice(1);
+  go(VIEWS.some(v => v[0] === h) ? h : 'map', {keepScroll:true});
+}
+start();
+</script>
+
+</body>
+</html>
